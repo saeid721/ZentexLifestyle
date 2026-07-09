@@ -1,0 +1,356 @@
+// ── Variables ─────────────────────────────────────────────────────────────────
+$brand:          #FF6503;
+$brand-dark:     #e45700;
+$text-dark:      #1a1a1a;
+$text-gray:      #888;
+$border:         #e0e0e0;
+$bg-input:       #f8f8f8;
+$success-bg:     #f0faf4;
+$success-text:   #2e7d52;
+$success-border: #b7e4c7;
+$error-bg:       #fff5f5;
+$error-text:     #c0392b;
+$error-border:   #f5c6cb;
+
+// ── Spinner keyframe ──────────────────────────────────────────────────────────
+@keyframes cp-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+// ── Topbar ────────────────────────────────────────────────────────
+.pdp__topbar {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 1rem;
+}
+
+.pdp__breadcrumb {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 0.8rem;
+}
+
+.pdp__bc-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  list-style: none !important;
+
+  a {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: #FF6600; }
+  }
+}
+
+.pdp__bc-sep {
+  color: #bbb;
+  padding: 0 5px;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.pdp__bc-active {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.pdp__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+  &:hover { border-color: #FF6600; color: #FF6600; }
+}
+
+// ── Page wrapper ──────────────────────────────────────────────────────────────
+.contact-page {
+  // background: #fff;
+  // border-radius: 8px;
+  // padding: 2rem;
+  // box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.contact-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.contact-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: $brand;
+  margin-bottom: 10px;
+}
+
+.contact-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: $text-dark;
+  line-height: 1.2;
+  margin-bottom: 10px;
+
+  @media (max-width: 576px) { font-size: 1.6rem; }
+}
+
+.contact-description {
+  font-size: 14px;
+  color: $text-gray;
+  margin-bottom: 0;
+}
+
+.contact-divider {
+  width: 48px;
+  height: 3px;
+  background: $brand;
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+
+// ── Two-column grid ───────────────────────────────────────────────────────────
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Info Card ─────────────────────────────────────────────────────────────────
+.cp-info-card {
+  background: $brand;
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.cp-deco {
+  position: absolute;
+  border-radius: 50%;
+
+  &--tr {
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &--bl {
+    bottom: -30px;
+    left: -30px;
+    width: 90px;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.cp-info-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.cp-info-card-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.cp-info-items { position: relative; }
+
+.cp-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.cp-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cp-info-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 2px;
+}
+
+.cp-info-value {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  word-break: break-all;
+  margin: 0;
+}
+
+.cp-info-loading {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+}
+
+// ── Form Card ─────────────────────────────────────────────────────────────────
+.cp-form-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Field ─────────────────────────────────────────────────────────────────────
+.cp-field {
+  margin-bottom: 14px;
+}
+
+.cp-field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-gray;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.cp-required { color: $brand; }
+
+// ── Input & Textarea ──────────────────────────────────────────────────────────
+.cp-input,
+.cp-textarea {
+  width: 100%;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: 8px;
+  font-family: 'Hind Siliguri', 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: $text-dark;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+
+  &::placeholder { color: #bbb; }
+
+  &--focus,
+  &:focus {
+    border-color: $brand;
+    box-shadow: 0 0 0 3px rgba(255, 101, 3, 0.12);
+  }
+}
+
+.cp-textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+// ── Submit Button ─────────────────────────────────────────────────────────────
+.cp-submit-btn {
+  width: 100%;
+  background: $brand;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+  transition: background 0.18s, transform 0.12s;
+
+  &:hover:not(:disabled) { background: $brand-dark; }
+  &:active:not(:disabled) { transform: scale(0.99); }
+  &:disabled { opacity: 0.65; cursor: not-allowed; }
+}
+
+// ── Spinner ───────────────────────────────────────────────────────────────────
+.cp-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cp-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+// ── Alert ─────────────────────────────────────────────────────────────────────
+.cp-alert {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &--success {
+    background: $success-bg;
+    color: $success-text;
+    border: 1px solid $success-border;
+  }
+
+  &--error {
+    background: $error-bg;
+    color: $error-text;
+    border: 1px solid $error-border;
+  }
+}

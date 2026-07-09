@@ -1,0 +1,37 @@
+// ─── Brand Colors ────────────────────────────────────────────────
+$primary:         #c8102e;
+$primary-dark:    #a00d24;
+$secondary:       #1a1a1a;
+$accent:          #f5a623;
+
+// ─── Bootstrap Overrides ─────────────────────────────────────────
+$font-family-base: 'Hind Siliguri', 'Segoe UI', sans-serif;
+$font-size-base:   0.95rem;
+$line-height-base: 1.6;
+
+$body-bg:          #f8f8f8;
+$body-color:       #1a1a1a;
+
+$border-radius:    6px;
+$border-radius-lg: 10px;
+
+$btn-border-radius: 4px;
+$btn-font-weight:   600;
+$btn-padding-x:     1.25rem;
+$btn-padding-y:     0.45rem;
+
+$card-border-radius: 8px;
+$card-box-shadow:    0 2px 12px rgba(0,0,0,.07);
+$card-border-color:  #ebebeb;
+
+$navbar-light-color:         #1a1a1a;
+$navbar-light-hover-color:   $primary;
+$navbar-light-active-color:  $primary;
+
+$link-color:           $primary;
+$link-hover-color:     $primary-dark;
+$link-decoration:      none;
+
+$grid-gutter-width: 1.25rem;
+
+$spacer: 1rem;

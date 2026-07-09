@@ -1,0 +1,1352 @@
+// CustomerDashboardPage.scss
+// Professional e-commerce dashboard — Amazon/Alibaba hybrid style
+
+@use 'sass:list';
+
+@import url('#{$env-google-fonts-noto}');
+
+// ── Design Tokens ──────────────────────────────────────────────────
+$brand:       #ff6600;
+$brand-light: #37475a;
+$accent:      #ff6601;
+$accent-dark: #ff6602;
+$text-1:      #000000;
+$text-2:      #565959;
+$text-3:      #8d9494;
+$border:      #dde0e0;
+$bg-page:     #f3f3f3;
+$bg-card:     #ffffff;
+$radius:      8px;
+$radius-lg:   12px;
+$shadow-sm:   0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+$shadow-md:   0 4px 16px rgba(0,0,0,0.10);
+$shadow-lg:   0 12px 40px rgba(0,0,0,0.15);
+
+// ── Status colors ───────────────────────────────────────────────────
+$colors: (
+  'green':  (#067d62, #e2f5f0),
+  'blue':   (#0066c0, #e5f2ff),
+  'amber':  (#f0a500, #fff8e5),
+  'red':    (#ff0000, #fce8e2),
+  'orange': (#c45500, #fef3e2),
+  'gray':   (#555f61, #f0f2f2),
+  'primary': (#232f3e, #eaecee),
+);
+
+// ── Animations ──────────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: 200% 0 }
+  100% { background-position: -200% 0 }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(120%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+// ── Base ─────────────────────────────────────────────────────────────
+.cdp {
+  font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  color: $text-1;
+  background: $bg-card;
+  min-height: 100vh;
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  button { cursor: pointer; font-family: inherit; }
+  a      { text-decoration: none; }
+  input, select, textarea { font-family: inherit; }
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: $radius;
+  box-shadow: $shadow-lg;
+  font-weight: 500;
+  font-size: 13px;
+  animation: toastIn 0.35s ease;
+  max-width: 340px;
+
+  svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  > button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: auto;
+    opacity: 0.7;
+    svg { width: 14px; height: 14px; }
+    &:hover { opacity: 1; }
+  }
+
+  &--success { background: #067d62; color: white; }
+  &--error   { background: #ff0000; color: white; }
+}
+
+// ── Skeleton ──────────────────────────────────────────────────────────
+.skeleton {
+  background: linear-gradient(90deg, #e8e8e8 25%, #d8d8d8 50%, #e8e8e8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  display: block;
+  & + & { margin-top: 12px; }
+}
+
+.cdp__topbar-skeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: $brand;
+  .skeleton { display: inline-block; }
+}
+
+// ── Top Bar ───────────────────────────────────────────────────────────
+.cdp__topbar {
+  background: $brand;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.cdp__topbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cdp__topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cdp__topbar-brand {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+}
+
+.cdp__topbar-sep {
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+}
+
+.cdp__topbar-page {
+  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+}
+
+.cdp__logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  padding: 6px 14px;
+  border-radius: $radius;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s;
+
+  svg { width: 15px; height: 15px; }
+  &:hover { background: rgba(255,255,255,0.15); }
+}
+
+// ── Body layout ───────────────────────────────────────────────────────
+.cdp__body {
+  max-width: 1280px;
+  margin: 20px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────
+.cdp__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 72px;
+}
+
+.cdp__profile-card {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border;
+}
+
+.cdp__avatar-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.cdp__avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid $border;
+}
+
+.cdp__avatar-initials {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: $brand;
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -1px;
+
+  &--sm {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+  }
+}
+
+.cdp__verify-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: $text-3;
+  border: 2px solid white;
+
+  &--ok { background: #067d62; }
+}
+
+.cdp__profile-info {
+  width: 100%;
+}
+
+.cdp__profile-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: $text-1;
+}
+
+.cdp__profile-contact {
+  font-size: 12px;
+  color: $text-2;
+  margin: 0 0 8px;
+  word-break: break-all;
+}
+
+.cdp__verified-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #067d62;
+  background: #e2f5f0;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+
+// ── Sidebar Nav ───────────────────────────────────────────────────────
+.cdp__nav {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border;
+  overflow: hidden;
+}
+
+.cdp__nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f0f2f2;
+  text-align: left;
+  color: $text-2;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.15s;
+
+  &:last-child { border-bottom: none; }
+
+  &:hover {
+    background: #f7f8f8;
+    color: $text-1;
+  }
+
+  &--active {
+    background: #fff8e5;
+    color: $brand;
+    border-left: 3px solid $accent;
+    font-weight: 600;
+
+    .cdp__nav-icon svg { stroke: $accent-dark; }
+    .cdp__nav-arrow { opacity: 1; color: $accent-dark; }
+  }
+}
+
+.cdp__nav-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  svg { width: 17px; height: 17px; }
+}
+
+.cdp__nav-label { flex: 1; }
+
+.cdp__nav-badge {
+  background: $brand;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 40px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cdp__nav-arrow {
+  opacity: 0.3;
+  display: flex;
+  svg { width: 14px; height: 14px; }
+  transition: opacity 0.15s;
+}
+
+// ── Mini stats ─────────────────────────────────────────────────────────
+.cdp__mini-stats {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.cdp__mini-stat {
+  padding: 14px 12px;
+  text-align: center;
+  border-right: 1px solid $border;
+  border-bottom: 1px solid $border;
+
+  &:nth-child(2n) { border-right: none; }
+  &:nth-child(3), &:nth-child(4) { border-bottom: none; }
+}
+
+.cdp__mini-stat-val {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.cdp__mini-stat-label {
+  font-size: 10.5px;
+  color: $text-3;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+// ── Main content ──────────────────────────────────────────────────────
+.cdp__main {
+  min-width: 0;
+}
+
+.cdp__section {
+  animation: fadeIn 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cdp__section-header {
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: $text-1;
+  }
+  p {
+    font-size: 13px;
+    color: $text-2;
+    margin: 0;
+  }
+}
+
+// ── Stat cards ────────────────────────────────────────────────────────
+.cdp__stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  @media (max-width: 1100px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 600px)  { grid-template-columns: 1fr 1fr; }
+}
+
+.cdp__stat-card {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  padding: 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border;
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover { transform: translateY(-2px); box-shadow: $shadow-md; }
+
+  @each $name, $vals in $colors {
+    &--#{$name} .cdp__stat-icon {
+      background: list.nth($vals, 2);
+      color: list.nth($vals, 1);
+    }
+  }
+}
+
+.cdp__stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  svg { width: 20px; height: 20px; }
+}
+
+.cdp__stat-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cdp__stat-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: $text-1;
+  line-height: 1;
+}
+
+.cdp__stat-label {
+  font-size: 11.5px;
+  color: $text-2;
+  font-weight: 500;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+// ── Cards ─────────────────────────────────────────────────────────────
+.cdp__card {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  border: 1px solid $border;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  padding: 10px;
+
+  &--full  { width: 100%; }
+  &--narrow { max-width: 480px; }
+}
+
+.cdp__card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid $border;
+
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: $text-1;
+  }
+}
+
+.cdp__overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
+}
+
+// ── Profile fields ────────────────────────────────────────────────────
+.cdp__profile-fields {
+  padding: 8px 0;
+}
+
+.cdp__field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f7f8f8;
+
+  &:last-child { border-bottom: none; }
+}
+
+.cdp__field-label {
+  font-size: 12px;
+  color: $text-3;
+  font-weight: 500;
+  flex-shrink: 0;
+  padding-top: 1px;
+  min-width: 90px;
+}
+
+.cdp__field-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-1;
+  text-align: right;
+}
+
+// ── Recent orders in overview ─────────────────────────────────────────
+.cdp__recent-orders {
+  padding: 8px 0;
+}
+
+.cdp__recent-order {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f7f8f8;
+  transition: background 0.12s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: #fafafa; }
+}
+
+.cdp__recent-order-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cdp__recent-order-icon {
+  width: 34px;
+  height: 34px;
+  background: #f0f2f2;
+  border-radius: $radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  svg { width: 16px; height: 16px; color: $text-2; }
+}
+
+.cdp__recent-order-id {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+.cdp__recent-order-date {
+  font-size: 11px;
+  color: $text-3;
+  margin: 0;
+}
+
+.cdp__recent-order-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cdp__recent-order-amt {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-1;
+}
+
+// ── Status badges ─────────────────────────────────────────────────────
+.cdp__status {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+
+  @each $name, $vals in $colors {
+    &--#{$name} {
+      color: list.nth($vals, 1);
+      background: list.nth($vals, 2);
+    }
+  }
+}
+
+// ── Orders list ───────────────────────────────────────────────────────
+.cdp__order-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+}
+
+.cdp__order-filter {
+  padding: 6px 14px;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: $text-2;
+  transition: all 0.12s;
+
+  &:hover { border-color: $brand; color: $brand; }
+  &--active {
+    background: $brand;
+    border-color: $brand;
+    color: white;
+  }
+}
+
+.cdp__order-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+  animation: slideIn 0.2s ease both;
+
+  &:hover { box-shadow: $shadow-md; }
+  display: flex;
+  flex-direction: column;
+
+  .cdp__order-card-body {
+    flex: 1;
+  }
+}
+
+.cdp__order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #fafbfb;
+  border-bottom: 1px solid $border;
+}
+
+.cdp__order-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: $text-2;
+}
+
+.cdp__order-dot { color: $border; }
+
+.cdp__order-invoice {
+  strong { color: $text-1; font-weight: 700; }
+}
+
+.cdp__order-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  svg { width: 12px; height: 12px; }
+}
+
+.cdp__order-card-body {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f7f8f8;
+}
+
+.cdp__order-amounts {
+  background: #ffffff;
+  border-radius: $radius;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.cdp__order-amount-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: $text-2;
+
+  &--discount { color: #ff0000; }
+  &--total {
+    font-weight: 700;
+    font-size: 14px;
+    color: $text-1;
+    padding-top: 6px;
+    border-top: 1px solid $border;
+    margin-top: 2px;
+  }
+}
+
+.cdp__order-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cdp__order-note {
+  font-size: 12px;
+  color: $text-3;
+  font-style: italic;
+  max-width: 300px;
+}
+
+.cdp__order-btns {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+// ── Account info grid ────────────────────────────────────────────────
+.cdp__account-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+}
+
+.cdp__info-block {
+  padding: 16px 20px;
+  border-bottom: 1px solid $border;
+  border-right: 1px solid $border;
+
+  &:nth-child(2n) { border-right: none; }
+  &:nth-last-child(-n+2) { border-bottom: none; }
+
+  @media (max-width: 600px) {
+    border-right: none;
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.cdp__info-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-3;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cdp__info-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-1;
+}
+
+// ── Change password ───────────────────────────────────────────────────
+.cdp__pwd-wrap {
+  position: relative;
+}
+
+.cdp__pwd-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: none;
+  border: none;
+  color: $text-3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.12s;
+
+  svg { width: 16px; height: 16px; }
+  &:hover { color: $text-1; }
+}
+
+.cdp__pwd-strength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.cdp__pwd-bars {
+  display: flex;
+  gap: 4px;
+}
+
+.cdp__pwd-bar {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: $border;
+  transition: background 0.2s;
+
+  &--s1 { background: #ff0000; }
+  &--s2 { background: #f0a500; }
+  &--s3 { background: #007185; }
+  &--s4 { background: #067d62; }
+}
+
+.cdp__pwd-strength-label {
+  font-size: 11px;
+  color: $text-2;
+  font-weight: 600;
+}
+
+.cdp__pwd-tips {
+  // background: #f7f8f8;
+  border-radius: $radius;
+  padding: 5px 16px;
+  margin: 8px 0 16px;
+}
+
+.cdp__pwd-tip-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: $text-1;
+  margin: 0 0 8px;
+}
+
+.cdp__pwd-tip {
+  font-size: 12px;
+  color: $text-3;
+  margin: 4px 0;
+  transition: color 0.15s;
+
+  &--ok { color: #067d62; font-weight: 500; }
+}
+
+// ── Addresses ─────────────────────────────────────────────────────────
+.cdp__btn-add-addr {
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+
+.cdp__addr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
+}
+
+.cdp__addr-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.15s;
+
+  &:hover { box-shadow: $shadow-md; }
+}
+
+.cdp__addr-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fafbfb;
+  border-bottom: 1px solid $border;
+
+  svg { width: 16px; height: 16px; color: $text-3; }
+}
+
+.cdp__addr-type {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-1;
+}
+
+.cdp__addr-body {
+  padding: 14px 16px;
+
+  p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: $text-2;
+    &:first-child { color: $text-1; font-weight: 500; }
+    &:last-child { margin: 0; }
+  }
+}
+
+.cdp__addr-area   { color: $text-2 !important; }
+.cdp__addr-district { color: $text-2 !important; }
+.cdp__addr-phone  { color: $text-3 !important; font-size: 12px !important; }
+
+.cdp__addr-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #f7f8f8;
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────
+.cdp__btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ff0000;
+  color: #fff;
+  border: 1px solid #ff0000;
+  padding: 9px 18px;
+  border-radius: $radius;
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: background 0.15s;
+
+  &:hover { background: #dd1e10; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  &--full { width: 100%; }
+
+  svg { width: 15px; height: 15px; }
+}
+
+.cdp__btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: white;
+  color: $text-1;
+  border: 1px solid $border;
+  padding: 9px 18px;
+  border-radius: $radius;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.15s;
+
+  &:hover { background: #f0f2f2; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.cdp__btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid $border;
+  color: $text-2;
+  padding: 5px 12px;
+  border-radius: $radius;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: all 0.12s;
+
+  svg { width: 13px; height: 13px; }
+  &:hover { background: #f0f2f2; border-color: #c8cacc; color: $text-1; }
+}
+
+.cdp__btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: $bg-card;
+  border: 1px solid $border;
+  color: $text-2;
+  padding: 5px 12px;
+  border-radius: $radius;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.12s;
+
+  svg { width: 13px; height: 13px; }
+  &:hover { background: #f0f2f2; border-color: #c8cacc; }
+
+  &--danger {
+    &:hover { background: #fce8e2; border-color: #f5a797; color: #b12704; }
+  }
+
+  &--star {
+    color: #f0a500;
+    svg { fill: #f0a500; }
+  }
+}
+
+.cdp__text-link {
+  background: none;
+  border: none;
+  color: #0066c0;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0;
+  transition: color 0.12s;
+
+  &:hover { color: #c45500; text-decoration: underline; }
+}
+
+// ── Empty states ──────────────────────────────────────────────────────
+.cdp__empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: $text-3;
+
+  svg { width: 40px; height: 40px; margin-bottom: 10px; }
+  p { margin: 0; font-size: 13px; }
+}
+
+.cdp__empty-lg {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 60px 20px;
+  text-align: center;
+  color: $text-2;
+
+  svg { width: 52px; height: 52px; color: $text-3; margin-bottom: 16px; }
+  h3 { font-size: 17px; font-weight: 700; margin: 0 0 8px; color: $text-1; }
+  p  { font-size: 13px; color: $text-2; margin: 0 0 20px; }
+}
+
+// ── Forms ─────────────────────────────────────────────────────────────
+.cdp__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+
+.cdp__form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cdp__form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-2;
+}
+
+.cdp__form-input,
+.cdp__form-select {
+  padding: 9px 12px;
+  border: 1px solid $border;
+  border-radius: $radius;
+  font-size: 13.5px;
+  color: $text-1;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #007185;
+    box-shadow: 0 0 0 2px rgba(0,113,133,0.15);
+  }
+
+  &:disabled { background: #f7f8f8; color: $text-3; }
+}
+
+.cdp__form-input { padding-right: 40px; }
+
+// ── Modal ─────────────────────────────────────────────────────────────
+.cdp__modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 17, 17, 0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.cdp__modal {
+  background: $bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.2s ease;
+}
+
+.cdp__modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid $border;
+  background: $brand;
+  color: white;
+
+  h3 { margin: 0; font-size: 16px; font-weight: 700; }
+}
+
+.cdp__modal-close {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: $radius;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+
+  svg { width: 16px; height: 16px; }
+  &:hover { background: rgba(255,255,255,0.22); }
+}
+
+.cdp__modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cdp__modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+// ── Avatar upload ─────────────────────────────────────────────────────
+.cdp__avatar-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cdp__avatar-upload-preview {
+  position: relative;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $border;
+  }
+}
+
+.cdp__avatar-camera {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: $accent;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-1;
+
+  svg { width: 12px; height: 12px; }
+  &:hover { background: $accent-dark; }
+}
+
+.cdp__avatar-hint {
+  font-size: 11.5px;
+  color: $text-3;
+  margin: 0;
+}
+
+// ── Spinner ───────────────────────────────────────────────────────────
+.cdp__spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+// ── Orders list container ─────────────────────────────────────────────
+.cdp__orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────
+@media (max-width: 900px) {
+  .cdp__sidebar { position: static; }
+  .cdp__stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .cdp__body { padding: 0 12px; margin: 12px auto; }
+  .cdp__order-card-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .cdp__order-card-actions { flex-direction: column; align-items: flex-start; }
+  .cdp__order-btns { margin-left: 0; }
+  .cdp__stat-val { font-size: 20px; }
+}
+
+.cdp__orders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+
+  // Make cards in same row equal height
+  > .cdp__order-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+// Paid / Due amount rows in order card  (CHANGE 30)
+.cdp__order-amount-row--paid {
+  color: #067d62;
+  font-weight: 600;
+}
+.cdp__order-amount-row--due {
+  color: #ff6600;
+  font-weight: 600;
+}
+ 
+// Pagination  (CHANGE 31)
+.cdp__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+ 
+.cdp__page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  background: #fff;
+  border: 1px solid #dde0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #232f3e;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s;
+
+  svg { width: 14px; height: 14px; }
+
+  &:hover:not(:disabled) { background: #f0f2f2; border-color: #c8cacc; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &--active {
+    background: #ff6600;
+    border-color: #ff6600;
+    color: #fff;
+  }
+}
+ 
+.cdp__page-info {
+  font-size: 12px;
+  color: #8d9494;
+  margin-left: 4px;
+}
+
+
+// Set Default button in address card  (CHANGE bonus)
+.cdp__btn-sm--default {
+  color: #067d62;
+  border-color: #067d62;
+  &:hover { background: #e2f5f0; }
+}
+ 
+// Small spinner variant for inline use
+.cdp__spinner--sm {
+  width: 11px;
+  height: 11px;
+  border-width: 2px;
+  border-color: rgba(6,125,98,0.3);
+  border-top-color: #067d62;
+}
+ 
+
+.cdp__page-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  font-size: 13px;
+  color: #8d9494;
+  user-select: none;
+}

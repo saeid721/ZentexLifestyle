@@ -1,0 +1,33 @@
+.not-found-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+
+  &__code {
+    font-size: clamp(5rem, 15vw, 9rem);
+    font-weight: 900;
+    color: #ebebeb;
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__btn {
+    display: inline-block;
+    margin-top: 1.25rem;
+    background: var(--brand-red);
+    color: #fff;
+    padding: 0.7rem 1.75rem;
+    border-radius: 4px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    &:hover { background: var(--brand-red-dark); color: #fff; }
+  }
+}

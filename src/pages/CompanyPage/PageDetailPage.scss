@@ -1,0 +1,205 @@
+// ─────────────────────────────────────────────
+//  PageDetailPage.scss
+//  Brand accent: #FF6503 (Click To Buy orange)
+// ─────────────────────────────────────────────
+
+$accent:      #FF6503;
+$accent-dark: #d94f00;
+$text:        #1a1a1a;
+$muted:       #6b7280;
+$border:      #e5e7eb;
+$bg-light:    #fafafa;
+$white:       #ffffff;
+
+// ─── Product Details Page ─────────────────────────────────────────
+.pdp {
+  background: #fff;
+  min-height: 60vh;
+  padding-bottom: 3rem;
+
+  &--loading {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+  }
+
+  &__loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 50vh;
+    padding: 3rem 1rem;
+  }
+
+  &__spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-width: 0.2rem;
+    color: $accent;
+  }
+
+  &__loading-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: $muted;
+    font-weight: 500;
+  }
+}
+
+// ── Topbar ────────────────────────────────────────────────────────
+.pdp__topbar {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 1rem;
+}
+
+.pdp__breadcrumb {
+  font-size: 0.8rem;
+  
+  .breadcrumb-item {
+    a { 
+      color: #555; 
+      text-decoration: none; 
+      transition: color 0.2s;
+      
+      &:hover { 
+        color: $accent; 
+      } 
+    }
+    
+    &.active { 
+      color: #aaa; 
+    }
+    
+    & + .breadcrumb-item::before { 
+      color: #ccc; 
+      content: '>'; 
+    }
+  }
+}
+
+.pdp__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+  
+  &:hover { 
+    border-color: $accent; 
+    color: $accent; 
+  }
+}
+
+// ── Content Card ─────────────────────────────────────────────────
+.details-page__form-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+// ── Body Content Styles (for injected HTML) ──────────────────────
+.pdp__body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #374151;
+
+  // ── Typography resets for injected HTML ──
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: $text;
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+    line-height: 1.3;
+
+    &:first-child { 
+      margin-top: 0; 
+    }
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 2px solid $border;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 48px;
+      height: 2px;
+      background: $accent;
+    }
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: $accent-dark;
+  }
+
+  p {
+    margin: 0 0 1em;
+  }
+
+  ul, ol {
+    padding-left: 1.5em;
+    margin: 0 0 1.2em;
+
+    li {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  strong {
+    color: $text;
+    font-weight: 700;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid $border;
+    margin: 2em 0;
+  }
+
+  a {
+    color: $accent;
+    text-decoration: none;
+    border-bottom: 1px solid rgba($accent, 0.3);
+    transition: border-color 0.2s;
+
+    &:hover { 
+      border-color: $accent; 
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1em 0;
+  }
+
+  blockquote {
+    border-left: 4px solid $accent;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: $muted;
+    font-style: italic;
+  }
+}
