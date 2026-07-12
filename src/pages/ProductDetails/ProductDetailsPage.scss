@@ -373,10 +373,10 @@
   color: var(--brand-white);
   font-size: 0.7rem;
   &:hover { opacity: 0.85; transform: scale(1.1); color: var(--brand-white); }
-  &--fb { background: #1877f2; }
-  &--tw { background: var(--brand-black); }
-  &--li { background: #0077b5; }
-  &--wa { background: #25d366; }
+  &--fb { background: var(--brand-primary); }
+  &--tw { background: var(--brand-secondary); }
+  &--li { background: var(--brand-secondary-light); }
+  &--wa { background: var(--brand-primary-light); }
   &--em { background: var(--text-muted); }
 }
 
@@ -541,7 +541,7 @@
   font-size: 0.8rem; font-weight: 700; letter-spacing: 0.03em;
   &--in  { color: var(--success-dark); }
   &--out { color: var(--error-dark); }
-  &--preorder { color: #7c3aed; }
+  &--preorder { color: var(--brand-secondary); }
 }
 
 .pdp__short-desc { font-size: 0.85rem; color: var(--text-body); line-height: 1.65; margin: 0.75rem 0; }
@@ -637,9 +637,9 @@
   }
   
   &--preorder {
-    background: #7c3aed;
+    background: var(--brand-secondary);
     color: var(--brand-white);
-    &:hover { background: #6d28d9; }
+    &:hover { background: var(--brand-secondary-light); }
   }
 }
 

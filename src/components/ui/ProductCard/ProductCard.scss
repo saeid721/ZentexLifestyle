@@ -64,7 +64,7 @@
   }
   
   &__badge--preorder {
-    background: #7c3aed; // Specific preorder purple
+    background: var(--brand-secondary);
   }
 
   &__body {
@@ -122,10 +122,10 @@
     }
 
     &--preorder {
-      background: #7c3aed;
+      background: var(--brand-secondary);
       color: var(--brand-white);
     
-      &:hover { background: #6d28d9; }
+      &:hover { background: var(--brand-secondary-light); }
     }
 
     &:disabled {
@@ -321,8 +321,8 @@
 
   &__out-tag {
     font-size: 9px;
-    background: rgba(220, 53, 69, 0.1); // #fdecea
-    color: var(--brand-gold);
+    background: var(--brand-primary-rgba);
+    color: var(--brand-primary-dark);
     padding: 1px 4px;
     border-radius: 3px;
   }
@@ -361,8 +361,8 @@
     }
   
     &--preorder {
-      background: #7c3aed;
-      &:hover:not(:disabled) { background: #6d28d9; }
+      background: var(--brand-secondary);
+      &:hover:not(:disabled) { background: var(--brand-secondary-light); }
     }
   
     &:disabled {

@@ -1,54 +1,54 @@
 // ─── CSS Custom Properties ───────────────────────────────────────
 :root {
-  /* --- Brand Colors (Gold Theme) --- */
-  --brand-gold:         #bd8a28;
-  --brand-gold-dark:    #9d6916;
-  --brand-gold-light:   #fdf6e3;
-  --brand-gold-bg:      #f9f1e1;
-  --brand-gold-hover:   #f5e6c4;
-  --brand-gold-rgba:    rgba(189, 138, 40, 0.1);
-  
-  --brand-accent:       #f5a623;
-  
-  --brand-black:        #000000;
-  --brand-black-light:  #1a1a1a;
-  --brand-dark-light:   #333333;
-  --brand-light:        #FEFEFE;
-  --brand-white:        #FFFFFF;
+  /* --- Brand Primary Colors (Gold Theme) --- */
+  --brand-primary:            #bd8a28;
+  --brand-primary-dark:       #936b1f;
+  --brand-primary-light:      #e0b76c;
+  --brand-primary-lighter:    #edd6ab;
+  --brand-primary-bg:         #f9f4ec;
+  --brand-primary-hover:      #7e5b1b;
+  --brand-primary-rgba:       rgba(189, 138, 40, 0.1);
+  --brand-primary-accent:     #e8a830;
+  --brand-primary-muted:      #9b7f4b;
+  --brand-primary-medium:     #d7a342;
+  --brand-primary-soft:       #eee5d3;
 
-  /* --- Text Colors --- */
-  --text:               #000;
-  --text-dark:          #111;
-  --text-primary:       #333;
-  --text-body:          #444;
-  --text-medium:        #555;
-  --text-secondary:     #666;
-  --text-light:         #777;
-  --text-muted:         #888;
-  --text-lighter:       #999;
-  --text-disabled:      #aaa;
-  --text-placeholder:   #bbb;
-  --checkbox-text:      #495057;
+ /* --- Brand Secondary Colors (Black Theme) --- */
+  --brand-secondary:          #1d262d;
+  --brand-secondary-dark:     #10151a;
+  --brand-secondary-light:    #4a5a66;
+  --brand-secondary-lighter:  #8a9aa5;
+  --brand-secondary-bg:       #f0f3f4;
+  --brand-secondary-hover:    #2a3640;
+  --brand-secondary-rgba:     rgba(29, 38, 45, 0.1);
+  --brand-secondary-accent:   #2f4a5c;
+  --brand-secondary-muted:    #5c6b73;
+  --brand-secondary-medium:   #354652;
+  --brand-secondary-soft:     #dde3e6;
 
-  /* --- Background Colors --- */
-  --background:         #f5f5f5;
-  --bg-light:           #fafafa;
-  --bg-lighter:         #f5f5f5;
-  --bg-white:           #ffffff;
-  --bg-nav-d2:          #f4f4f4;
-  --bg-scrollbar:       #f1f1f1;
-  --bg-info:            #f0f8ff;
-
-  /* --- Border Colors --- */
-  --border:             #ddd;
-  --border-medium:      #e0e0e0;
-  --border-soft:        #e4e4e4;
-  --border-light:       #e8e8e8;
-  --border-lighter:     #ebebeb;
-  --border-extra-light: #f0f0f0;
-  --border-eee:         #eee;
-  --border-e9:          #e9ecef;
-  --border-dark:        #ccc;
+  /* --- Legacy brand aliases mapped to the shared brand palette --- */
+  --brand-white:              #ffffff;
+  --brand-black:              var(--brand-secondary);
+  --brand-black-light:        var(--brand-secondary-light);
+  --brand-black-dark:         var(--brand-secondary-dark);
+  --brand-black-hover:        var(--brand-secondary-hover);
+  --brand-black-bg:           var(--brand-secondary-bg);
+  --brand-black-rgba:         var(--brand-secondary-rgba);
+  --brand-gold:               var(--brand-primary);
+  --brand-gold-dark:          var(--brand-primary-dark);
+  --brand-gold-light:         var(--brand-primary-light);
+  --brand-gold-lighter:       var(--brand-primary-lighter);
+  --brand-gold-bg:            var(--brand-primary-bg);
+  --brand-gold-hover:         var(--brand-primary-hover);
+  --brand-gold-rgba:          var(--brand-primary-rgba);
+  --brand-gold-accent:        var(--brand-primary-accent);
+  --brand-gold-muted:         var(--brand-primary-muted);
+  --brand-gold-medium:        var(--brand-primary-medium);
+  --brand-gold-soft:          var(--brand-primary-soft);
+  --brand-red:                var(--brand-primary);
+  --brand-red-dark:           var(--brand-primary-dark);
+  --brand-red-light:          var(--brand-primary-light);
+  --brand-red-hover:          var(--brand-primary-hover);
 
   /* --- UI / Status Colors --- */
   --success:            #28a745;

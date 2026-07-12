@@ -200,7 +200,7 @@
   }
     
   &__badge--preorder {
-    background: #7c3aed; // Preorder এর জন্য নির্দিষ্ট পার্পল কালার রাখা হয়েছে
+    background: var(--brand-secondary);
   }
 
   &__info {

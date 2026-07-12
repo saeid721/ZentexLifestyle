@@ -1,12 +1,12 @@
 .home-page {
   min-height: 100vh;
-  background: #fff;
+  background: var(--brand-white);
 }
 
 // 🔹 Featured-only mode styling
 .home-page--featured-only {
   padding-top: 1rem;
-  background: #fafafa;
+  background: var(--brand-secondary-bg);
   
   @media (max-width: 991.98px) {
     padding-top: 70px; // Account for mobile header

@@ -1,10 +1,10 @@
 .site-footer {
-  background: var(--background);
-  color: var(--brand-black);
+  background: var(--brand-secondary-bg);
+  color: var(--brand-secondary);
   margin-top: 3rem;
   font-family: var(--font-primary);
 
-  &__main { border-top: 1px solid var(--border-eee); }
+  &__main { border-top: 1px solid var(--brand-secondary-soft); }
 
   &__logo-img {
     height: 45px; width: auto; display: block; object-fit: contain;
@@ -19,19 +19,19 @@
   &__contact {
     list-style: none; padding: 0; margin: 0;
     li {
-      font-size: 0.85rem; margin-bottom: 0.2rem; color: var(--brand-black);
+      font-size: 0.85rem; margin-bottom: 0.2rem; color: var(--brand-secondary);
       display: flex; align-items: center; gap: 0.1rem;
     }
   }
 
   &__heading-wrapper {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--brand-secondary-lighter);
   }
 
   &__heading {
     font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--brand-black); text-transform: uppercase; margin: 0; padding: 0;
+    color: var(--brand-secondary); text-transform: uppercase; margin: 0; padding: 0;
   }
 
   &__sslcommerz-logo {
@@ -43,17 +43,17 @@
   &__links { list-style: none; padding: 0; margin: 0; li { margin-bottom: 0.2rem; } }
 
   &__link {
-    color: var(--brand-black); font-size: 0.85rem; text-decoration: none; transition: color 0.2s;
-    &:hover { color: var(--brand-gold); text-decoration: underline; }
+    color: var(--brand-secondary); font-size: 0.85rem; text-decoration: none; transition: color 0.2s;
+    &:hover { color: var(--brand-primary); text-decoration: underline; }
   }
 
   &__payments { display: flex; flex-wrap: wrap; gap: 0.2rem; align-items: center; }
 
   &__payment-badge {
-    background: var(--brand-white); border: 1px solid var(--border); border-radius: 4px;
+    background: var(--brand-white); border: 1px solid var(--brand-secondary-lighter); border-radius: 4px;
     padding: 0.30rem 0.20rem; display: inline-flex; align-items: center; justify-content: center;
     height: 26px; transition: border-color 0.2s, box-shadow 0.2s;
-    &:hover { border-color: var(--brand-gold); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    &:hover { border-color: var(--brand-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   }
 
   &__payment-img {
@@ -61,26 +61,26 @@
   }
 
   &__newsletter-text {
-    font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;
+    font-size: 0.85rem; color: var(--brand-secondary-light); margin-bottom: 1rem; line-height: 1.5;
   }
 
   &__newsletter-form { margin-top: 0.5rem; }
   &__newsletter-input-wrapper { margin-bottom: 0.55rem; }
 
   &__newsletter-input {
-    width: 100%; border: 1px solid var(--border); padding: 0.45rem 1.25rem;
-    font-size: 0.9rem; color: var(--text-primary); background: var(--brand-white);
+    width: 100%; border: 1px solid var(--brand-secondary-lighter); padding: 0.45rem 1.25rem;
+    font-size: 0.9rem; color: var(--brand-secondary); background: var(--brand-white);
     border-radius: 4px; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    &::placeholder { color: var(--text-lighter); }
-    &:focus { border-color: var(--brand-gold); box-shadow: 0 0 0 3px var(--brand-gold-rgba); }
+    &::placeholder { color: var(--brand-secondary-lighter); }
+    &:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 3px var(--brand-primary-rgba); }
   }
 
   &__newsletter-btn {
-    width: 100%; background: var(--brand-black); color: var(--brand-white); border: none;
+    width: 100%; background: var(--brand-secondary); color: var(--brand-white); border: none;
     padding: 0.55rem 1.25rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em;
     text-transform: uppercase; cursor: pointer; transition: background 0.2s, transform 0.2s;
     border-radius: 4px;
-    &:hover { background: var(--brand-gold); }
+    &:hover { background: var(--brand-primary); }
     &:active { transform: scale(0.98); }
   }
 
@@ -98,8 +98,8 @@
   }
 
   &__bottom {
-    padding: 1rem 0; font-size: 0.8rem; color: var(--text-secondary);
-    border-top: 1px solid var(--border-eee); background: var(--background);
+    padding: 1rem 0; font-size: 0.8rem; color: var(--brand-secondary-light);
+    border-top: 1px solid var(--brand-secondary-soft); background: var(--brand-secondary-bg);
 
     .site-footer__bottom-content {
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
@@ -115,7 +115,7 @@
       display: inline-flex; align-items: center; justify-content: center;
       width: 32px; height: 32px; background: var(--brand-white); border-radius: 50%;
       transition: background 0.2s, transform 0.2s; padding: 1px; text-decoration: none;
-      &:hover { background: var(--brand-gold); transform: translateY(-2px); }
+      &:hover { background: var(--brand-primary); transform: translateY(-2px); }
     }
 
     .site-footer__social-icon-bottom {
@@ -123,13 +123,13 @@
     }
 
     .site-footer__copyright {
-      margin: 0; line-height: 1.5; color: var(--text-secondary);
+      margin: 0; line-height: 1.5; color: var(--brand-secondary-light);
       @media (max-width: 767px) { order: 2; }
     }
   }
 
   &__brand {
-    color: var(--brand-black); font-weight: 700; text-decoration: none;
+    color: var(--brand-secondary); font-weight: 700; text-decoration: none;
     &:hover { text-decoration: underline; }
   }
 
