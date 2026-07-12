@@ -1,13 +1,12 @@
 // ─── Category Product Page ────────────────────────────────────────
 .ccat-page {
-  background: #fff;
+  background: var(--brand-white);
   min-height: 60vh;
   padding-bottom: 3rem;
 
-  
   &__topbar {
     padding: 0.5rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-extra-light);
     margin-bottom: 1rem;
   }
 
@@ -29,22 +28,22 @@
     list-style: none !important;
   
     a {
-      color: #555;
+      color: var(--text-medium);
       text-decoration: none;
-      transition: color 0.2s;
-      &:hover { color: #FF6503; }
+      transition: color var(--transition);
+      &:hover { color: var(--brand-gold); }
     }
   }
   
   &__bc-sep {
-    color: #bbb;
+    color: var(--text-placeholder);
     padding: 0 5px;
     font-size: 0.75rem;
     line-height: 1;
   }
   
   &__bc-active {
-    color: #aaa;
+    color: var(--text-disabled);
     font-weight: 400;
   }
 
@@ -54,48 +53,47 @@
     gap: 4px;
     font-size: 0.8rem;
     font-weight: 500;
-    color: #555;
+    color: var(--text-medium);
     text-decoration: none;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 0.3rem 0.75rem;
     white-space: nowrap;
-    transition: all 0.2s;
-    &:hover { border-color: #FF6503; color: #FF6503; }
+    transition: all var(--transition);
+    &:hover { border-color: var(--brand-gold); color: var(--brand-gold); }
   }
-
 
   &__title {
     font-size: 1.35rem;
     font-weight: 800;
-    color: #1a1a1a;
+    color: var(--brand-black-light);
     letter-spacing: 0.04em;
     margin-bottom: 1.25rem;
     padding-bottom: 0.75rem;
-    border-bottom: 2px solid #1a1a1a;
+    border-bottom: 2px solid var(--brand-black-light);
     display: inline-block;
   }
 
   &__filter-bar {
-    background: #f8f8f8;
-    border: 1px solid #ebebeb;
+    background: var(--bg-light);
+    border: 1px solid var(--border-lighter);
     border-radius: 6px;
     padding: 0.6rem 1rem;
   }
 
-  &__count { font-size: 0.82rem; color: #666; }
+  &__count { font-size: 0.82rem; color: var(--text-secondary); }
 
   &__select-wrap { display: flex; align-items: center; gap: 0.4rem; }
 
   &__select-label {
-    font-size: 0.78rem; font-weight: 600; color: #444; white-space: nowrap;
+    font-size: 0.78rem; font-weight: 600; color: var(--text-body); white-space: nowrap;
   }
 
   &__select {
     height: 32px; padding: 0 0.6rem; font-size: 0.78rem;
-    border: 1px solid #ddd; border-radius: 4px; background: #fff;
-    color: #333; cursor: pointer; outline: none; transition: border-color 0.2s;
-    &:focus { border-color: #FF6503; }
+    border: 1px solid var(--border); border-radius: 4px; background: var(--brand-white);
+    color: var(--text-primary); cursor: pointer; outline: none; transition: border-color var(--transition);
+    &:focus { border-color: var(--brand-gold); }
   }
 
   // Skeleton
@@ -107,32 +105,32 @@
     @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); }
   }
 
-  &__skeleton-card { border: 1px solid #ebebeb; border-radius: 8px; overflow: hidden; }
+  &__skeleton-card { border: 1px solid var(--border-lighter); border-radius: var(--card-radius); overflow: hidden; }
   &__skeleton-img  { width: 100%; aspect-ratio: 1 / 1; }
   &__skeleton-body { padding: 0.75rem; }
 
   // Pagination
-  &__pagination-wrap { padding-top: 1.25rem; border-top: 1px solid #ebebeb; }
+  &__pagination-wrap { padding-top: 1.25rem; border-top: 1px solid var(--border-lighter); }
   &__pagination      { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 
   &__page-btn {
     min-width: 34px; height: 34px; padding: 0 0.4rem;
     display: inline-flex; align-items: center; justify-content: center;
-    border: 1.5px solid #ddd; border-radius: 4px; background: #fff;
-    font-size: 0.82rem; font-weight: 600; color: #333; cursor: pointer;
+    border: 1.5px solid var(--border); border-radius: 4px; background: var(--brand-white);
+    font-size: 0.82rem; font-weight: 600; color: var(--text-primary); cursor: pointer;
     transition: all 0.18s;
 
-    &:hover:not(:disabled) { border-color: #FF6503; color: #FF6503; }
+    &:hover:not(:disabled) { border-color: var(--brand-gold); color: var(--brand-gold); }
 
     &--active {
-      background: #1a1a1a; border-color: #1a1a1a; color: #fff;
-      &:hover { background: #1a1a1a; color: #fff; }
+      background: var(--brand-black-light); border-color: var(--brand-black-light); color: var(--brand-white);
+      &:hover { background: var(--brand-black-light); color: var(--brand-white); }
     }
 
     &--arrow:disabled { opacity: 0.35; cursor: not-allowed; }
   }
 
-  &__page-ellipsis { padding: 0 4px; color: #aaa; font-size: 0.85rem; line-height: 34px; }
+  &__page-ellipsis { padding: 0 4px; color: var(--text-disabled); font-size: 0.85rem; line-height: 34px; }
 }
 
 // Skeleton animation
@@ -142,7 +140,7 @@
 }
 
 .skeleton-pulse {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, var(--border-extra-light) 25%, var(--border-light) 50%, var(--border-extra-light) 75%);
   background-size: 800px 100%;
   animation: shimmer 1.4s ease infinite;
   border-radius: 4px;
@@ -151,11 +149,11 @@
 
 // ─── Product Card ─────────────────────────────────────────────────
 .ccat-card {
-  border: 1px solid #ebebeb;
-  border-radius: 8px;
+  border: 1px solid var(--border-lighter);
+  border-radius: var(--card-radius);
   overflow: hidden;
-  background: #fff;
-  transition: box-shadow 0.22s, transform 0.22s;
+  background: var(--brand-white);
+  transition: box-shadow var(--transition), transform var(--transition);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -169,13 +167,13 @@
     position: relative;
     display: block;
     overflow: hidden;
-    background: #f5f5f5;
+    background: var(--background);
     flex-shrink: 0;
   }
 
   &__badge {
     position: absolute; top: 8px; left: 8px; z-index: 2;
-    background: #dd1e10; color: #fff;
+    background: var(--error); color: var(--brand-white);
     font-size: 0.65rem; font-weight: 700;
     padding: 0.2em 0.55em; border-radius: 3px; letter-spacing: 0.04em;
   }
@@ -189,15 +187,15 @@
   &__body { padding: 0.65rem; display: flex; flex-direction: column; flex: 1; }
 
   &__name {
-    font-size: 0.8rem; font-weight: 600; color: #1a1a1a;
+    font-size: 0.8rem; font-weight: 600; color: var(--brand-black-light);
     text-decoration: none; line-height: 1.4; margin-bottom: 0.25rem;
     display: -webkit-box; -webkit-line-clamp: 2;
     -webkit-box-orient: vertical; overflow: hidden;
-    text-align: center; transition: color 0.2s;
-    &:hover { color: #FF6503; }
+    text-align: center; transition: color var(--transition);
+    &:hover { color: var(--brand-gold); }
   }
 
-  &__sku { font-size: 0.68rem; color: #aaa; margin-bottom: 0.3rem; text-align: center; }
+  &__sku { font-size: 0.68rem; color: var(--text-disabled); margin-bottom: 0.3rem; text-align: center; }
 
   &__price-row {
     display: flex; align-items: baseline; justify-content: center;
@@ -205,21 +203,21 @@
   }
 
   &__price-orig {
-    font-size: 0.75rem; color: #bbb; text-decoration: line-through; font-weight: 500;
+    font-size: 0.75rem; color: var(--text-placeholder); text-decoration: line-through; font-weight: 500;
   }
 
-  &__price-curr { font-size: 0.95rem; font-weight: 800; color: #1a1a1a; }
+  &__price-curr { font-size: 0.95rem; font-weight: 800; color: var(--brand-black-light); }
 
   &__actions {
-  display: flex;
-  gap: 0.35rem;
+    display: flex;
+    gap: 0.35rem;
 
-  // Mobile: stack vertically
-  @media (max-width: 991.98px) {
-    flex-direction: column;
-    gap: 0.3rem;
+    // Mobile: stack vertically
+    @media (max-width: 991.98px) {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
   }
-}
 
   &__btn {
     flex: 1; padding: 0.42rem 0.3rem; font-size: 0.72rem; font-weight: 700;
@@ -229,14 +227,14 @@
     transition: all 0.18s;
 
     &--cart {
-      background: #000000; color: #fff;
-      &:hover:not(:disabled) { background: #333; }
+      background: var(--brand-black); color: var(--brand-white);
+      &:hover:not(:disabled) { background: var(--brand-dark-light); }
       &:disabled { opacity: 0.4; cursor: not-allowed; }
     }
 
     &--buy {
-      background: #dd1e10; color: #fff;
-      &:hover { background: #b1180d; color: #fff; }
+      background: var(--error); color: var(--brand-white);
+      &:hover { background: var(--error-dark); color: var(--brand-white); }
     }
   }
 }

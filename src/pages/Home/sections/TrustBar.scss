@@ -1,235 +1,16 @@
+// ─── Trust Bar (HomePage) ─────────────────────────────────────────
 .trust-bar {
-  background: #fff;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 1.25rem 0;
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.5rem 1rem;
-
-    @media (min-width: 576px) {
-      border-left: 1px solid #ebebeb;
-      &:first-child { border-left: none; }
-    }
-  }
-
-  &__icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-  }
-
-  &__title {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--brand-black);
-    margin: 0;
-  }
-
-  &__sub {
-    font-size: 0.78rem;
-    color: #888;
-    margin: 0;
-  }
-  .trust-bar {
-  background: #fff;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 1.25rem 0;
-
-  // Desktop styles
-  &__desktop {
-    justify-content: center;
-    gap: 0;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.5rem 1.5rem;
-
-    @media (min-width: 576px) {
-      border-left: 1px solid #ebebeb;
-      &:first-child {
-        border-left: none;
-      }
-    }
-
-    @media (max-width: 575px) {
-      justify-content: center;
-      text-align: center;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-  }
-
-  &__icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-
-    @media (max-width: 575px) {
-      font-size: 2.5rem;
-    }
-  }
-
-  &__title {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--brand-black);
-    margin: 0;
-
-    @media (max-width: 575px) {
-      font-size: 1rem;
-    }
-  }
-
-  &__sub {
-    font-size: 0.78rem;
-    color: #888;
-    margin: 0;
-
-    @media (max-width: 575px) {
-      font-size: 0.85rem;
-    }
-  }
-
-  // Mobile Swipe Slider
-  &__mobile {
-    width: 100%;
-    overflow: hidden;
-  }
-
-  &__slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    gap: 0;
-
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-  }
-
-  &__slide {
-    flex: 0 0 100%;
-    scroll-snap-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100%;
-  }
-}
-.trust-bar {
-  background: #fff;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 1.25rem 0;
-
-  // Desktop styles
-  &__desktop {
-    justify-content: center;
-    gap: 0;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.5rem 1.5rem;
-
-    @media (min-width: 576px) {
-      border-left: 1px solid #ebebeb;
-      &:first-child {
-        border-left: none;
-      }
-    }
-
-    @media (max-width: 575px) {
-      justify-content: center;
-      text-align: center;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-  }
-
-  &__icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-
-    @media (max-width: 575px) {
-      font-size: 2.5rem;
-    }
-  }
-
-  &__title {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--brand-black);
-    margin: 0;
-
-    @media (max-width: 575px) {
-      font-size: 1rem;
-    }
-  }
-
-  &__sub {
-    font-size: 0.78rem;
-    color: #888;
-    margin: 0;
-
-    @media (max-width: 575px) {
-      font-size: 0.85rem;
-    }
-  }
-
-  // Mobile Swipe Slider
-  &__mobile {
-    width: 100%;
-    overflow: hidden;
-  }
-
-  &__slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    gap: 0;
-
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-  }
-
-  &__slide {
-    flex: 0 0 100%;
-    scroll-snap-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100%;
-  }
-}
-.trust-bar {
-  background: #f3f3f3;
+  background: var(--background);
   padding: 0.75rem 0;
+  border-top: 1px solid var(--border-lighter);
+  border-bottom: 1px solid var(--border-lighter);
 
   &__desktop {
     justify-content: center;
   }
 
   &__mobile {
+    width: 100%;
     overflow: hidden;
   }
 
@@ -237,7 +18,10 @@
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    gap: 0;
 
     &::-webkit-scrollbar {
       display: none;
@@ -249,46 +33,68 @@
     scroll-snap-align: center;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-width: 100%;
   }
 
-  /* 🔥 MAIN CARD (important) */
   &__item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
-    background: #fff;
+    background: var(--brand-white);
     padding: 0.75rem 1rem;
     border-radius: 6px;
-
     width: 90%;
     max-width: 320px;
 
-    /* ❌ REMOVE column layout */
+    @media (min-width: 576px) {
+      border-left: 1px solid var(--border-lighter);
+      background: transparent;
+      max-width: none;
+      width: auto;
+      padding: 0.5rem 1.5rem;
+      
+      &:first-child {
+        border-left: none;
+      }
+    }
+
     @media (max-width: 575px) {
-      flex-direction: row;   // ✅ FIX
-      text-align: left;      // ✅ FIX
+      flex-direction: row;
+      text-align: left;
     }
   }
 
   &__icon {
     font-size: 1.6rem;
     flex-shrink: 0;
+
+    @media (max-width: 575px) {
+      font-size: 2rem;
+    }
   }
 
   &__title {
     font-size: 0.95rem;
     font-weight: 700;
+    color: var(--brand-black);
     margin: 0;
+
+    @media (max-width: 575px) {
+      font-size: 1rem;
+    }
   }
 
   &__sub {
     font-size: 0.8rem;
-    color: #777;
+    color: var(--text-muted);
     margin: 0;
+
+    @media (max-width: 575px) {
+      font-size: 0.85rem;
+    }
   }
 
-  /* dots */
   &__dots {
     display: flex;
     justify-content: center;
@@ -299,19 +105,15 @@
   &__dot {
     width: 6px;
     height: 6px;
-    background: #ccc;
+    background: var(--border-dark);
     border-radius: 50%;
-    transition: 0.3s;
+    transition: var(--transition);
     cursor: pointer;
 
     &.active {
       width: 18px;
       border-radius: 10px;
-      background: #000;
+      background: var(--brand-black);
     }
   }
-}
-.trust-bar__dot {
-  cursor: pointer;
-}
 }

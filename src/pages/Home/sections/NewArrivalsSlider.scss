@@ -1,17 +1,14 @@
-// ─── New Arrival Section ──────────────────────────────────────────────────────
-
+// ─── New Arrival Section ──────────────────────────────────────────
 .na {
   padding-top: 24px;
   padding-bottom: 40px;
 
-  // ── Heading ────────────────────────────────────────────────
   &__head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    // Match site's horizontal page gutter
     padding: 0 16px 14px;
-    border-bottom: 2px solid #ebebeb;
+    border-bottom: 2px solid var(--border-lighter);
     margin-bottom: 1.25rem !important;
     @media (min-width: 768px)  { padding: 0 24px 16px; }
     @media (min-width: 1200px) { padding: 0 32px 18px; }
@@ -22,14 +19,14 @@
     font-weight: 600;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: #000;
+    color: var(--brand-black);
     margin: 0;
     line-height: 1;
   }
 
   &__view-all {
-    background: #FF6503;
-    color: #fff;
+    background: var(--brand-gold);
+    color: var(--brand-white);
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.25rem 0.75rem;
@@ -37,22 +34,20 @@
     white-space: nowrap;
     transition: background var(--transition);
 
-    &:hover { background: #e45700; }
+    &:hover { background: var(--brand-gold-dark); }
   }
 
-  // ── Slider wrapper ─────────────────────────────────────────
   &__slider-wrap {
     position: relative;
     width: 100%;
-    overflow: hidden;            // ← changed (hides side peek on mobile)
+    overflow: hidden;
     clip-path: inset(0 -50vw);
   
     @media (min-width: 768px) {
-      overflow: visible;          // ← restore peek for tablet+
+      overflow: visible;
     }
   }
 
-  // Swiper itself must be overflow:visible for peek to work
   &__swiper {
     width: 100%;
     overflow: visible !important;
@@ -61,37 +56,29 @@
     .swiper-button-next { display: none; }
   }
 
-  // ── Nav arrows ─────────────────────────────────────────────
-  // Float over the peek cards — vertically centred on the image
   &__nav {
     position: absolute;
-    top: 40%;                      // mid-image (above info strip)
+    top: 40%;
     transform: translateY(-50%);
     z-index: 20;
-
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
     background: rgba(255, 255, 255, 0.90);
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-dark);
     border-radius: 50%;
     cursor: pointer;
-    color: #333;
+    color: var(--text-primary);
     box-shadow: 0 2px 8px rgba(0,0,0,.12);
     transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.18s;
 
     &:hover {
-      background: #000;
-      border-color: #000;
-      color: #fff;
+      background: var(--brand-black);
+      border-color: var(--brand-black);
+      color: var(--brand-white);
       transform: translateY(-50%) scale(1.08);
     }
     &:active { transform: translateY(-50%) scale(0.92); }
 
-    // Centred within the half-peek area on each side
     &--prev { left: 8px; }
     &--next { right: 8px; }
 
@@ -100,40 +87,25 @@
       pointer-events: none;
     }
 
-    @media (max-width: 767px) {
-      width: 28px;
-      height: 28px;
-    }
+    @media (max-width: 767px) { width: 28px; height: 28px; }
   }
 
-  // ── Skeleton ───────────────────────────────────────────────
   &__skeleton-grid {
     display: grid;
     gap: 10px;
     padding: 0 16px;
     grid-template-columns: repeat(1, 1fr);
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(3, 1fr);
-      padding: 0 24px;
-    }
-    @media (min-width: 1280px) {
-      grid-template-columns: repeat(4, 1fr);
-      padding: 0 32px;
-    }
+    @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); padding: 0 24px; }
+    @media (min-width: 1280px) { grid-template-columns: repeat(4, 1fr); padding: 0 32px; }
   }
 
-  &__skeleton-card { background: #fff; }
-
-  &__skeleton-img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-  }
-
+  &__skeleton-card { background: var(--brand-white); }
+  &__skeleton-img { width: 100%; aspect-ratio: 1 / 1; }
   &__skeleton-body { padding: 10px 0 16px; }
 }
 
-// ── Skeleton animation ────────────────────────────────────────────────────────
+// ── Skeleton animation ───────────────────────────────────────────
 @keyframes na-shimmer {
   0%   { background-position: -600px 0; }
   100% { background-position:  600px 0; }
@@ -142,12 +114,12 @@
 .sk-pulse {
   display: block;
   border-radius: 2px;
-  background: linear-gradient(90deg, #efefef 25%, #e4e4e4 50%, #efefef 75%);
+  background: linear-gradient(90deg, var(--bg-light) 25%, var(--border-light) 50%, var(--bg-light) 75%);
   background-size: 1200px 100%;
   animation: na-shimmer 1.5s ease infinite;
 }
 
-// ── Product Card ──────────────────────────────────────────────────────────────
+// ── Product Card ─────────────────────────────────────────────────
 .na-card {
   display: flex;
   flex-direction: column;
@@ -155,45 +127,27 @@
   height: 100%;
   text-decoration: none;
   color: inherit;
-  background: #fff;
-
-  // ✅ Clean border
-  border: 1px solid #f1f1f1;
+  background: var(--brand-white);
+  border: 1px solid var(--bg-scrollbar);
   border-radius: 10px;
-
-  // ✅ Soft base shadow
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-
   overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-
-  &:hover,
-  &:focus-visible {
+  &:hover, &:focus-visible {
     text-decoration: none;
     color: inherit;
-
-    // ✅ Lift effect (important)
     transform: translateY(-5px);
-
-    // ✅ Premium shadow (layered)
-    box-shadow:
-      0 10px 25px rgba(0, 0, 0, 0.08),
-      0 3px 8px rgba(0, 0, 0, 0.05);
-
-    border-color: #e5e5e5;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 3px 8px rgba(0, 0, 0, 0.05);
+    border-color: var(--border-light);
   }
 
-  // ── Image ────────────────────────────────────────────────
- &__img-wrap {
+  &__img-wrap {
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: #f3f2f0;
+    background: var(--bg-light);
     flex-shrink: 0;
   }
 
@@ -204,45 +158,28 @@
     height: 100%;
     object-fit: cover;
     object-position: top center;
-
     transition: opacity 0.35s ease, transform 0.4s ease;
 
     &--main {
       z-index: 1;
       opacity: 1;
-
-      &.has-hover {
-        .na-card:hover & {
-          opacity: 0;
-          transform: scale(1.05);
-        }
-      }
-
-      &:not(.has-hover) {
-        .na-card:hover & {
-          transform: scale(1.05);
-        }
-      }
+      &.has-hover { .na-card:hover & { opacity: 0; transform: scale(1.05); } }
+      &:not(.has-hover) { .na-card:hover & { transform: scale(1.05); } }
     }
 
     &--alt {
       z-index: 2;
       opacity: 0;
-
-      .na-card:hover & {
-        opacity: 1;
-      }
+      .na-card:hover & { opacity: 1; }
     }
   }
 
-  // ── "NEW" badge ──────────────────────────────────────────
   &__badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 10px; left: 10px;
     z-index: 5;
-    background: #FF6600;
-    color: #fff;
+    background: var(--brand-gold);
+    color: var(--brand-white);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -252,54 +189,37 @@
     line-height: 1.4;
     user-select: none;
     
-    &__badge--stockout {
-      left: auto;
-      right: 8px;
-      background: #ff0000;
-    }
-    
-    &__badge--preorder {
-      background: #7c3aed;
-    }
-
     @media (max-width: 767px) {
-      font-size: 9px;
-      padding: 3px 9px;
-      top: 8px;
-      left: 8px;
+      font-size: 9px; padding: 3px 9px; top: 8px; left: 8px;
     }
   }
   
   &__badge--stockout {
-    left: auto;
-    right: 8px;
-    background: #ff0000;
+    left: auto; right: 8px;
+    background: var(--error);
   }
     
   &__badge--preorder {
-    background: #7c3aed;
+    background: #7c3aed; // Preorder এর জন্য নির্দিষ্ট পার্পল কালার রাখা হয়েছে
   }
 
-
-  // ── Info strip ───────────────────────────────────────────
   &__info {
-    padding: 5px 5px 5px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     gap: 5px;
 
     @media (max-width: 767px) {
-    padding: 5px 5px 5px;
+      padding: 5px;
       gap: 2px;
     }
   }
 
-  // Name — uppercase, medium weight, grey tone
   &__name {
     margin: 0;
     font-size: 14px;
     font-weight: 500;
-    color: #000;
+    color: var(--brand-black);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 1.4;
@@ -309,7 +229,6 @@
 
     @media (max-width: 767px) {
       font-size: 11px;
-      // Wrap to 2 lines on small screens
       white-space: normal;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -317,12 +236,11 @@
     }
   }
 
-  // Price — bold black
   &__price {
     margin: 0;
     font-size: 16px;
     font-weight: 700;
-    color: #FF6600;
+    color: var(--brand-gold);
     letter-spacing: 0.01em;
 
     @media (max-width: 767px) { font-size: 13px; }

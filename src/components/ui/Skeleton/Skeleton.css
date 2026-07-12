@@ -3,21 +3,21 @@
    GPU-accelerated shimmer, dark-mode ready
    ───────────────────────────────────────── */
 
-   :root {
-    --sk-base: #efefef;
-    --sk-shine: #fafafa;
-    --sk-speed: 1.6s;
-    --sk-radius-el: 6px;
-    --sk-radius-card: 12px;
-    --sk-radius-circle: 50%;
+:root {
+  --sk-base: var(--bg-light); 
+  --sk-shine: var(--brand-white);
+  --sk-speed: 1.6s;
+  --sk-radius-el: 6px;
+  --sk-radius-card: var(--card-radius);
+  --sk-radius-circle: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sk-base: var(--brand-black-light);
+    --sk-shine: var(--brand-dark-light);
   }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --sk-base: #efefef;
-      --sk-shine: #fafafa;
-    }
-  }
+}
 
 /* ── Base shimmer block ── */
 .sk {
@@ -74,13 +74,17 @@
    PRODUCT CARD SKELETON
    ───────────────────────────────────────── */
 .sk-product-card {
-  background: #fff;
-  border: 1px solid #ebebeb;
+  background: var(--brand-white);
+  border: 1px solid var(--border-lighter);
   border-radius: var(--sk-radius-card);
   overflow: hidden;
 }
+
 @media (prefers-color-scheme: dark) {
-  .sk-product-card { background: #1c1c1c; border-color: #333; }
+  .sk-product-card { 
+    background: var(--brand-black-light); 
+    border-color: var(--brand-dark-light); 
+  }
 }
 
 .sk-product-card__body { padding: 12px; }
@@ -111,11 +115,15 @@
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-extra-light);
 }
+
 @media (prefers-color-scheme: dark) {
-  .sk-list-row { border-color: #2a2a2a; }
+  .sk-list-row { 
+    border-color: var(--brand-dark-light); 
+  }
 }
+
 .sk-list-row:last-child { border-bottom: none; }
 
 .sk-list-row__content {
@@ -142,21 +150,28 @@
    STAT CARD SKELETON
    ───────────────────────────────────────── */
 .sk-stat-card {
-  background: #f7f7f7;
+  background: var(--bg-light);
   border-radius: var(--sk-radius-el);
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 @media (prefers-color-scheme: dark) {
-  .sk-stat-card { background: #222; }
+  .sk-stat-card { 
+    background: var(--brand-black-light); 
+  }
 }
 
 /* ─────────────────────────────────────────
    ARTICLE SKELETON
    ───────────────────────────────────────── */
-.sk-article { display: flex; flex-direction: column; gap: 8px; }
+.sk-article { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
 
 .sk-article__header {
   display: flex;

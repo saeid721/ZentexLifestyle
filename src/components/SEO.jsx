@@ -12,7 +12,7 @@ const SEO = ({
   twitterCard = "summary_large_image",
   keywords,
   noIndex = false,
-  schemas = [],        // ✅ NEW: array of JSON-LD schema objects
+  schemas = [],
 }) => {
 
   const resolvedImage     = ogImage || image || "";

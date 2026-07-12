@@ -1,21 +1,23 @@
 .section-header {
-  border-bottom: 2px solid #ebebeb;
+  border-bottom: 2px solid var(--border-lighter);
   padding-bottom: 0.5rem;
   margin-bottom: 1.25rem !important;
 
   &__title {
+    font-family: var(--font-primary);
     font-size: clamp(20px, 4.5vw, 30px);
     font-weight: 600;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: #000;
+    color: var(--brand-black);
     margin: 0;
     line-height: 1;
   }
 
   &__badge {
-    background: #FF6503;
-    color: #fff;
+    font-family: var(--font-primary);
+    background: var(--brand-gold);
+    color: var(--brand-white);
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.25rem 0.75rem;
@@ -23,6 +25,8 @@
     white-space: nowrap;
     transition: background var(--transition);
 
-    &:hover { background: #e45700; }
+    &:hover { 
+      background: var(--brand-gold-dark); 
+    }
   }
 }

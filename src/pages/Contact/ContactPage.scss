@@ -1,27 +1,12 @@
-// ── Variables ─────────────────────────────────────────────────────────────────
-$brand:          #FF6503;
-$brand-dark:     #e45700;
-$text-dark:      #1a1a1a;
-$text-gray:      #888;
-$border:         #e0e0e0;
-$bg-input:       #f8f8f8;
-$success-bg:     #f0faf4;
-$success-text:   #2e7d52;
-$success-border: #b7e4c7;
-$error-bg:       #fff5f5;
-$error-text:     #c0392b;
-$error-border:   #f5c6cb;
-
 // ── Spinner keyframe ──────────────────────────────────────────────────────────
 @keyframes cp-spin {
   to { transform: rotate(360deg); }
 }
 
-
-// ── Topbar ────────────────────────────────────────────────────────
+// ── Topbar (যদি কন্টাক্ট পেজেও ব্যবহার হয়) ───────────────────────────────────
 .pdp__topbar {
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-extra-light);
   margin-bottom: 1rem;
 }
 
@@ -43,22 +28,22 @@ $error-border:   #f5c6cb;
   list-style: none !important;
 
   a {
-    color: #555;
+    color: var(--text-medium);
     text-decoration: none;
-    transition: color 0.2s;
-    &:hover { color: #FF6600; }
+    transition: color var(--transition);
+    &:hover { color: var(--brand-gold); }
   }
 }
 
 .pdp__bc-sep {
-  color: #bbb;
+  color: var(--text-placeholder);
   padding: 0 5px;
   font-size: 0.75rem;
   line-height: 1;
 }
 
 .pdp__bc-active {
-  color: #aaa;
+  color: var(--text-disabled);
   font-weight: 400;
 }
 
@@ -68,20 +53,20 @@ $error-border:   #f5c6cb;
   gap: 4px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: var(--text-medium);
   text-decoration: none;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.3rem 0.75rem;
-  transition: all 0.2s;
+  transition: all var(--transition);
   white-space: nowrap;
-  &:hover { border-color: #FF6600; color: #FF6600; }
+  &:hover { border-color: var(--brand-gold); color: var(--brand-gold); }
 }
 
 // ── Page wrapper ──────────────────────────────────────────────────────────────
 .contact-page {
-  // background: #fff;
-  // border-radius: 8px;
+  // background: var(--brand-white);
+  // border-radius: var(--card-radius);
   // padding: 2rem;
   // box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
@@ -97,15 +82,15 @@ $error-border:   #f5c6cb;
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: $brand;
+  color: var(--brand-gold);
   margin-bottom: 10px;
 }
 
 .contact-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-primary); // 'Playfair Display' এর বদলে গ্লোবাল ফন্ট
   font-size: 2rem;
   font-weight: 800;
-  color: $text-dark;
+  color: var(--text-dark);
   line-height: 1.2;
   margin-bottom: 10px;
 
@@ -114,14 +99,14 @@ $error-border:   #f5c6cb;
 
 .contact-description {
   font-size: 14px;
-  color: $text-gray;
+  color: var(--text-muted);
   margin-bottom: 0;
 }
 
 .contact-divider {
   width: 48px;
   height: 3px;
-  background: $brand;
+  background: var(--brand-gold);
   border-radius: 2px;
   margin: 12px auto 0;
 }
@@ -140,10 +125,10 @@ $error-border:   #f5c6cb;
 
 // ── Info Card ─────────────────────────────────────────────────────────────────
 .cp-info-card {
-  background: $brand;
+  background: var(--brand-gold);
   border-radius: 12px;
   padding: 1.75rem 1.5rem;
-  color: #fff;
+  color: var(--brand-white);
   position: relative;
   overflow: hidden;
 }
@@ -170,10 +155,10 @@ $error-border:   #f5c6cb;
 }
 
 .cp-info-card-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-primary);
   font-size: 1.15rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--brand-white);
   position: relative;
   margin-bottom: 6px;
 }
@@ -218,7 +203,7 @@ $error-border:   #f5c6cb;
 
 .cp-info-value {
   font-size: 13px;
-  color: #fff;
+  color: var(--brand-white);
   font-weight: 500;
   word-break: break-all;
   margin: 0;
@@ -231,8 +216,8 @@ $error-border:   #f5c6cb;
 
 // ── Form Card ─────────────────────────────────────────────────────────────────
 .cp-form-card {
-  background: #fff;
-  border-radius: 8px;
+  background: var(--brand-white);
+  border-radius: var(--card-radius);
   padding: 2rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
@@ -256,34 +241,34 @@ $error-border:   #f5c6cb;
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: $text-gray;
+  color: var(--text-muted);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 
-.cp-required { color: $brand; }
+.cp-required { color: var(--brand-gold); }
 
 // ── Input & Textarea ──────────────────────────────────────────────────────────
 .cp-input,
 .cp-textarea {
   width: 100%;
-  background: $bg-input;
-  border: 1px solid $border;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  font-family: 'Hind Siliguri', 'Segoe UI', sans-serif;
+  font-family: var(--font-primary);
   font-size: 14px;
-  color: $text-dark;
+  color: var(--text-dark);
   padding: 10px 14px;
   outline: none;
   transition: border-color 0.18s, box-shadow 0.18s;
 
-  &::placeholder { color: #bbb; }
+  &::placeholder { color: var(--text-placeholder); }
 
   &--focus,
   &:focus {
-    border-color: $brand;
-    box-shadow: 0 0 0 3px rgba(255, 101, 3, 0.12);
+    border-color: var(--brand-gold);
+    box-shadow: 0 0 0 3px var(--brand-gold-rgba);
   }
 }
 
@@ -296,11 +281,11 @@ $error-border:   #f5c6cb;
 // ── Submit Button ─────────────────────────────────────────────────────────────
 .cp-submit-btn {
   width: 100%;
-  background: $brand;
-  color: #fff;
+  background: var(--brand-gold);
+  color: var(--brand-white);
   border: none;
   border-radius: 8px;
-  font-family: 'Hind Siliguri', sans-serif;
+  font-family: var(--font-primary);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -314,7 +299,7 @@ $error-border:   #f5c6cb;
   margin-top: 4px;
   transition: background 0.18s, transform 0.12s;
 
-  &:hover:not(:disabled) { background: $brand-dark; }
+  &:hover:not(:disabled) { background: var(--brand-gold-dark); }
   &:active:not(:disabled) { transform: scale(0.99); }
   &:disabled { opacity: 0.65; cursor: not-allowed; }
 }
@@ -325,7 +310,7 @@ $error-border:   #f5c6cb;
   width: 16px;
   height: 16px;
   border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
+  border-top-color: var(--brand-white);
   border-radius: 50%;
   animation: cp-spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -343,14 +328,14 @@ $error-border:   #f5c6cb;
   gap: 8px;
 
   &--success {
-    background: $success-bg;
-    color: $success-text;
-    border: 1px solid $success-border;
+    background: rgba(40, 167, 69, 0.1); // Success BG
+    color: var(--success-dark);
+    border: 1px solid var(--success);
   }
 
   &--error {
-    background: $error-bg;
-    color: $error-text;
-    border: 1px solid $error-border;
+    background: rgba(220, 53, 69, 0.1); // Error BG
+    color: var(--error-dark);
+    border: 1px solid var(--error);
   }
 }

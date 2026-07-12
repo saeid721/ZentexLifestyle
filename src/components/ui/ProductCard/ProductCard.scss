@@ -5,18 +5,18 @@
 .product-card-wrapper {
   position: relative;
   height: 100%;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   // Clip children so popup doesn't bleed outside rounded corners
   overflow: visible; // keep visible so popup can overflow card bounds if needed
 }
 
 // ─── Product Card ─────────────────────────────────────────────────────────────
 .product-card {
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border: 1px solid var(--border-eee);
+  border-radius: var(--card-radius);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  background: #fff;
+  transition: box-shadow var(--transition), transform var(--transition);
+  background: var(--brand-white);
   height: 100%;
 
   &:hover {
@@ -29,14 +29,14 @@
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1;
-    background: #f8f8f8;
+    background: var(--bg-light);
   }
 
   &__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition);
 
     &:hover {
       transform: scale(1.04);
@@ -47,8 +47,8 @@
     position: absolute;
     top: 8px;
     left: 8px;
-    background: #FF6600;
-    color: #fff;
+    background: var(--brand-gold);
+    color: var(--brand-white);
     font-size: 10px;
     font-weight: 700;
     padding: 3px 7px;
@@ -60,11 +60,11 @@
   &__badge--stockout {
     left: auto;
     right: 8px;
-    background: #ff0000;
+    background: var(--error);
   }
   
   &__badge--preorder {
-    background: #7c3aed;
+    background: #7c3aed; // Specific preorder purple
   }
 
   &__body {
@@ -74,7 +74,7 @@
   &__name {
     font-size: 13px;
     font-weight: 500;
-    color: #222;
+    color: var(--text-dark);
     margin: 0 0 6px;
     line-height: 1.35;
     display: -webkit-box;
@@ -104,26 +104,26 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.18s ease, opacity 0.18s ease;
+    transition: background var(--transition), opacity var(--transition);
     white-space: nowrap;
 
     &--add {
-      background: #222;
-      color: #fff;
+      background: var(--brand-black);
+      color: var(--brand-white);
 
-      &:hover { background: #333; }
+      &:hover { background: var(--brand-black-light); }
     }
 
     &--buy {
-      background: #ff0000;
-      color: #fff;
+      background: var(--brand-gold);
+      color: var(--brand-white);
 
-      &:hover { background: #dd1e10; }
+      &:hover { background: var(--brand-gold-dark); }
     }
 
     &--preorder {
       background: #7c3aed;
-      color: #fff;
+      color: var(--brand-white);
     
       &:hover { background: #6d28d9; }
     }
@@ -139,12 +139,12 @@
 .price-current {
   font-size: 14px;
   font-weight: 700;
-  color: #FF6600;
+  color: var(--brand-gold);
 }
 
 .price-original {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-disabled);
   text-decoration: line-through;
 }
 
@@ -154,9 +154,9 @@
   position: absolute;
   inset: 0;
   z-index: 20;
-  background: #fffffff0;
-  border: 1px solid #FF6600;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94); // #fffffff0
+  border: 1px solid var(--brand-gold);
+  border-radius: var(--card-radius);
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
@@ -173,7 +173,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-extra-light);
     gap: 6px;
   }
 
@@ -189,34 +189,33 @@
     height: 32px;
     object-fit: cover;
     border-radius: 4px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     flex-shrink: 0;
   }
 
   &__header-name {
     font-size: 11.5px;
     font-weight: 600;
-    color: #000;
+    color: var(--brand-black);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    //max-width: 120px;
   }
 
   &__close {
     width: 24px;
     height: 24px;
     border: none;
-    background: #f5f5f5;
+    background: var(--background);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: background 0.15s;
+    transition: background var(--transition);
 
-    &:hover { background: #eee; }
+    &:hover { background: var(--border-eee); }
   }
 
   &__body {
@@ -235,14 +234,14 @@
     gap: 8px;
     padding: 16px 0;
     font-size: 12px;
-    color: #888;
+    color: var(--text-muted);
   }
 
   &__spinner {
     width: 18px;
     height: 18px;
-    border: 2px solid #eee;
-    border-top-color: #FF6600;
+    border: 2px solid var(--border-eee);
+    border-top-color: var(--brand-gold);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
 
@@ -257,7 +256,7 @@
     align-items: center;
     gap: 6px;
     font-size: 11.5px;
-    color: #FF6600;
+    color: var(--brand-gold);
     margin: 0;
     padding: 8px 0;
   }
@@ -270,15 +269,15 @@
 
   &__section-label {
     font-size: 11px;
-    color: #555;
+    color: var(--text-medium);
     margin: 0;
 
-    strong { color: #000; }
+    strong { color: var(--brand-black); }
   }
 
   &__hint {
     font-weight: 400;
-    color: #000;
+    color: var(--brand-black);
     font-size: 10.5px;
   }
 
@@ -292,20 +291,20 @@
     padding: 4px 10px;
     font-size: 11px;
     font-weight: 500;
-    border: 1.5px solid #ddd;
+    border: 1.5px solid var(--border);
     border-radius: 4px;
-    background: #fff;
-    color: #333;
+    background: var(--brand-white);
+    color: var(--text-primary);
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    transition: border-color var(--transition), background var(--transition), color var(--transition);
     display: flex;
     align-items: center;
     gap: 4px;
 
     &--active {
-      border-color: #FF6600;
-      background: #FF6600;
-      color: #fff;
+      border-color: var(--brand-gold);
+      background: var(--brand-gold);
+      color: var(--brand-white);
     }
 
     &--disabled {
@@ -315,28 +314,28 @@
     }
 
     &:not(&--disabled):not(&--active):hover {
-      border-color: #aaa;
-      background: #f7f7f7;
+      border-color: var(--text-disabled);
+      background: var(--bg-light);
     }
   }
 
   &__out-tag {
     font-size: 9px;
-    background: #fdecea;
-    color: #FF6600;
+    background: rgba(220, 53, 69, 0.1); // #fdecea
+    color: var(--brand-gold);
     padding: 1px 4px;
     border-radius: 3px;
   }
 
   &__stock-info {
     font-size: 10.5px;
-    color: #27a92c;
+    color: var(--success);
     margin: 0;
   }
 
   &__footer {
     padding: 8px 10px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--border-extra-light);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -350,15 +349,15 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background: #222;
-    color: #fff;
-    transition: background 0.15s;
+    background: var(--brand-black);
+    color: var(--brand-white);
+    transition: background var(--transition);
   
-    &:hover:not(:disabled) { background: #333; }
+    &:hover:not(:disabled) { background: var(--brand-black-light); }
   
     &--buy {
-      background: #FF6600;
-      &:hover:not(:disabled) { background: #c94309; }
+      background: var(--brand-gold);
+      &:hover:not(:disabled) { background: var(--brand-gold-dark); }
     }
   
     &--preorder {
@@ -375,18 +374,18 @@
   &__detail-link {
     font-size: 11px;
     font-weight: 500;
-    color: #555;
+    color: var(--text-medium);
     text-decoration: none;
     white-space: nowrap;
     padding: 8px 6px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     text-align: center;
-    transition: border-color 0.15s, color 0.15s;
+    transition: border-color var(--transition), color var(--transition);
 
     &:hover {
-      border-color: #999;
-      color: #222;
+      border-color: var(--text-lighter);
+      color: var(--text-dark);
     }
   }
 }
@@ -417,13 +416,13 @@
   }
 
   &--success {
-    background: #1a7a3c;
-    color: #fff;
+    background: var(--success-dark);
+    color: var(--brand-white);
   }
 
   &--error {
-    background: #ff0000;
-    color: #fff;
+    background: var(--error);
+    color: var(--brand-white);
   }
 
   &__icon {

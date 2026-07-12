@@ -1,21 +1,5 @@
 // ── RegisterPage.scss ─────────────────────────────────────────────
 
-// ── Local Structural Variables (non-color) ────────────────────────
-$radius:       12px;
-$radius-sm:    8px;
-$shadow:       0 8px 40px rgba(0,0,0,0.10);
-
-// ── Color Fallbacks for CSS Variables (optional safety) ───────────
-// These ensure graceful degradation if CSS vars aren't loaded
-$brand-fallback:      #FF6503;
-$brand-dark-fallback: #e45700;
-$brand-black-fallback:#1a1a1a;
-$text-fallback:       #333;
-$muted-fallback:      #888;
-$border-fallback:     #e8e8e8;
-$success-fallback:    #067d62;
-$error-fallback:      #c0392b;
-
 // ── Keyframes ─────────────────────────────────────────────────────
 @keyframes rp-float-in {
   from { opacity: 0; transform: translateY(28px) scale(0.97); }
@@ -34,18 +18,19 @@ $error-fallback:      #c0392b;
   to   { opacity: 1; transform: translateY(0);    }
 }
 @keyframes rp-pulse-ring {
-  0%   { box-shadow: 0 0 0 0   rgba(var(--brand-red-rgb, 255, 101, 3), 0.3); }
-  70%  { box-shadow: 0 0 0 8px rgba(var(--brand-red-rgb, 255, 101, 3), 0);   }
-  100% { box-shadow: 0 0 0 0   rgba(var(--brand-red-rgb, 255, 101, 3), 0);   }
+  // RGB of #bd8a28 (--brand-gold) is 189, 138, 40
+  0%   { box-shadow: 0 0 0 0   rgba(189, 138, 40, 0.3); }
+  70%  { box-shadow: 0 0 0 8px rgba(189, 138, 40, 0);   }
+  100% { box-shadow: 0 0 0 0   rgba(189, 138, 40, 0);   }
 }
 
 // ── Root Component ────────────────────────────────────────────────
 .rp {
-  background: #fff;
+  background: var(--brand-white);
   position: relative;
   overflow: clip;
 
-  // Ambient blobs
+  // Ambient blobs (Updated to Gold Theme colors)
   &__blob {
     position: fixed;
     border-radius: 50%;
@@ -58,7 +43,8 @@ $error-fallback:      #c0392b;
     &--1 {
       width: 420px;
       height: 420px;
-      background: radial-gradient(circle, rgba(255, 214, 184, 0.6) 0%, transparent 70%);
+      // rgba for --brand-gold-light (#fdf6e3)
+      background: radial-gradient(circle, rgba(253, 246, 227, 0.8) 0%, transparent 70%); 
       top: -100px;
       right: -80px;
       animation-delay: 0s;
@@ -66,7 +52,8 @@ $error-fallback:      #c0392b;
     &--2 {
       width: 340px;
       height: 340px;
-      background: radial-gradient(circle, rgba(200, 240, 228, 0.6) 0%, transparent 70%);
+      // rgba for --brand-gold-hover (#f5e6c4)
+      background: radial-gradient(circle, rgba(245, 230, 196, 0.6) 0%, transparent 70%); 
       bottom: 60px;
       left: -100px;
       animation-delay: -5s;
@@ -96,18 +83,18 @@ $error-fallback:      #c0392b;
     margin: 0;
     padding: 0;
     font-size: 0.78rem;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
 
     a {
-      color: var(--text-muted, #888);
+      color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.2s;
-      &:hover { color: var(--brand-red, $brand-fallback); }
+      transition: color var(--transition);
+      &:hover { color: var(--brand-gold); }
     }
   }
 
-  &__breadcrumb-sep { color: #ccc; }
-  &__breadcrumb-active { color: #aaa; }
+  &__breadcrumb-sep { color: var(--border-dark); }
+  &__breadcrumb-active { color: var(--text-disabled); }
 
   &__back-btn {
     display: inline-flex;
@@ -115,19 +102,19 @@ $error-fallback:      #c0392b;
     gap: 4px;
     font-size: 0.78rem;
     font-weight: 500;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
     text-decoration: none;
-    border: 1px solid var(--border-color, #e8e8e8);
-    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px; // $radius-sm replaced
     padding: 0.3rem 0.75rem;
-    background: #fff;
-    transition: all 0.2s;
+    background: var(--brand-white);
+    transition: all var(--transition);
     white-space: nowrap;
 
     &:hover {
-      border-color: var(--brand-red, $brand-fallback);
-      color: var(--brand-red, $brand-fallback);
-      box-shadow: 0 2px 8px rgba(255, 101, 3, 0.12);
+      border-color: var(--brand-gold);
+      color: var(--brand-gold);
+      box-shadow: 0 2px 8px var(--brand-gold-rgba);
     }
   }
 
@@ -135,22 +122,22 @@ $error-fallback:      #c0392b;
   &__card-wrap {
     display: flex;
     justify-content: center;
-    animation: rp-float-in 0.55s var(--ease-out-expo, cubic-bezier(0.22, 1, 0.36, 1)) both;
+    animation: rp-float-in 0.55s var(--ease-out-expo) both;
   }
 
   &__card {
-    background: #fff;
-    border-radius: $radius;
-    box-shadow: $shadow;
+    background: var(--brand-white);
+    border-radius: var(--card-radius); // $radius replaced
+    box-shadow: var(--shadow-md);      // $shadow replaced
     padding: 1.5rem;
     width: 100%;
     max-width: 550px;
-    border: 1px solid rgba(0,0,0,0.04);
+    border: 1px solid var(--border-extra-light);
     margin-bottom: 2rem;  
 
     @media (max-width: 480px) {
       padding: 1.75rem 1.25rem;
-      border-radius: $radius-sm;
+      border-radius: 6px; // $radius-sm replaced
     }
   }
 
@@ -164,14 +151,14 @@ $error-fallback:      #c0392b;
     display: inline-flex;
     margin-bottom: 1rem;
     border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(var(--brand-red-rgb, 255, 101, 3), 0.3);
+    box-shadow: 0 4px 16px var(--brand-gold-rgba);
     animation: rp-pulse-ring 3s ease-out infinite;
   }
 
   &__title {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--brand-black, #1a1a1a);
+    color: var(--brand-black-light);
     margin: 0 0 0.3rem;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -179,7 +166,7 @@ $error-fallback:      #c0392b;
 
   &__subtitle {
     font-size: 0.88rem;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -189,22 +176,22 @@ $error-fallback:      #c0392b;
     align-items: center;
     gap: 8px;
     padding: 0.75rem 1rem;
-    border-radius: $radius-sm;
+    border-radius: 6px; // $radius-sm replaced
     font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 1rem;
     animation: rp-slide-down 0.25s ease both;
 
     &--success {
-      background: #f0fdf4;
-      color: var(--color-success, #067d62);
-      border: 1px solid #bbf7d0;
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success-dark);
+      border: 1px solid var(--success);
     }
 
     &--error {
-      background: #fef2f2;
-      color: var(--color-error, #c0392b);
-      border: 1px solid #fecaca;
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--error-dark);
+      border: 1px solid var(--error);
     }
   }
 
@@ -216,14 +203,14 @@ $error-fallback:      #c0392b;
     gap: 10px;
     width: 100%;
     padding: 0.8rem 1rem;
-    background: #fff;
-    border: 1.5px solid var(--brand-red, $brand-fallback);
-    border-radius: $radius-sm;
+    background: var(--brand-white);
+    border: 1.5px solid var(--brand-gold);
+    border-radius: 6px; // $radius-sm replaced
     cursor: pointer;
     font-size: 0.92rem;
     font-weight: 600;
-    color: var(--text-primary, #333);
-    transition: all 0.22s;
+    color: var(--text-primary);
+    transition: all var(--transition);
     position: relative;
     overflow: hidden;
 
@@ -237,7 +224,7 @@ $error-fallback:      #c0392b;
     }
 
     &:hover:not(:disabled) {
-      border-color: var(--brand-black, #1a1a1a);
+      border-color: var(--brand-black-light);
       box-shadow: 0 4px 16px rgba(66,133,244,0.14);
       transform: translateY(-1px);
       &::before { opacity: 1; }
@@ -253,7 +240,7 @@ $error-fallback:      #c0392b;
     }
 
     &--loading {
-      background: #fafafa;
+      background: var(--bg-light);
     }
   }
 
@@ -264,8 +251,8 @@ $error-fallback:      #c0392b;
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.02em;
-    color: #fff;
-    background: linear-gradient(135deg, var(--brand-black, #1a1a1a), var(--brand-red, $brand-fallback));
+    color: var(--brand-white);
+    background: linear-gradient(135deg, var(--brand-black-light), var(--brand-gold));
     padding: 2px 8px;
     border-radius: 40px;
     white-space: nowrap;
@@ -275,7 +262,7 @@ $error-fallback:      #c0392b;
 
   &__google-hint {
     font-size: 0.75rem;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
     text-align: center;
     margin: 0.5rem 0 0;
     line-height: 1.5;
@@ -287,7 +274,7 @@ $error-fallback:      #c0392b;
     align-items: center;
     gap: 12px;
     margin: 1rem 0;
-    color: #aaa;
+    color: var(--text-disabled);
     font-size: 0.78rem;
 
     &::before,
@@ -295,7 +282,7 @@ $error-fallback:      #c0392b;
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--border-color, #e8e8e8);
+      background: var(--border-light);
     }
 
     span {
@@ -315,7 +302,7 @@ $error-fallback:      #c0392b;
   &__label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-primary, #333);
+    color: var(--text-primary);
     letter-spacing: 0.01em;
   }
 
@@ -328,34 +315,34 @@ $error-fallback:      #c0392b;
   &__field-icon {
     position: absolute;
     left: 12px;
-    color: #b0b0b0;
+    color: var(--text-placeholder);
     pointer-events: none;
-    transition: color 0.2s;
+    transition: color var(--transition);
     flex-shrink: 0;
     width: 17px;
     height: 17px;
   }
 
-  &__field--focused &__field-icon { color: var(--brand-red, $brand-fallback); }
+  &__field--focused &__field-icon { color: var(--brand-gold); }
 
   &__input {
     width: 100%;
     height: 36px;
     padding: 0 12px 0 40px;
-    border: 1.5px solid var(--border-color, #e8e8e8);
-    border-radius: $radius-sm;
+    border: 1.5px solid var(--border-light);
+    border-radius: 6px; // $radius-sm replaced
     font-size: 0.9rem;
-    color: var(--text-primary, #333);
-    background: #fafafa;
-    transition: all 0.2s;
+    color: var(--text-primary);
+    background: var(--bg-light);
+    transition: all var(--transition);
     outline: none;
 
-    &::placeholder { color: #bbb; }
+    &::placeholder { color: var(--text-placeholder); }
 
     &:focus {
-      border-color: var(--brand-red, $brand-fallback);
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(255, 101, 3, 0.1);
+      border-color: var(--brand-gold);
+      background: var(--brand-white);
+      box-shadow: 0 0 0 3px var(--brand-gold-rgba);
     }
 
     &:disabled {
@@ -373,15 +360,15 @@ $error-fallback:      #c0392b;
     right: 10px;
     background: none;
     border: none;
-    color: #aaa;
+    color: var(--text-disabled);
     cursor: pointer;
     display: flex;
     align-items: center;
     padding: 4px;
     border-radius: 4px;
-    transition: color 0.2s;
+    transition: color var(--transition);
 
-    &:hover { color: var(--brand-red, $brand-fallback); }
+    &:hover { color: var(--brand-gold); }
   }
 
   // Password strength
@@ -396,19 +383,19 @@ $error-fallback:      #c0392b;
     flex: 1;
     height: 3px;
     border-radius: 3px;
-    background: var(--border-color, #e8e8e8);
-    transition: background 0.3s;
+    background: var(--border-light);
+    transition: background var(--transition);
 
-    &--1 { background: var(--color-error, #c0392b); }
-    &--2 { background: #f0a500; }
-    &--3 { background: #3b82f6; }
-    &--4 { background: var(--color-success, #067d62); }
+    &--1 { background: var(--error); }
+    &--2 { background: var(--warning-light); } // Replaced #f0a500
+    &--3 { background: var(--info); }          // Replaced #3b82f6
+    &--4 { background: var(--success); }
   }
 
   &__pw-label {
     font-size: 0.7rem;
     font-weight: 600;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
     min-width: 40px;
     text-align: right;
   }
@@ -421,16 +408,16 @@ $error-fallback:      #c0392b;
     gap: 8px;
     width: 100%;
     padding: .55rem;
-    background: var(--brand-black, #1a1a1a);
-    color: #fff;
+    background: var(--brand-black-light);
+    color: var(--brand-white);
     border: none;
-    border-radius: $radius-sm;
+    border-radius: 6px; // $radius-sm replaced
     font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
     margin-top: 0.25rem;
     letter-spacing: 0.01em;
-    transition: all 0.22s;
+    transition: all var(--transition);
     position: relative;
     overflow: hidden;
 
@@ -438,13 +425,13 @@ $error-fallback:      #c0392b;
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--brand-red, $brand-fallback);
+      background: var(--brand-gold);
       transform: translateX(-100%);
     }
 
     &:hover:not(:disabled) {
-      background: var(--brand-red, $brand-fallback);
-      box-shadow: 0 6px 20px rgba(255, 101, 3, 0.38);
+      background: var(--brand-gold);
+      box-shadow: 0 6px 20px var(--brand-gold-rgba);
       transform: translateY(-1px);
       &::after { transform: translateX(100%); }
     }
@@ -465,7 +452,7 @@ $error-fallback:      #c0392b;
     width: 18px;
     height: 18px;
     border: 2.5px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
+    border-top-color: var(--brand-white);
     border-radius: 50%;
     animation: rp-spin 0.7s linear infinite;
 
@@ -479,12 +466,12 @@ $error-fallback:      #c0392b;
   &__footer-text {
     text-align: center;
     font-size: 0.84rem;
-    color: var(--text-muted, #888);
+    color: var(--text-muted);
     margin: 0.3rem;
   }
 
   &__footer-link {
-    color: var(--brand-red, $brand-fallback);
+    color: var(--brand-gold);
     font-weight: 700;
     text-decoration: none;
     &:hover { text-decoration: underline; }
@@ -493,15 +480,15 @@ $error-fallback:      #c0392b;
   &__terms {
     text-align: center;
     font-size: 0.72rem;
-    color: #aaa;
+    color: var(--text-disabled);
     margin: 0;
     line-height: 1.6;
 
     a {
-      color: var(--text-muted, #888);
+      color: var(--text-muted);
       text-decoration: underline;
       text-underline-offset: 2px;
-      &:hover { color: var(--brand-red, $brand-fallback); }
+      &:hover { color: var(--brand-gold); }
     }
   }
 }

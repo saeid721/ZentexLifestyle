@@ -1,6 +1,6 @@
 // ─── FeaturedCategories ───────────────────────────────────────────
 .featured-cats {
-  background: #fff;
+  background: var(--brand-white);
 
   // ── Section heading: rule–text–rule ───────────────────────────
   &__heading {
@@ -13,7 +13,7 @@
   &__heading-line {
     flex: 1;
     height: 1px;
-    background: #e0e0e0;
+    background: var(--border-medium);
   }
 
   &__heading-text {
@@ -21,7 +21,7 @@
     font-weight: 600;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: #000;
+    color: var(--brand-black);
     margin: 0;
     line-height: 1;
   }
@@ -64,14 +64,14 @@
   display: block;
   text-decoration: none;
   position: relative;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   overflow: hidden;
-  background: #f5f5f5;
+  background: var(--background);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   transform: translateZ(0);
   transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.45s var(--ease-out-expo),
+    box-shadow 0.45s var(--ease-out-expo);
 
   &:hover {
     transform: translateY(-4px);
@@ -84,8 +84,8 @@
       opacity: 0.5;
     }
     .cat-card__label {
-      background: var(--brand-red);
-      color: #fff;
+      background: var(--brand-gold); // পূর্বের var(--brand-red) গোল্ড থিমে কনভার্ট করা হয়েছে
+      color: var(--brand-white);
       letter-spacing: 0.1em;
     }
   }
@@ -102,7 +102,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.55s var(--ease-out-expo);
   }
 
   &__overlay {
@@ -110,7 +110,7 @@
     inset: 0;
     background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.35) 100%);
     opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 0.45s var(--ease-out-expo);
     pointer-events: none;
   }
 
@@ -121,13 +121,13 @@
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #FF6600;
-    background: #f8f8f8;
+    color: var(--brand-gold);
+    background: var(--bg-light);
     padding: 0.45rem 0.5rem;
-    border-top: 1px solid #ebebeb;
+    border-top: 1px solid var(--border-lighter);
     transition:
-      background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      letter-spacing 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      background 0.35s var(--ease-out-expo),
+      color 0.35s var(--ease-out-expo),
+      letter-spacing 0.35s var(--ease-out-expo);
   }
 }

@@ -1,19 +1,10 @@
 // ─────────────────────────────────────────────
 //  PageDetailPage.scss
-//  Brand accent: #FF6503 (Click To Buy orange)
 // ─────────────────────────────────────────────
-
-$accent:      #FF6503;
-$accent-dark: #d94f00;
-$text:        #1a1a1a;
-$muted:       #6b7280;
-$border:      #e5e7eb;
-$bg-light:    #fafafa;
-$white:       #ffffff;
 
 // ─── Product Details Page ─────────────────────────────────────────
 .pdp {
-  background: #fff;
+  background: var(--brand-white);
   min-height: 60vh;
   padding-bottom: 3rem;
 
@@ -38,13 +29,13 @@ $white:       #ffffff;
     width: 2.5rem;
     height: 2.5rem;
     border-width: 0.2rem;
-    color: $accent;
+    color: var(--brand-gold);
   }
 
   &__loading-text {
     margin: 0;
     font-size: 0.95rem;
-    color: $muted;
+    color: var(--text-muted);
     font-weight: 500;
   }
 }
@@ -52,7 +43,7 @@ $white:       #ffffff;
 // ── Topbar ────────────────────────────────────────────────────────
 .pdp__topbar {
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-extra-light);
   margin-bottom: 1rem;
 }
 
@@ -61,21 +52,21 @@ $white:       #ffffff;
   
   .breadcrumb-item {
     a { 
-      color: #555; 
+      color: var(--text-medium); 
       text-decoration: none; 
-      transition: color 0.2s;
+      transition: color var(--transition);
       
       &:hover { 
-        color: $accent; 
+        color: var(--brand-gold); 
       } 
     }
     
     &.active { 
-      color: #aaa; 
+      color: var(--text-disabled); 
     }
     
     & + .breadcrumb-item::before { 
-      color: #ccc; 
+      color: var(--border-dark); 
       content: '>'; 
     }
   }
@@ -87,39 +78,39 @@ $white:       #ffffff;
   gap: 4px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: var(--text-medium);
   text-decoration: none;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.3rem 0.75rem;
-  transition: all 0.2s;
+  transition: all var(--transition);
   white-space: nowrap;
   
   &:hover { 
-    border-color: $accent; 
-    color: $accent; 
+    border-color: var(--brand-gold); 
+    color: var(--brand-gold); 
   }
 }
 
 // ── Content Card ─────────────────────────────────────────────────
 .details-page__form-card {
-  background: #fff;
-  border-radius: 8px;
+  background: var(--brand-white);
+  border-radius: var(--card-radius);
   padding: 2rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
 // ── Body Content Styles (for injected HTML) ──────────────────────
 .pdp__body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-primary);
   font-size: 15px;
   line-height: 1.8;
-  color: #374151;
+  color: var(--text-body);
 
   // ── Typography resets for injected HTML ──
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    color: $text;
+    font-family: 'Georgia', 'Times New Roman', serif; // হেডিং এর জন্য নির্দিষ্ট সেরিফ ফন্ট রাখা হয়েছে
+    color: var(--text-dark);
     margin-top: 2em;
     margin-bottom: 0.6em;
     line-height: 1.3;
@@ -133,7 +124,7 @@ $white:       #ffffff;
     font-size: 22px;
     font-weight: 700;
     padding-bottom: 10px;
-    border-bottom: 2px solid $border;
+    border-bottom: 2px solid var(--border);
     position: relative;
 
     &::after {
@@ -143,14 +134,14 @@ $white:       #ffffff;
       bottom: -2px;
       width: 48px;
       height: 2px;
-      background: $accent;
+      background: var(--brand-gold);
     }
   }
 
   h3 {
     font-size: 17px;
     font-weight: 700;
-    color: $accent-dark;
+    color: var(--brand-gold-dark);
   }
 
   p {
@@ -167,24 +158,24 @@ $white:       #ffffff;
   }
 
   strong {
-    color: $text;
+    color: var(--text-dark);
     font-weight: 700;
   }
 
   hr {
     border: none;
-    border-top: 1px solid $border;
+    border-top: 1px solid var(--border);
     margin: 2em 0;
   }
 
   a {
-    color: $accent;
+    color: var(--brand-gold);
     text-decoration: none;
-    border-bottom: 1px solid rgba($accent, 0.3);
-    transition: border-color 0.2s;
+    border-bottom: 1px solid rgba(189, 138, 40, 0.3); // rgba($accent, 0.3) এর পরিবর্তে
+    transition: border-color var(--transition);
 
     &:hover { 
-      border-color: $accent; 
+      border-color: var(--brand-gold); 
     }
   }
 
@@ -196,10 +187,10 @@ $white:       #ffffff;
   }
 
   blockquote {
-    border-left: 4px solid $accent;
+    border-left: 4px solid var(--brand-gold);
     padding-left: 1em;
     margin: 1em 0;
-    color: $muted;
+    color: var(--text-muted);
     font-style: italic;
   }
 }

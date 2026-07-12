@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Helmet } from 'react-helmet-async'; // ✅ LINE 4: Added — for Organization + LocalBusiness schema
+import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import './Footer.scss';
 
@@ -124,12 +124,12 @@ const Footer = () => {
   const organizationSchema = !loading ? {
     '@context': SCHEMA_ORG_URL,
     '@type': ['Organization', 'LocalBusiness'], // ✅ both types in one schema
-    name: settings?.name || 'Elonis',
+    name: settings?.name || 'Zentex',
     url: baseUrl,
     logo: {
       '@type': 'ImageObject',
       url: logo.startsWith('http') ? logo : `${baseUrl}${logo}`,
-      name: `${settings?.name || 'Elonis'} Logo`,
+      name: `${settings?.name || 'Zentex'} Logo`,
     },
     // ✅ Contact info for Google Knowledge Panel
     contactPoint: contact?.phone ? {
@@ -174,7 +174,7 @@ const Footer = () => {
                 {/* ✅ LINE 160: Added width/height + loading=lazy for image SEO */}
                 <img
                   src={logo}
-                  alt={`${settings?.name || 'Elonis'} logo`}
+                  alt={`${settings?.name || 'Zentex'} logo`}
                   className="site-footer__logo-img"
                   width="160"
                   height="48"
@@ -198,6 +198,47 @@ const Footer = () => {
                   </li>
                 )}
                 {contact?.address && <li>📍 {contact.address}</li>}
+              </ul>
+              
+            {/* Social */}
+            <div className="site-footer__social-bottom">
+              {SOCIALS.map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noreferrer noopener"
+                  className="site-footer__social-link-bottom"
+                  aria-label={`Follow us on ${s.label}`}  // ✅ LINE 278: aria-label for accessibility + SEO
+                >
+                  {/* ✅ LINE 280: Added width/height + loading=lazy to social icons */}
+                  <img
+                    src={s.icon}
+                    alt={`${s.label} icon`}
+                    className="site-footer__social-icon-bottom"
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </div>
+            </Col>
+
+            {/* Useful Links */}
+            <Col xs={12} sm={6} lg={3}>
+              <h6 className="site-footer__heading">Useful Links</h6>
+              <ul className="site-footer__links list-unstyled">
+                <li><Link to="/register">Create Account</Link></li>
+                <li><Link to="/contact">Contact</Link></li>
+              </ul>
+            </Col>
+
+            {/* Help */}
+            <Col xs={12} sm={6} lg={3}>
+              <h6 className="site-footer__heading">Help</h6>
+              <ul className="site-footer__links list-unstyled">
+                {pages.map((page) => (
+                  <li key={page.id}>
+                    <Link to={`/page/${page.slug}`}>{page.name}</Link>
+                  </li>
+                ))}
               </ul>
             </Col>
 
@@ -236,32 +277,10 @@ const Footer = () => {
               </form>
             </Col>
 
-            {/* Account */}
-            <Col xs={12} sm={6} lg={2}>
-              <h6 className="site-footer__heading">My Account</h6>
-              <ul className="site-footer__links list-unstyled">
-                <li><Link to="/register">Create Account</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
-              </ul>
-            </Col>
-
-            {/* Company */}
-            <Col xs={12} sm={6} lg={2}>
-              <h6 className="site-footer__heading">Company</h6>
-              <ul className="site-footer__links list-unstyled">
-                {pages.map((page) => (
-                  <li key={page.id}>
-                    <Link to={`/page/${page.slug}`}>{page.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </Col>
-
             {/* Payments */}
-            <Col xs={12} sm={6} lg={2}>
+            {/* <Col xs={12} sm={6} lg={2}>
               <div className="site-footer__heading-wrapper">
                 <h6 className="site-footer__heading">Secure Payments</h6>
-                {/* ✅ LINE 240: Added width/height + loading=lazy to payment icons */}
                 <img
                   src={sslCommerzIcon}
                   alt="SSLCommerz Secured Payment"
@@ -271,6 +290,43 @@ const Footer = () => {
                   loading="lazy"
                 />
               </div>
+              <div className="site-footer__payments">
+                {PAYMENTS.map((p) => (
+                  <span key={p.name} className="site-footer__payment-badge">
+                    <img
+                      src={p.icon}
+                      alt={`${p.name} payment accepted`}
+                      className="site-footer__payment-img"
+                      width="40"
+                      height="24"
+                      loading="lazy"
+                    />
+                  </span>
+                ))}
+              </div>
+            </Col> */}
+
+          </Row>
+        </Container>
+      </div>
+
+      {/* Bottom */}
+      <div className="site-footer__bottom">
+        <Container>
+          <div className="site-footer__bottom-content">
+
+
+            {/* Copyright */}
+            <p className="site-footer__copyright">
+              {settings?.copyright
+                ? settings.copyright
+                : `© ${new Date().getFullYear()} ${settings?.name || 'Zentex'} | All rights reserved`
+              }{' '}
+              | Powered by{' '}
+              <Link to={STITBD_URL} className="site-footer__brand" target="_blank" rel="noopener noreferrer">
+                STITBD
+              </Link>
+            </p>
               <div className="site-footer__payments">
                 {PAYMENTS.map((p) => (
                   <span key={p.name} className="site-footer__payment-badge">
@@ -286,48 +342,6 @@ const Footer = () => {
                   </span>
                 ))}
               </div>
-            </Col>
-
-          </Row>
-        </Container>
-      </div>
-
-      {/* Bottom */}
-      <div className="site-footer__bottom">
-        <Container>
-          <div className="site-footer__bottom-content">
-
-            {/* Social */}
-            <div className="site-footer__social-bottom">
-              {SOCIALS.map((s, i) => (
-                <a key={i} href={s.href} target="_blank" rel="noreferrer noopener"
-                  className="site-footer__social-link-bottom"
-                  aria-label={`Follow us on ${s.label}`}  // ✅ LINE 278: aria-label for accessibility + SEO
-                >
-                  {/* ✅ LINE 280: Added width/height + loading=lazy to social icons */}
-                  <img
-                    src={s.icon}
-                    alt={`${s.label} icon`}
-                    className="site-footer__social-icon-bottom"
-                    width="24"
-                    height="24"
-                    loading="lazy"
-                  />
-                </a>
-              ))}
-            </div>
-
-            {/* Copyright */}
-            <p className="site-footer__copyright">
-              {settings?.copyright
-                ? settings.copyright
-                : `© ${new Date().getFullYear()} ${settings?.name || 'ELONIS'} | All rights reserved`
-              }{' '}
-              | Powered by{' '}
-              <Link to={STITBD_URL} className="site-footer__brand" target="_blank" rel="noopener noreferrer">
-                STITBD
-              </Link>
-            </p>
 
           </div>
         </Container>
