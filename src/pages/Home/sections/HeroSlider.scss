@@ -78,56 +78,53 @@ $btn-size-md: 44px;
     pointer-events: none;
   }
 
-&__content {
+  &__content {
   position: relative;
   z-index: 2;
-  padding: 5.5rem 1.25rem 0.75rem; 
-    text-align: center;
-    max-width: 90%;
-    opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.55s ease 0.25s, transform 0.55s ease 0.25s;
+  width: 100%;
+  max-width: 1500px;
+  margin-inline: auto;
+  padding: 5.5rem 15px 0.75rem;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s ease 0.25s, transform 0.55s ease 0.25s;
 
-    &.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (min-width: 480px) {
-      padding: 1.5rem 2.5rem;
-      max-width: 82%;
-    }
-    @media (min-width: 768px) {
-      padding: 2.5rem 4rem;
-      max-width: 76%;
-    }
-    @media (min-width: 992px) {
-      padding: 3rem 5rem;
-      max-width: 70%;
-    }
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
+
+  @media (min-width: 480px) {
+    padding: 1.5rem 15px;
+  }
+  @media (min-width: 768px) {
+    padding: 2.5rem 15px;
+  }
+  @media (min-width: 992px) {
+    padding: 3rem 15px;
+  }
+}
 
   &__title {
     font-family: var(--font-primary);
-    font-size: 18px;
-    font-weight: 700;
+    font-size: clamp(1.4rem, 3.5vw, 3.6rem);
+    font-weight: 500;
     line-height: 1.25;
-    color: var(--brand-white);
+    color: var(--brand-secondary);
     margin: 0 0 0.5rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.75);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     @media (min-width: 480px) {
       display: block;
-      font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+      font-size: clamp(1.4rem, 3.5vw, 3.6rem);
       white-space: normal;
       overflow: visible;
       text-overflow: unset;
-      color: rgba(255, 255, 255, 0.88);
-      margin: 0 auto 1.25rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.65);
+      color: var(--brand-secondary);
+      margin: 0 0 1.25rem;
     }
   }
 
@@ -138,7 +135,7 @@ $btn-size-md: 44px;
       display: block;
       font-size: clamp(0.9rem, 1.8vw, 1.1rem);
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.92);
+      color: var(--brand-secondary);
       margin: 0 0 0.5rem;
       line-height: 1.35;
     }
@@ -150,8 +147,8 @@ $btn-size-md: 44px;
     @media (min-width: 480px) {
       display: block;
       font-size: clamp(0.82rem, 1.4vw, 0.98rem);
-      color: rgba(255, 255, 255, 0.88);
-      margin: 0 auto 1.25rem;
+      color: var(--brand-secondary);
+      margin: 0 0 1.25rem;
       line-height: 1.6;
     }
   }
@@ -160,7 +157,7 @@ $btn-size-md: 44px;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: var(--brand-gold);
+    background: var(--brand-secondary);
     color: var(--brand-white);
     font-size: clamp(0.72rem, 3vw, 0.88rem);
     font-weight: 700;
@@ -200,6 +197,7 @@ $btn-size-md: 44px;
     &:hover {
       opacity: 0.9;
       transform: translateX(2px);
+    background: var(--brand-primary);
       box-shadow: 0 5px 18px rgba(0, 0, 0, 0.28);
       color: var(--brand-white);
 

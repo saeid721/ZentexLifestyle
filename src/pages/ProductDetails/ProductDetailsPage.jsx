@@ -14,6 +14,7 @@ import { productService } from '../../features/products/services/productService'
 import { getPrefetchedProduct, prefetchProduct } from '../../utils/productPrefetchCache';
 import apiClient from '../../services/apiClient';
 import useCartStore from '../../app/store';
+import useWishlistStore from '../../app/wishlistStore';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL, FACEBOOK_SHARE_URL, TWITTER_SHARE_URL, LINKEDIN_SHARE_URL, WHATSAPP_BASE_URL } from '../../utils';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import './ProductDetailsPage.scss';
@@ -36,6 +37,21 @@ const resolveRawImage = (imageField) => {
   if (typeof imageField === 'object') return imageField.image ?? '';
   return '';
 };
+
+// ─── Wishlist Heart Icon ──────────────────────────────────────────────────────
+const HeartIcon = ({ filled }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill={filled ? 'currentColor' : 'none'}
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+);
+
 
 // ─── Toast Component ──────────────────────────────────────────────────────────
 const Toast = ({ message, type, onClose, anchorRef }) => {
@@ -502,6 +518,28 @@ const ProductDetailsPage = () => {
   const [popupMode, setPopupMode] = useState(null);
 
   const addToCart = useCartStore((s) => s.addToCart);
+
+  const toggleWishlistItem = useWishlistStore((s) => s.toggleItem);
+  const isInWishlist = useWishlistStore((s) => s.isInWishlist);
+  const inWishlist = product ? isInWishlist(product.id) : false;
+
+  const handleToggleWishlist = () => {
+    if (!product) return;
+    toggleWishlistItem({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      new_price: product.price,
+      old_price: product.originalPrice,
+      image: product.image,
+      images: product.images,
+    });
+    showToast(
+      inWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
+      'success'
+    );
+  };
 
   // SEO Meta state
   const [meta, setMeta] = useState(initialParsed?.meta ?? null);
@@ -1333,6 +1371,14 @@ const ProductDetailsPage = () => {
                     Buy Now
                   </button>
                 )}
+                <button
+                  className={`pdp__btn pdp__btn--wishlist ${inWishlist ? 'pdp__btn--wishlist-active' : ''}`}
+                  onClick={handleToggleWishlist}
+                  aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                  title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                >
+                  <HeartIcon filled={inWishlist} />
+                </button>
               </div>
               {showLiveVisitors && (
                 <p className="pdp__live-viewers">

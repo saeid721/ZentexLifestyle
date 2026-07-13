@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -7,7 +8,7 @@ import useDebounce from '../../../hooks/useDebounce';
 import { PHONE, BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL } from '../../../utils';
 import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
 import { setAuth, getAuth, removeAuth } from '../../../utils/auth';
-import axios from 'axios';
+import ProductCard from '../../../components/ui/ProductCard/ProductCard';
 import { apiGet } from '../../../utils/api';
 import CartDrawer from './CartDrawer';
 import './Header.scss';
@@ -62,6 +63,18 @@ const SearchIcon = () => (
 const ChevronDown = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
     <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+const ArrowLeftIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+const ArrowRightIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <polyline points="9 18 15 12 9 6" />
   </svg>
 );
 
@@ -839,16 +852,38 @@ const MobileNavItem = ({ item, depth = 0, onClose }) => {
   );
 };
 
-// ─── Mobile Search Overlay ────────────────────────────────────────
+// ─── Mobile Search Overlay (Full-Screen Search Modal) ─────────────
 const MobileSearchOverlay = ({ onClose }) => {
   const [query, setQuery] = useState('');
   const [activeIndex, setActive] = useState(-1);
   const { suggestions, loading } = useSearchSuggestions(query);
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const trackRef = useRef(null);
+
+  const [inspirationProducts, setInspirationProducts] = useState([]);
+  const [inspirationLoading, setInspirationLoading] = useState(true);
 
   useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50); }, []);
   useEffect(() => { setActive(-1); }, [suggestions]);
+
+  // ✅ NEW: fetch "inspiration" (new arrival) products once, on open
+  useEffect(() => {
+    let cancelled = false;
+    setInspirationLoading(true);
+
+    axios
+      .get(`${API_BASE_URL}/products?per_page=8`, { headers: { Accept: 'application/json' } })
+      .then((res) => {
+        if (cancelled) return;
+        const items = res.data?.data?.data ?? res.data?.data ?? [];
+        setInspirationProducts(items.slice(0, 8));
+      })
+      .catch(() => { if (!cancelled) setInspirationProducts([]); })
+      .finally(() => { if (!cancelled) setInspirationLoading(false); });
+
+    return () => { cancelled = true; };
+  }, []);
 
   const handleSelect = (product) => {
     onClose();
@@ -875,33 +910,89 @@ const MobileSearchOverlay = ({ onClose }) => {
 
   const showDropdown = query.trim().length >= 2 && (loading || suggestions.length > 0);
 
+  const scrollTrack = (dir) => {
+    if (trackRef.current) {
+      trackRef.current.scrollBy({ left: dir * 320, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="mobile-search-overlay">
-      <form onSubmit={handleSubmit} className="mobile-search-overlay__form">
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Search products..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="mobile-search-overlay__input"
-          autoComplete="off"
-        />
-        <button type="submit" className="mobile-search-overlay__submit" aria-label="Search"><SearchIcon /></button>
-        <button type="button" className="mobile-search-overlay__close" onClick={onClose} aria-label="Close"><CloseIcon /></button>
-      </form>
-      {showDropdown && (
-        <div className="mobile-search-overlay__suggestions">
-          <SearchDropdown
-            suggestions={suggestions}
-            loading={loading}
-            query={query}
-            onSelect={handleSelect}
-            activeIndex={activeIndex}
+    <div className="search-modal">
+      <button type="button" className="search-modal__close" onClick={onClose} aria-label="Close">
+        <CloseIcon />
+      </button>
+
+      <div className="search-modal__inner">
+        <h2 className="search-modal__title">Search our site</h2>
+
+        <form onSubmit={handleSubmit} className="search-modal__form">
+          <span className="search-modal__form-icon"><SearchIcon /></span>
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="search-modal__input"
+            autoComplete="off"
           />
-        </div>
-      )}
+        </form>
+
+        {showDropdown ? (
+          <div className="search-modal__suggestions">
+            <SearchDropdown
+              suggestions={suggestions}
+              loading={loading}
+              query={query}
+              onSelect={handleSelect}
+              activeIndex={activeIndex}
+            />
+          </div>
+        ) : (
+          <div className="search-modal__inspiration">
+            <h3 className="search-modal__inspiration-title">Need some inspiration?</h3>
+
+            {!inspirationLoading && inspirationProducts.length > 0 && (
+              <div className="search-modal__carousel">
+                <button
+                  type="button"
+                  className="search-modal__nav search-modal__nav--prev"
+                  onClick={() => scrollTrack(-1)}
+                  aria-label="Previous"
+                >
+                  <ArrowLeftIcon />
+                </button>
+
+                <div className="search-modal__track" ref={trackRef}>
+                  {inspirationProducts.map((product) => (
+                    <div className="search-modal__card" key={product.id}>
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="search-modal__nav search-modal__nav--next"
+                  onClick={() => scrollTrack(1)}
+                  aria-label="Next"
+                >
+                  <ArrowRightIcon />
+                </button>
+              </div>
+            )}
+
+            {inspirationLoading && (
+              <div className="search-modal__carousel search-modal__carousel--loading">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="search-modal__card search-modal__card--skeleton" />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

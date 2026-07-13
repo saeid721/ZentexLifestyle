@@ -1,0 +1,81 @@
+// ─── Wishlist Hero ─────────────────────────────────────────────
+.wishlist-hero {
+  background: var(--brand-secondary-bg);
+  padding: 2.5rem 0;
+  text-align: center;
+  margin-bottom: 0;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-secondary);
+    margin: 0 0 .75rem;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .85rem;
+
+    a { color: var(--link-blue); font-weight: 600; }
+    li:last-child { display: flex; align-items: center; gap: .35rem; color: var(--brand-secondary-muted); }
+  }
+
+  &__sep { color: var(--brand-secondary-lighter); }
+}
+
+// ─── Wishlist Empty State ──────────────────────────────────────
+.wishlist-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1rem;
+
+  &__icon {
+    color: var(--brand-secondary-lighter);
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--brand-secondary);
+    margin: 0 0 .75rem;
+  }
+
+  &__title-highlight {
+    background: var(--brand-secondary-soft);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  &__desc {
+    max-width: 460px;
+    color: var(--brand-secondary-muted);
+    font-size: .92rem;
+    line-height: 1.6;
+    margin: 0 0 1.75rem;
+  }
+
+  &__btn {
+    display: inline-block;
+    background: var(--brand-secondary);
+    color: var(--brand-white);
+    font-weight: 700;
+    font-size: .9rem;
+    padding: .8rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background .2s;
+
+    &:hover {
+      background: var(--brand-primary);
+      color: var(--brand-white);
+    }
+  }
+}

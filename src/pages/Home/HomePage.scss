@@ -31,16 +31,17 @@
   width: 100%;
   background: var(--brand-secondary-bg);
   color: var(--brand-secondary);
-  font-size: .70rem;
-  font-weight: 500;
+  font-size: 1.50rem;
+  font-weight: 400;
   text-align: center;
-  height: 34px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
   z-index: 901;
+  border-top: 1px solid var(--brand-secondary-soft);
   border-bottom: 1px solid var(--brand-secondary-soft);
 
   &__text {

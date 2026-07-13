@@ -1299,3 +1299,30 @@
     flex-shrink: 0;
   }
 }
+
+
+.pdp__btn--wishlist {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--brand-secondary-lighter);
+  background: var(--brand-white);
+  color: var(--brand-secondary);
+  border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+
+  &:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+  }
+
+  &.pdp__btn--wishlist-active {
+    color: var(--error);
+    border-color: var(--error);
+  }
+}
