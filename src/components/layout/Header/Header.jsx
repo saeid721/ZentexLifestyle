@@ -340,9 +340,15 @@ const DesktopSearchBox = ({ searchQuery, setSearchQuery, onSubmit }) => {
   );
 };
 
-// ─── Desktop Hover Nav ────────────────────────────────────────────
+// ─── Desktop Hover Nav (Fixed 4-item menu: Home / Shop / Categories / About Us) ──
+const FIXED_MENU_ITEMS = [
+  { key: 'home',       label: 'Home',       href: '/',               megamenu: false },
+  { key: 'shop',       label: 'Shop',       href: '/shop',           megamenu: true  },
+  { key: 'categories', label: 'Categories', href: '/category',       megamenu: false },
+  { key: 'about',      label: 'About Us',   href: '/page/about-us',  megamenu: false },
+];
+
 const DesktopNav = ({ navLinks }) => {
-  const navigate = useNavigate();
   const [activeTop, setActiveTop] = useState(null);
   const [activeSub, setActiveSub] = useState(null);
   const [subBarTop, setSubBarTop] = useState(0);
@@ -366,9 +372,9 @@ const DesktopNav = ({ navLinks }) => {
   useEffect(() => () => cancelClose(), [cancelClose]);
 
   const measureSubBarTop = useCallback(() => {
-  const headerEl = document.querySelector('.site-header');
-  if (headerEl) setSubBarTop(headerEl.getBoundingClientRect().bottom);
-}, []);
+    const headerEl = document.querySelector('.site-header');
+    if (headerEl) setSubBarTop(headerEl.getBoundingClientRect().bottom);
+  }, []);
 
   useEffect(() => {
     measureSubBarTop();
@@ -380,8 +386,9 @@ const DesktopNav = ({ navLinks }) => {
     };
   }, [measureSubBarTop]);
 
-  const activeTopItem = navLinks.find((n) => n.label === activeTop);
-  const activeSubItem = activeTopItem?.children?.find((c) => c.label === activeSub);
+  // ✅ "Shop" is the only item that opens the megamenu (uses fetched navLinks/categories)
+  const isShopActive = activeTop === 'shop';
+  const activeSubItem = navLinks.find((c) => c.label === activeSub);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
@@ -392,7 +399,7 @@ const DesktopNav = ({ navLinks }) => {
 
   const handleTopEnter = (item) => {
     cancelClose(); measureSubBarTop();
-    setActiveTop(item.children?.length ? item.label : null);
+    setActiveTop(item.megamenu ? item.key : null);
     setActiveSub(null);
   };
 
@@ -406,17 +413,25 @@ const DesktopNav = ({ navLinks }) => {
   return (
     <div ref={navRef} className="desktop-nav" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
       <nav className="desktop-nav__list" ref={topBarRef}>
-        {navLinks.map((item) => (
+        {FIXED_MENU_ITEMS.map((item) => (
           <Link
             key={item.key}
             to={item.href}
-            className={`desktop-nav__top-item ${activeTop === item.label ? 'desktop-nav__top-item--active' : ''}`}
+            className={`desktop-nav__top-item ${activeTop === item.key ? 'desktop-nav__top-item--active' : ''}`}
             onMouseEnter={() => handleTopEnter(item)}
-            onClick={() => { closeAll(); }}
+            onClick={(e) => {
+              if (item.megamenu) {
+                // Shop just toggles the megamenu on click too (in case of touch/no-hover)
+                setActiveTop((prev) => (prev === item.key ? null : item.key));
+                setActiveSub(null);
+              } else {
+                closeAll();
+              }
+            }}
           >
             {item.label}
-            {item.children?.length > 0 && (
-              <span className={`desktop-nav__chevron ${activeTop === item.label ? 'desktop-nav__chevron--open' : ''}`}>
+            {item.megamenu && (
+              <span className={`desktop-nav__chevron ${isShopActive ? 'desktop-nav__chevron--open' : ''}`}>
                 <ChevronDown />
               </span>
             )}
@@ -424,47 +439,67 @@ const DesktopNav = ({ navLinks }) => {
         ))}
       </nav>
 
-      {activeTopItem?.children?.length > 0 && (
-        <div ref={subBarRef} className="desktop-nav__sub-bar" style={{ top: subBarTop }} onMouseEnter={cancelClose}>
+      {isShopActive && navLinks.length > 0 && (
+        <div ref={subBarRef} className="mega-menu" style={{ top: subBarTop }} onMouseEnter={cancelClose}>
           <Container className="container-1500">
-            <div className="d-flex align-items-center flex-wrap">
-              {activeTopItem.children.map((sub) => (
-                <Link
-                  key={sub.key}
-                  to={sub.href}
-                  className={`desktop-nav__sub-item ${activeSub === sub.label ? 'desktop-nav__sub-item--active' : ''} ${sub.children?.length ? 'desktop-nav__sub-item--has-child' : ''}`}
-                  onMouseEnter={() => handleSubEnter(sub)}
-                  onClick={(e) => {
-                    if (sub.children?.length) {
-                      e.preventDefault();
-                    } else {
-                      closeAll();
-                    }
-                  }}
-                >
-                  {sub.label}
-                </Link>
+            <div className="mega-menu__grid">
+              {navLinks.map((cat) => (
+                <div key={cat.key} className="mega-menu__col">
+                  <Link
+                    to={cat.href}
+                    className="mega-menu__col-title"
+                    onClick={() => closeAll()}
+                  >
+                    {cat.label}
+                  </Link>
+                  <ul className="mega-menu__list">
+                    {(cat.children || []).map((sub) => (
+                      <li key={sub.key} className="mega-menu__list-item">
+                        <Link
+                          to={sub.href}
+                          className="mega-menu__list-link"
+                          onClick={() => closeAll()}
+                        >
+                          {sub.label}
+                          {sub.badge && (
+                            <span className={`mega-menu__badge mega-menu__badge--${sub.badge.toLowerCase()}`}>
+                              {sub.badge}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </div>
-          </Container>
-        </div>
-      )}
 
-      {activeSubItem?.children?.length > 0 && (
-        <div className="desktop-nav__child-bar" style={{ top: childBarTop }} onMouseEnter={cancelClose}>
-          <Container className="container-1500">
-            <div className="d-flex align-items-center flex-wrap">
-              {activeSubItem.children.map((child) => (
-                <Link
-                  key={child.key}
-                  to={child.href}
-                  className="desktop-nav__child-item"
-                  onClick={() => { closeAll(); }}
-                >
-                  {child.label}
-                </Link>
-              ))}
+              {/* ✅ Optional featured image column — only renders if backend provides it */}
+              {navLinks.some((c) => c.featuredImage) && (
+                <div className="mega-menu__col mega-menu__col--feature">
+                  {navLinks.filter((c) => c.featuredImage).slice(0, 1).map((cat) => (
+                    <Link key={cat.key} to={cat.featuredHref || cat.href} className="mega-menu__feature-card">
+                      {cat.featuredBadge && (
+                        <span className="mega-menu__feature-badge">{cat.featuredBadge}</span>
+                      )}
+                      <img src={cat.featuredImage} alt={cat.featuredLabel || cat.label} className="mega-menu__feature-img" />
+                      <span className="mega-menu__feature-label">{cat.featuredLabel}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* ✅ Optional product row — only renders if backend provides featuredProducts */}
+            {navLinks.some((c) => c.featuredProducts?.length) && (
+              <div className="mega-menu__products">
+                {navLinks
+                  .flatMap((c) => c.featuredProducts || [])
+                  .slice(0, 5)
+                  .map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+              </div>
+            )}
           </Container>
         </div>
       )}

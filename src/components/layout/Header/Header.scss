@@ -243,12 +243,13 @@
 
   &__top-item {
     display: inline-flex; align-items: center; gap: 5px;
-    padding: 0.5rem 1rem; font-size: .85rem; font-weight: 600;
-    letter-spacing: .02em; color: var(--brand-secondary); background: none; border: none;
-    border-radius: 6px; text-decoration: none; cursor: pointer;
-    white-space: nowrap; transition: color .18s, background .18s;
-    &:hover { color: var(--brand-primary); background: var(--brand-primary-light); }
-    &--active { color: var(--brand-primary); background: var(--brand-primary-light); }
+    padding: 0.5rem 1rem; font-size: 1rem; font-weight: 600;
+    letter-spacing: .02em; color: var(--brand-secondary); background: none;
+    border: none; border-bottom: 2px solid transparent;
+    border-radius: 0; text-decoration: none; cursor: pointer;
+    white-space: nowrap; transition: color .18s, border-color .18s;
+    &:hover { color: var(--brand-primary); background: none; border-bottom-color: var(--brand-primary); }
+    &--active { color: var(--brand-primary); background: none; border-bottom-color: var(--brand-primary); }
   }
 
   &__chevron {
@@ -816,5 +817,137 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
 
     &:hover { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--brand-white); }
+  }
+}
+
+
+// ─── Mega Menu (Shop) ──────────────────────────────────────────────
+.mega-menu {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: var(--brand-white);
+  border-bottom: 1px solid var(--brand-secondary-soft);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .1);
+  animation: navBarIn .18s ease both;
+  padding: 2rem 0;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.2fr;
+    gap: 2.5rem;
+
+    @media (max-width: 1199.98px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__col-title {
+    display: block;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--brand-secondary);
+    text-decoration: none;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--brand-secondary-soft);
+    transition: color .2s;
+
+    &:hover { color: var(--brand-primary); }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+  }
+
+  &__list-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .85rem;
+    color: var(--brand-secondary-light);
+    text-decoration: none;
+    transition: color .2s;
+
+    &:hover { color: var(--brand-primary); }
+  }
+
+  &__badge {
+    font-size: .6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--brand-white);
+    padding: 1px 6px;
+    border-radius: 4px;
+    line-height: 1.6;
+
+    &--hot { background: var(--error); }
+    &--new { background: #17c3a3; }
+  }
+
+  &__col--feature {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__feature-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--brand-secondary-bg);
+  }
+
+  &__feature-badge {
+    position: absolute;
+    top: .6rem;
+    left: .6rem;
+    background: #17c3a3;
+    color: var(--brand-white);
+    font-size: .65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+
+  &__feature-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__feature-label {
+    display: block;
+    background: var(--brand-white);
+    color: var(--brand-secondary);
+    font-weight: 600;
+    font-size: .88rem;
+    padding: .6rem .75rem;
+  }
+
+  &__products {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--brand-secondary-soft);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+
+    @media (max-width: 1199.98px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 }

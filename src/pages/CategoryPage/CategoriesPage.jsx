@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import './CategoriesPage.scss';
@@ -40,15 +40,13 @@ const CategoriesMobilePage = () => {
           <h2 className="featured-cats__heading-text">CATEGORY</h2>
           <span className="featured-cats__heading-line" />
         </div>
-        <div className="featured-cats__grid">
-          <div className="featured-cats__row featured-cats__row--tall">
-            {[...Array(2)].map((_, i) => (
-              <div key={i} className="cat-card cat-card--loading">
-                <div className="cat-card__img-wrap" style={{ aspectRatio: '1/1' }} />
-                <p className="cat-card__label" />
-              </div>
-            ))}
-          </div>
+        <div className="featured-cats__grid featured-cats__grid--tall">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="cat-card cat-card--loading">
+              <div className="cat-card__img-wrap" style={{ aspectRatio: '1/1' }} />
+              <p className="cat-card__label" />
+            </div>
+          ))}
         </div>
       </Container>
     </section>
@@ -62,15 +60,9 @@ const CategoriesMobilePage = () => {
           <h2 className="featured-cats__heading-text">CATEGORY</h2>
           <span className="featured-cats__heading-line" />
         </div>
-        <div className="featured-cats__grid">
-          {Array.from({ length: Math.ceil(categories.length / 2) }, (_, i) =>
-            categories.slice(i * 2, i * 2 + 2)
-          ).map((rowCats, rowIdx) => (
-            <div key={rowIdx} className="featured-cats__row featured-cats__row--tall">
-              {rowCats.map((cat) => (
-                <CategoryCard key={cat.id} cat={cat} />
-              ))}
-            </div>
+        <div className="featured-cats__grid featured-cats__grid--tall">
+          {categories.map((cat) => (
+            <CategoryCard key={cat.id} cat={cat} />
           ))}
         </div>
       </Container>

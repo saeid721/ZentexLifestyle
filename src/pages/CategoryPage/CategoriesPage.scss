@@ -26,19 +26,12 @@
     line-height: 1;
   }
 
-  // ── Grid wrapper ──────────────────────────────────────────────
+  // ── Grid wrapper (grid itself now — no per-row wrapper needed) ──
   &__grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  // ── Rows ──────────────────────────────────────────────────────
-  &__row {
     display: grid;
     gap: 0.5rem;
 
-    // 4 equal columns for both rows on md+
+    // 2 columns on mobile, 4 columns on desktop
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
 
@@ -51,9 +44,8 @@
       justify-content: center;
     }
 
-    // All cards — same fixed height across both rows
-    &--tall .cat-card__img,
-    &--normal .cat-card__img {
+    // All cards — same fixed height
+    .cat-card__img {
       aspect-ratio: 1 / 1;
     }
   }
