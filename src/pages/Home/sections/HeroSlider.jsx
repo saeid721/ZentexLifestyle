@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
+import { ArrowRight } from 'lucide-react';
 import '../../../components/ui/Skeleton/Skeleton.css';
 import './HeroSlider.scss';
 
@@ -70,10 +71,7 @@ const HeroSlider = ({ banners = [] }) => {
               style={{ '--cta-bg': slide.accent || '#FF6503' }}
             >
               <span>{slide.btn_text}</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
+              <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
             </Link>
           )}
         </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import 'swiper/css';
 import '../../../components/ui/Skeleton/Skeleton.css';
 import './NewArrivalsSlider.scss';
@@ -110,19 +111,11 @@ const NewArrivalsSlider = ({
 
       <div className="na__slider-wrap">
         <button ref={prevRef} className="na__nav na__nav--prev" onClick={handlePrev} aria-label="Previous">
-          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"
-            stroke="currentColor" strokeWidth="2"
-            strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="7 1 1 7 7 13" />
-          </svg>
+          <ChevronLeft size={14} strokeWidth={2} />
         </button>
 
         <button ref={nextRef} className="na__nav na__nav--next" onClick={handleNext} aria-label="Next">
-          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"
-            stroke="currentColor" strokeWidth="2"
-            strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="1 1 7 7 1 13" />
-          </svg>
+          <ChevronRight size={14} strokeWidth={2} />
         </button>
 
         <Swiper

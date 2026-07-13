@@ -7,6 +7,7 @@ const ICON_MAP = {
   'fas fa-truck':        '🚚',
   'fas fa-exchange-alt': '🔄',
   'fas fa-lock':         '🔒',
+  'fas fa-headphones':   '🎧',
 };
 
 const getIcon = (iconClass) => ICON_MAP[iconClass] ?? '✅';
@@ -53,7 +54,7 @@ const TrustBar = ({ features = [] }) => {
 
   return (
     <div className="trust-bar">
-      <Container fluid="xl">
+      <Container className="container-1500">
 
         {/* Desktop */}
         <div className="trust-bar__desktop d-none d-sm-flex">

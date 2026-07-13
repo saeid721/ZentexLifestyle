@@ -3,6 +3,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Alert } from 'react-bootstrap';
 import { usePageDetail } from '../../hooks/usePageDetail';
+import { ChevronLeft } from 'lucide-react';
 import './PageDetailPage.scss';
 
 const PageDetailPage = () => {
@@ -59,9 +60,7 @@ const PageDetailPage = () => {
           </ol>
         </nav>
           <Link to="/" className="pdp__back-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6"/>
-              </svg>
+              <ChevronLeft size={14} strokeWidth={2} />
               Back To Home
           </Link>
       </div>

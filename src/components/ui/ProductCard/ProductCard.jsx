@@ -6,6 +6,7 @@ import useCartStore from '../../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
 import apiClient from '../../../services/apiClient';
 import { prefetchProduct, getPrefetchedProduct } from '../../../utils/productPrefetchCache';
+import { Check, CircleAlert, X, Info } from 'lucide-react';
 import './ProductCard.scss';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -66,15 +67,9 @@ const Toast = ({ message, type, onClose }) => {
     <div className={`pdp-toast pdp-toast--${type}`}>
       <span className="pdp-toast__icon">
         {type === 'success' ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <Check size={16} strokeWidth={2.5} />
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <CircleAlert size={16} strokeWidth={2.5} />
         )}
       </span>
       {message}
@@ -205,10 +200,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
           <span className="pc-popup__header-name">{productName}</span>
         </div>
         <button className="pc-popup__close" onClick={onClose} aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <line x1="18" y1="6" x2="6"  y2="18" />
-            <line x1="6"  y1="6" x2="18" y2="18" />
-          </svg>
+          <X size={16} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -220,11 +212,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
           </div>
         ) : isOutOfStock ? (
           <p className="pc-popup__out-of-stock">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8"  x2="12"   y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
+            <Info size={16} strokeWidth={2} style={{ flexShrink: 0 }} />
             This product is currently out of stock.
           </p>
         ) : !hasVariants ? (

@@ -4,43 +4,20 @@ import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import './ContactPage.scss';
 import { API_BASE_URL } from '../../utils';
+import { Phone, Mail, MapPin, Send, CheckCircle, AlertCircle, ChevronLeft } from 'lucide-react';
 
 // ── SVG Icons ──────────────────────────────────────────────────────────────────
-const PhoneIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff">
-    <path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57 1 1 0 0 1-.25 1.01l-2.2 2.21z" />
-  </svg>
-);
+const PhoneIcon = () => <Phone size={16} fill="#fff" />;
 
-const EmailIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff">
-    <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
-  </svg>
-);
+const EmailIcon = () => <Mail size={16} fill="#fff" />;
 
-const MapPinIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
-  </svg>
-);
+const MapPinIcon = () => <MapPin size={16} fill="#fff" />;
 
-const SendIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff">
-    <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
-  </svg>
-);
+const SendIcon = () => <Send size={16} fill="#fff" />;
 
-const CheckIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-  </svg>
-);
+const CheckIcon = () => <CheckCircle size={16} fill="currentColor" />;
 
-const AlertIcon = () => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-  </svg>
-);
+const AlertIcon = () => <AlertCircle size={16} fill="currentColor" />;
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 const Spinner = () => <span className="cp-spinner" />;
@@ -174,9 +151,7 @@ const ContactPage = () => {
             </ol>
           </nav>
           <Link to="/" className="pdp__back-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
+            <ChevronLeft size={14} strokeWidth={2} />
             Back To Home
           </Link>
         </div>

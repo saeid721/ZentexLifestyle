@@ -2,21 +2,11 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useCartStore from '../../../app/store';
 import { BASE_IMAGE_URL } from '../../../utils';
+import { X, Trash2 } from "lucide-react";
 
-const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
+const CloseIcon = () => <X size={20} strokeWidth={2} />;
 
-const TrashIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="3 6 5 6 21 6" />
-    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-    <path d="M10 11v6M14 11v6" />
-  </svg>
-);
+const TrashIcon = () => <Trash2 size={16} strokeWidth={2} />;
 
 const CartDrawer = ({ onClose }) => {
   const items = useCartStore((s) => s.items);

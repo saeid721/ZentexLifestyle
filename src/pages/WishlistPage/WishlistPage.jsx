@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import useWishlistStore from '../../app/wishlistStore';
+import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import '../CategoryPage/CatagoryProductPage.scss';
 import './wishlist.scss';
 
@@ -92,9 +93,7 @@ const WishlistPage = () => {
         {/* ── Empty Wishlist State ── */}
         {isEmpty ? (
           <div className="wishlist-empty">
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="wishlist-empty__icon">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
+            <Heart size={56} strokeWidth={1.5} className="wishlist-empty__icon" />
 
             <p className="wishlist-empty__title">
               <span className="wishlist-empty__title-highlight">Wishlist</span> is empty.
@@ -150,9 +149,7 @@ const WishlistPage = () => {
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="15 18 9 12 15 6"/>
-                    </svg>
+                    <ChevronLeft size={14} strokeWidth={2.5} />
                   </button>
 
                   {getPages().map((page, i) =>
@@ -174,9 +171,7 @@ const WishlistPage = () => {
                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="9 18 15 12 9 6"/>
-                    </svg>
+                    <ChevronRight size={14} strokeWidth={2.5} />
                   </button>
                 </div>
 

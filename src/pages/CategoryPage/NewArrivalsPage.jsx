@@ -7,6 +7,7 @@ import axios from 'axios';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import { SkeletonProductGrid } from '../../components/ui/Skeleton';
 import { API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, SCHEMA_ORG_IN_STOCK } from '../../config/env';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './CatagoryProductPage.scss';
 
 const SORT_OPTIONS = [
@@ -213,9 +214,7 @@ const NewArrivalsPage = () => {
             </ol>
           </nav>
           <Link to="/" className="ccat-page__back-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
+            <ChevronLeft size={14} strokeWidth={2} />
             Back To Home
           </Link>
         </div>
@@ -272,9 +271,7 @@ const NewArrivalsPage = () => {
               <button className="ccat-page__page-btn ccat-page__page-btn--arrow"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="15 18 9 12 15 6"/>
-                </svg>
+                <ChevronLeft size={14} strokeWidth={2.5} />
               </button>
 
               {getPages().map((page, i) =>
@@ -292,9 +289,7 @@ const NewArrivalsPage = () => {
               <button className="ccat-page__page-btn ccat-page__page-btn--arrow"
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="9 18 15 12 9 6"/>
-                </svg>
+                <ChevronRight size={14} strokeWidth={2.5} />
               </button>
             </div>
 

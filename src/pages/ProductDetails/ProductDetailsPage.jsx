@@ -17,6 +17,8 @@ import useCartStore from '../../app/store';
 import useWishlistStore from '../../app/wishlistStore';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL, FACEBOOK_SHARE_URL, TWITTER_SHARE_URL, LINKEDIN_SHARE_URL, WHATSAPP_BASE_URL } from '../../utils';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, Facebook, 
+         Twitter, Linkedin, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
 import './ProductDetailsPage.scss';
 
 const buildUrl = (path) =>
@@ -40,18 +42,8 @@ const resolveRawImage = (imageField) => {
 
 // ─── Wishlist Heart Icon ──────────────────────────────────────────────────────
 const HeartIcon = ({ filled }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill={filled ? 'currentColor' : 'none'}
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-  </svg>
+  <Heart size={20} fill={filled ? 'currentColor' : 'none'} strokeWidth={2} />
 );
-
 
 // ─── Toast Component ──────────────────────────────────────────────────────────
 const Toast = ({ message, type, onClose, anchorRef }) => {
@@ -83,15 +75,9 @@ const Toast = ({ message, type, onClose, anchorRef }) => {
     <div ref={toastRef} className={`pdp-toast pdp-toast--${type}`}>
       <span className="pdp-toast__icon">
         {type === 'success' ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <Check size={16} strokeWidth={2.5} />
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <CircleAlert size={16} strokeWidth={2.5} />
         )}
       </span>
       {message}
@@ -219,10 +205,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
           <span className="pc-popup__header-name">{productName}</span>
         </div>
         <button className="pc-popup__close" onClick={onClose} aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X size={16} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -234,11 +217,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
           </div>
         ) : isOutOfStock ? (
           <p className="pc-popup__out-of-stock">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
+            <Info size={16} strokeWidth={2} style={{ flexShrink: 0 }} />
             This product is currently out of stock.
           </p>
         ) : !hasVariants ? (
@@ -355,9 +334,7 @@ const SizeGuideModal = ({ onClose, sizeGuideImg }) => {
         <div className="sg-modal__header">
           <div className="sg-modal__header-left">
             <span className="sg-modal__icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M2 9l20-7-7 20-3-8-10-5z" />
-              </svg>
+              <Ruler size={16} strokeWidth={2} />
             </span>
             <div>
               <h2 className="sg-modal__title">Size Guide</h2>
@@ -365,10 +342,7 @@ const SizeGuideModal = ({ onClose, sizeGuideImg }) => {
             </div>
           </div>
           <button className="sg-modal__close" onClick={onClose} aria-label="Close size guide">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <X size={14} strokeWidth={2.5} />
           </button>
         </div>
         <div className="sg-modal__body">
@@ -386,11 +360,7 @@ const SizeGuideModal = ({ onClose, sizeGuideImg }) => {
               />
             ) : null}
             <div className="sg-modal__img-fallback" style={{ display: sizeGuideImg ? 'none' : 'flex' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ddd" strokeWidth="1.5">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <circle cx="12" cy="12" r="2" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
+              <ImageIcon size={24} stroke="#ddd" strokeWidth={1.5} />
               <p>Size chart not available.</p>
             </div>
           </div>
@@ -429,7 +399,7 @@ const parseProductBody = (body) => {
     subcategory: pd.subcategory || null,
     badge: Number(pd.new_arrival) === 1 ? 'New' : null,
     sizeGuideImg: pd.size_guide ? buildUrl(pd.size_guide) : null,
-    pre_order_status: Number(pd.pre_order_status) || 0,   // ← add this line
+    pre_order_status: Number(pd.pre_order_status) || 0,
   };
 
   const related = (body.related_products || []).map((rp) => ({ ...rp }));
@@ -1048,9 +1018,7 @@ const ProductDetailsPage = () => {
             </ol>
           </nav>
           <Link to="/" className="pdp__back-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
+            <ChevronLeft size={14} strokeWidth={2} />
             Back To Home
           </Link>
         </div>
@@ -1063,10 +1031,10 @@ const ProductDetailsPage = () => {
               <div className="pdp__gallery">
                 <div className="pdp__main-swiper-wrap">
                   <button className="pdp__nav-btn pdp__nav-btn--prev pdp__nav-btn--main-prev" aria-label="Previous image">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    <ChevronLeft size={18} strokeWidth={2.5} />
                   </button>
                   <button className="pdp__nav-btn pdp__nav-btn--next pdp__nav-btn--main-next" aria-label="Next image">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                    <ChevronRight size={18} strokeWidth={2.5} />
                   </button>
                   <Swiper
                     modules={[Navigation, Thumbs, FreeMode]}
@@ -1113,12 +1081,7 @@ const ProductDetailsPage = () => {
                           />
 
                           <span className={`pdp__zoom-hint ${isAnyZooming ? 'pdp__zoom-hint--hidden' : ''}`}>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                              <circle cx="11" cy="11" r="8" />
-                              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                              <line x1="11" y1="8" x2="11" y2="14" />
-                              <line x1="8" y1="11" x2="14" y2="11" />
-                            </svg>
+                            <Maximize size={13} strokeWidth={2.5} />
                             {isTouchZooming ? '🤏 Pinch to adjust' : 'Hover or pinch to zoom'}
                           </span>
 
@@ -1133,10 +1096,10 @@ const ProductDetailsPage = () => {
 
                 <div className="pdp__thumb-swiper-wrap">
                   <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-prev" aria-label="Previous">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    <ChevronLeft size={14} strokeWidth={2.5} />
                   </button>
                   <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-next" aria-label="Next">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                    <ChevronRight size={14} strokeWidth={2.5} />
                   </button>
                   <Swiper
                     modules={[FreeMode, Navigation, Thumbs]}
@@ -1180,19 +1143,19 @@ const ProductDetailsPage = () => {
                 {product.sku && <p className="pdp__sku">SKU: {product.sku}</p>}
                 <div className="pdp__share">
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${FACEBOOK_SHARE_URL}?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=626,height=436'); }} className="pdp__share-btn pdp__share-btn--fb" aria-label="Share on Facebook">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
+                    <Facebook size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${TWITTER_SHARE_URL}?text=${encodeURIComponent(product.name)}&url=${encodeURIComponent(window.location.href)}`, 'twitter-share-dialog', 'width=550,height=420'); }} className="pdp__share-btn pdp__share-btn--tw" aria-label="Share on Twitter">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" /></svg>
+                    <Twitter size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${LINKEDIN_SHARE_URL}?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=550,height=550'); }} className="pdp__share-btn pdp__share-btn--li" aria-label="Share on LinkedIn">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" /><circle cx="4" cy="4" r="2" /></svg>
+                    <Linkedin size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${WHATSAPP_BASE_URL}/?text=${encodeURIComponent(product.name + ' - ' + window.location.href)}`, 'whatsapp-share-dialog', 'width=600,height=500'); }} className="pdp__share-btn pdp__share-btn--wa" aria-label="Share on WhatsApp">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" /><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L.057 23.926l6.264-1.643A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.52-5.17-1.426l-.371-.22-3.818 1.002 1.017-3.722-.241-.383A9.952 9.952 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z" /></svg>
+                    <Share2 size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = `mailto:?subject=${encodeURIComponent('Check out ' + product.name)}&body=${encodeURIComponent('I found this product: ' + product.name + '\n\n' + window.location.href)}`; }} className="pdp__share-btn pdp__share-btn--em" aria-label="Share via Email">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+                    <Mail size={14} strokeWidth={2} />
                   </a>
                 </div>
               </div>
@@ -1259,7 +1222,7 @@ const ProductDetailsPage = () => {
                     </span>
                     {sizeGuideImg && (
                       <button type="button" className="pdp__size-guide-trigger" onClick={() => setShowSizeGuide(true)} aria-label="Open size guide">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10H7M21 6H3M21 14H3M21 18H7" /></svg>
+                        <Ruler size={13} strokeWidth={2} />
                         Size Guide
                       </button>
                     )}
@@ -1316,16 +1279,6 @@ const ProductDetailsPage = () => {
                 </div>
               )}
 
-              {/* <div className="pdp__field-row">
-                <span className="pdp__field-label">STATUS:</span>
-                {product?.pre_order_status
-                  ? <span className="pdp__status pdp__status--preorder">PRE ORDER</span>
-                  : inStock
-                    ? <span className="pdp__status pdp__status--in">STOCK IN</span>
-                    : <span className="pdp__status pdp__status--out">STOCK OUT</span>
-                }
-              </div> */}
-
               {inStock && (
                 <div className="pdp__qty-row">
                   <span className="pdp__qty-label">QUANTITY</span>
@@ -1336,7 +1289,7 @@ const ProductDetailsPage = () => {
                   </div>
                   {qtyWarning && (
                     <p className="pdp__qty-warning">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                      <Info size={13} strokeWidth={2} />
                       {qtyWarning}
                     </p>
                   )}
@@ -1382,10 +1335,7 @@ const ProductDetailsPage = () => {
               </div>
               {showLiveVisitors && (
                 <p className="pdp__live-viewers">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', verticalAlign: 'middle' }}>
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
+                  <Users size={16} strokeWidth={2} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
                   {liveVisitors} People viewing this right now
                 </p>
               )}
@@ -1398,7 +1348,7 @@ const ProductDetailsPage = () => {
                 <button className={`pdp__accordion-header ${openTab === 'description' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('description')}>
                   <span className="pdp__accordion-title">Description</span>
                   <span className="pdp__accordion-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    <Plus size={16} strokeWidth={2.5} />
                   </span>
                 </button>
                 <div className={`pdp__accordion-content ${openTab === 'description' ? 'pdp__accordion-content--active' : ''}`}>
@@ -1412,7 +1362,7 @@ const ProductDetailsPage = () => {
                 <button className={`pdp__accordion-header ${openTab === 'additional' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('additional')}>
                   <span className="pdp__accordion-title">Additional Information</span>
                   <span className="pdp__accordion-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    <Plus size={16} strokeWidth={2.5} />
                   </span>
                 </button>
                 <div className={`pdp__accordion-content ${openTab === 'additional' ? 'pdp__accordion-content--active' : ''}`}>
@@ -1466,10 +1416,10 @@ const ProductDetailsPage = () => {
             <h2 className="pdp__more-title">RELATED PRODUCTS</h2>
             <div className="pdp__more-swiper-wrap">
               <button className="pdp__nav-btn pdp__nav-btn--more pdp__nav-btn--more-prev" aria-label="Previous products">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                <ChevronLeft size={18} strokeWidth={2.5} />
               </button>
               <button className="pdp__nav-btn pdp__nav-btn--more pdp__nav-btn--more-next" aria-label="Next products">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                <ChevronRight size={18} strokeWidth={2.5} />
               </button>
               <Swiper
                 modules={[Navigation, Autoplay]}

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useCartStore from '../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, API_BASE_URL } from '../../utils';
 import { setAuth, getAuth } from '../../utils/auth';
+import { Eye, EyeOff, Phone, Mail, MapPin } from 'lucide-react';
 import axios from 'axios';
 import './CheckoutPage.scss';
 
@@ -26,19 +27,8 @@ const PAYMENT_METHODS = [
 ];
 
 // ── Eye icons ─────────────────────────────────────────────────────────────────
-const EyeOpenIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
-);
-const EyeClosedIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-    <line x1="1" y1="1" x2="23" y2="23" />
-  </svg>
-);
+const EyeOpenIcon = () => <Eye size={16} strokeWidth={1.5} />;
+const EyeClosedIcon = () => <EyeOff size={16} strokeWidth={1.5} />;
 
 // ── Blank customer form ───────────────────────────────────────────────────────
 const BLANK_CUSTOMER = { name: '', phone: '', customerAddress: '' };
@@ -2031,21 +2021,15 @@ export const InvoicePage = ({ orderData, token }) => {
               }
               <div className="invoice-doc__brand-info">
                 <p>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#000" style={{ marginRight: '6px' }}>
-                    <path d="M6.62 10.79a15.054 15.054 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V21a1 1 0 01-1 1C10.07 22 2 13.93 2 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" />
-                  </svg>
+                  <Phone size={14} fill="#000" style={{ marginRight: '6px' }} />
                   {sitePhone}
                 </p>
                 <p>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#000" style={{ marginRight: '6px' }}>
-                    <path d="M20 4H4a2 2 0 00-2 2v.01l10 6.99 10-6.99V6a2 2 0 00-2-2zm0 4.24l-8 5.6-8-5.6V18a2 2 0 002 2h12a2 2 0 002-2V8.24z" />
-                  </svg>
+                  <Mail size={14} fill="#000" style={{ marginRight: '6px' }} />
                   {siteEmail}
                 </p>
                 <p>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#000" style={{ marginRight: '6px' }}>
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z" />
-                  </svg>
+                  <MapPin size={14} fill="#000" style={{ marginRight: '6px' }} />
                   {siteAddress}
                 </p>
               </div>
