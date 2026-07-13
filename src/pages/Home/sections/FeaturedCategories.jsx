@@ -30,7 +30,7 @@ const FeaturedCategories = ({ categories = [] }) => {
   if (!categories || categories.length === 0) return null;
   return (
     <section className="featured-cats section-wrapper">
-      <Container fluid className="featured-cats__container">
+      <Container className="container-1500 featured-cats__container">
         <div className="featured-cats__heading">
           <span className="featured-cats__heading-line" />
           <h2 className="featured-cats__heading-text">FEATURED CATEGORIES</h2>

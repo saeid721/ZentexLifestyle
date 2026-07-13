@@ -173,3 +173,11 @@ img { max-width: 100%; display: block; }
   overflow: hidden !important; clip: rect(0, 0, 0, 0) !important;
   white-space: nowrap !important; border: 0 !important;
 }
+
+
+.container-1500 {
+  width: 100%;
+  max-width: 1500px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}

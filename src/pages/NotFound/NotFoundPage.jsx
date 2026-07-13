@@ -5,7 +5,7 @@ import './NotFoundPage.scss';
 
 const NotFoundPage = () => (
   <main className="not-found-page">
-    <Container className="py-5 text-center">
+    <Container className="container-1500 py-5 text-center">
       <h1 className="not-found-page__code">404</h1>
       <h3 className="not-found-page__title">Page Not Found</h3>
       <p className="text-muted">The page you're looking for doesn't exist or has been moved.</p>

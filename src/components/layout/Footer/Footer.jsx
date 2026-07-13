@@ -165,7 +165,7 @@ const Footer = () => {
       )}
 
       <div className="site-footer__main">
-        <Container fluid="xl">
+        <Container className="container-1500">
           <Row className="gy-4 py-5">
 
             {/* Brand + Contact */}
@@ -312,7 +312,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="site-footer__bottom">
-        <Container>
+        <Container className="container-1500">
           <div className="site-footer__bottom-content">
 
 

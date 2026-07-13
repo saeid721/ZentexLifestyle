@@ -5,6 +5,8 @@ import HeroSlider         from './sections/HeroSlider';
 import RevealSection      from '../../components/ui/RevealSection/RevealSection';
 import { useHomeData }    from './useHomeData';
 import './HomePage.scss';
+import AnnouncementBar from '../../components/layout/Header/AnnouncementBar';
+
 
 const TrustBar = lazy(() => import('./sections/TrustBar'));
 const FeaturedCategories = lazy(() => import('./sections/FeaturedCategories'));
@@ -18,7 +20,7 @@ const HomePage = () => {
   return (
     <main className="home-page">
       <SEO
-        title="Elonis | Premium Sneakers in Bangladesh"
+        title="Zentex | Premium Sneakers in Bangladesh"
         description="Discover top sneakers, apparel, and accessories with best price in Bangladesh."
         url={window.location.href}
       />
@@ -30,6 +32,9 @@ const HomePage = () => {
           loading={false}
         />
       </RevealSection>
+
+      {/* ── Announcement Bar ── */}
+      <AnnouncementBar />
 
       <Suspense fallback={null}>
         {/* 2. New Arrivals — loading prop পাঠাও */}

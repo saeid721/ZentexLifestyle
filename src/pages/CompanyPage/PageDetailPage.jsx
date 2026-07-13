@@ -12,7 +12,7 @@ const PageDetailPage = () => {
   if (loading) {
     return (
       <main className="pdp pdp--loading">
-        <Container fluid="xl" className="pdp__loading">
+        <Container className="container-1500 pdp__loading">
           <div className="spinner-border pdp__spinner" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -25,7 +25,7 @@ const PageDetailPage = () => {
   if (error) {
     return (
       <main className="pdp pdp--error">
-        <Container fluid="xl" className="py-5 text-center">
+        <Container className="container-1500 py-5 text-center">
           <Alert variant="danger" className="d-inline-block">
             <Alert.Heading>⚠️ {error}</Alert.Heading>
             <p className="mb-0">
@@ -44,7 +44,7 @@ const PageDetailPage = () => {
 
   return (
     <main className="pdp">
-      <Container fluid="xl" className="py-3">
+      <Container className="container-1500 py-3">
       
       {/* ── Breadcrumb + Back ── */}
       <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">

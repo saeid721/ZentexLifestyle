@@ -563,7 +563,7 @@ const CheckoutPage = () => {
   if (items.length === 0) {
     return (
       <main className="checkout-page">
-        <Container className="py-5 text-center">
+        <Container className="container-1500 py-5 text-center">
           <div className="checkout-page__empty">
             <p style={{ fontSize: '3rem' }}>🛒</p>
             <h4>Your cart is empty</h4>
@@ -579,12 +579,12 @@ const CheckoutPage = () => {
     <main className="checkout-page">
       {paymentStatusMsg && (
         <div className={`checkout-page__payment-banner checkout-page__payment-banner--${paymentStatusMsg.type}`}>
-          <Container fluid="xl">
+          <Container className="container-1500">
             {paymentStatusMsg.type === 'success' ? '✅' : '⚠️'} {paymentStatusMsg.text}
           </Container>
         </div>
       )}
-      <Container fluid="xl" className="py-4">
+      <Container className="container-1500 py-4">
         <h2 className="checkout-page__title mb-4">Checkout</h2>
 
         <Row className="g-4">
@@ -1728,7 +1728,7 @@ export const InvoicePage = ({ orderData, token }) => {
   if (loading) {
     return (
       <main className="checkout-page invoice-page">
-        <Container className="py-5 text-center">
+        <Container className="container-1500 py-5 text-center">
           <Spinner animation="border" style={{ color: '#c8102e' }} />
           <p className="mt-3 text-muted">Generating your invoice...</p>
         </Container>
@@ -1739,7 +1739,7 @@ export const InvoicePage = ({ orderData, token }) => {
   if (error && !invoice) {
     return (
       <main className="checkout-page invoice-page">
-        <Container className="py-5 text-center">
+        <Container className="container-1500 py-5 text-center">
           <p className="text-danger">{error}</p>
           <Link to="/" className="checkout-page__back-btn mt-3 d-inline-block">← Continue Shopping</Link>
         </Container>
@@ -1959,7 +1959,7 @@ export const InvoicePage = ({ orderData, token }) => {
 
       {/* Action Bar */}
       <div className="invoice-action-bar no-print">
-        <Container fluid="xl">
+        <Container className="container-1500">
           <div className="invoice-action-bar__inner">
             <div className="invoice-action-bar__left">
               <span className="invoice-action-bar__badge">✅ Order Placed Successfully!</span>

@@ -133,7 +133,7 @@ const RegisterPage = () => {
       <div className="rp__blob rp__blob--1" />
       <div className="rp__blob rp__blob--2" />
 
-      <Container fluid="xl" className="rp__container">
+      <Container className="container-1500 rp__container">
         {/* Topbar */}
         <div className="rp__topbar">
           <nav aria-label="breadcrumb">

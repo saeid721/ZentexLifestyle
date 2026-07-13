@@ -134,7 +134,7 @@ const SearchResultsPage = () => {
 
   return (
     <main className="ccat-page">
-      <Container fluid="xl" className="py-3">
+      <Container className="container-1500 py-3">
 
         {/* ── Breadcrumb + Back ── */}
         <div className="ccat-page__topbar d-flex align-items-center justify-content-between mb-3">

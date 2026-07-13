@@ -136,7 +136,7 @@ const CartPage = () => {
   if (items.length === 0) {
     return (
       <main className="cart-page">
-        <Container className="py-5 text-center">
+        <Container className="container-1500 py-5 text-center">
           <div className="cart-page__empty">
             <p className="cart-page__empty-icon" aria-hidden="true">🛒</p>
             <h4>Your cart is empty</h4>
@@ -182,7 +182,7 @@ const CartPage = () => {
     <>
     {ToastEl}
     <main className="cart-page" role="main">
-      <Container fluid="xl" className="py-4">
+      <Container className="container-1500 py-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="cart-page__title">Your Cart</h2>
           <span className="text-muted small">

@@ -393,7 +393,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <main className="pdp">
-      <Container fluid="xl" className="py-3">
+      <Container className="container-1500 py-3">
         
         {/* ── Breadcrumb + Back ── */}
         <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">

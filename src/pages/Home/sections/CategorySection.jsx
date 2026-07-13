@@ -17,7 +17,7 @@ const CategorySection = ({ title, catSlug, loading = false, products = [] }) => 
 
   return (
     <section className="section-wrapper">
-      <Container fluid="xl">
+      <Container className="container-1500">
         <SectionHeader title={title} catSlug={catSlug} />
         <ProductGrid products={limitedProducts} loading={false} cols={4} />
       </Container>

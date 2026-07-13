@@ -9,10 +9,18 @@ import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
 import { setAuth, getAuth, removeAuth } from '../../../utils/auth';
 import axios from 'axios';
 import { apiGet } from '../../../utils/api';
+import CartDrawer from './CartDrawer';
 import './Header.scss';
 
 
 // ─── Icons ───────────────────────────────────────────────────────
+
+const WishlistIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+);
+
 const HomeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
@@ -403,8 +411,9 @@ const DesktopNav = ({ navLinks }) => {
   useEffect(() => () => cancelClose(), [cancelClose]);
 
   const measureSubBarTop = useCallback(() => {
-    if (topBarRef.current) setSubBarTop(topBarRef.current.getBoundingClientRect().bottom);
-  }, []);
+  const headerEl = document.querySelector('.site-header');
+  if (headerEl) setSubBarTop(headerEl.getBoundingClientRect().bottom);
+}, []);
 
   useEffect(() => {
     measureSubBarTop();
@@ -441,39 +450,28 @@ const DesktopNav = ({ navLinks }) => {
 
   return (
     <div ref={navRef} className="desktop-nav" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
-      <div className="desktop-nav__top-bar" ref={topBarRef}>
-        <Container fluid="xl">
-          <div className="d-flex align-items-center">
-            <Link
-              to="/"
-              className="desktop-nav__home"
-              onClick={() => { closeAll(); }}
-            >
-              <HomeIcon />
-            </Link>
-            {navLinks.map((item) => (
-              <Link
-                key={item.key}
-                to={item.href}
-                className={`desktop-nav__top-item ${activeTop === item.label ? 'desktop-nav__top-item--active' : ''}`}
-                onMouseEnter={() => handleTopEnter(item)}
-                onClick={() => { closeAll(); }}
-              >
-                {item.label}
-                {item.children?.length > 0 && (
-                  <span className={`desktop-nav__chevron ${activeTop === item.label ? 'desktop-nav__chevron--open' : ''}`}>
-                    <ChevronDown />
-                  </span>
-                )}
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </div>
+      <nav className="desktop-nav__list" ref={topBarRef}>
+        {navLinks.map((item) => (
+          <Link
+            key={item.key}
+            to={item.href}
+            className={`desktop-nav__top-item ${activeTop === item.label ? 'desktop-nav__top-item--active' : ''}`}
+            onMouseEnter={() => handleTopEnter(item)}
+            onClick={() => { closeAll(); }}
+          >
+            {item.label}
+            {item.children?.length > 0 && (
+              <span className={`desktop-nav__chevron ${activeTop === item.label ? 'desktop-nav__chevron--open' : ''}`}>
+                <ChevronDown />
+              </span>
+            )}
+          </Link>
+        ))}
+      </nav>
 
       {activeTopItem?.children?.length > 0 && (
         <div ref={subBarRef} className="desktop-nav__sub-bar" style={{ top: subBarTop }} onMouseEnter={cancelClose}>
-          <Container fluid="xl">
+          <Container className="container-1500">
             <div className="d-flex align-items-center flex-wrap">
               {activeTopItem.children.map((sub) => (
                 <Link
@@ -499,7 +497,7 @@ const DesktopNav = ({ navLinks }) => {
 
       {activeSubItem?.children?.length > 0 && (
         <div className="desktop-nav__child-bar" style={{ top: childBarTop }} onMouseEnter={cancelClose}>
-          <Container fluid="xl">
+          <Container className="container-1500">
             <div className="d-flex align-items-center flex-wrap">
               {activeSubItem.children.map((child) => (
                 <Link
@@ -675,33 +673,6 @@ const LoginForm = ({ onClose, position = 'desktop' }) => {
         <span>New customer?</span>
         <Link to="/register" onClick={onClose}>Create your account</Link>
       </div>
-
-
-
-      {/* Divider */}
-      {/* <div className="divider">
-        <span>or login with Gmail</span>
-      </div> */}
-      {/* Google Button */}
-      {/* <button
-        type="button"
-        className={`google-btn ${googleLoading ? 'google-btn--loading' : ''}`}
-        onClick={handleGoogleSignIn}
-        disabled={googleLoading || loading}
-      >
-        {googleLoading ? (
-          <span className="spinner" />
-        ) : (
-          <svg className="google-icon" viewBox="0 0 24 24" width="20" height="20">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-        )}
-        <span>{googleLoading ? 'Connecting…' : 'Continue with Google'}</span>
-      </button> */}
-
     </div>
   );
 };
@@ -935,86 +906,20 @@ const MobileSearchOverlay = ({ onClose }) => {
   );
 };
 
-// ─── Hook: fetch announcements ────────────────────────────────────
-let _announcementsCache = null;
-let _announcementsFetchPromise = null;
-
-const useAnnouncements = () => {
-  const [messages, setMessages] = useState(() =>
-    _announcementsCache ? _announcementsCache.map((a) => a.announcement) : []
-  );
-
-  useEffect(() => {
-    if (_announcementsCache) {
-      setMessages(_announcementsCache.map((a) => a.announcement));
-      return;
-    }
-
-    if (_announcementsFetchPromise) {
-      _announcementsFetchPromise.then((msgs) => setMessages(msgs));
-      return;
-    }
-
-    _announcementsFetchPromise = apiGet('/announcement')
-      .then((res) => {
-        if (res.data?.status && Array.isArray(res.data.data)) {
-          const sorted = [...res.data.data].sort(
-            (a, b) => Number(a.sl_no) - Number(b.sl_no)
-          );
-          _announcementsCache = sorted;
-          return sorted.map((a) => a.announcement);
-        }
-        _announcementsCache = [];
-        return [];
-      })
-      .catch((err) => {
-        console.error('Announcements error:', err);
-        _announcementsCache = [];
-        return [];
-      })
-      .finally(() => {
-        _announcementsFetchPromise = null;
-      });
-
-    _announcementsFetchPromise.then((msgs) => setMessages(msgs));
-  }, []);
-
-  return messages;
-};
-
-// ─── Announcement Top Bar ─────────────────────────────────────────
-const AnnouncementBar = ({ messages = [] }) => {
-  if (!messages.length) return null;
-
-  if (messages.length === 1) {
-    return (
-      <div className="announcement-bar">
-        <span className="announcement-bar__text">{messages[0]}</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="announcement-bar">
-      <div className="announcement-bar__track">
-        {/* Duplicate for seamless loop */}
-        {[...messages, ...messages].map((msg, i) => (
-          <span key={i} className="announcement-bar__slide">{msg}</span>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 
 // ─── Main Header ──────────────────────────────────────────────────
 const Header = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerElRef = useRef(null);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showDesktopLogin, setShowDesktopLogin] = useState(false);
   const [showMobileLogin, setShowMobileLogin] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const wishlistCount = 0;
 
   const [authState, setAuthState] = useState(() => getAuth());
 
@@ -1023,7 +928,20 @@ const Header = () => {
   const totalItems = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
 
   const { navLinks } = useNavLinks();
-  const { settings, contact } = useGeneralSettings();
+const { settings, contact } = useGeneralSettings();
+
+useEffect(() => {
+  const setOffset = () => {
+    if (isHome) {
+      document.body.style.paddingTop = '';
+    } else if (headerElRef.current) {
+      document.body.style.paddingTop = `${headerElRef.current.offsetHeight}px`;
+    }
+  };
+  setOffset();
+  window.addEventListener('resize', setOffset);
+  return () => window.removeEventListener('resize', setOffset);
+}, [isHome, navLinks]);
 
   const logoSrc = settings?.dark_logo
     ? `${BASE_IMAGE_URL}${settings.dark_logo}`
@@ -1056,8 +974,6 @@ const Header = () => {
     if (apple) apple.href = url;
   }, [settings?.favicon]);
 
-  // ✅ REMOVED: document.title useEffect — Helmet handles this now
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -1077,9 +993,9 @@ const Header = () => {
   }, [showDesktopLogin, refreshAuth]);
 
   useEffect(() => {
-    document.body.style.overflow = showMobileSearch ? 'hidden' : '';
+    document.body.style.overflow = (showMobileSearch || showCart) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [showMobileSearch]);
+  }, [showMobileSearch, showCart]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -1119,13 +1035,10 @@ const Header = () => {
       />
     );
 
-  const announcementMessages = useAnnouncements();
-
   return (
     <>
       {/* ✅ NEW: Helmet — WebSite schema + SearchAction + og:site_name */}
       <Helmet>
-        {/* <title>{siteName}</title> */}
         <meta property="og:site_name" content={siteName} />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -1145,12 +1058,12 @@ const Header = () => {
         </script>
       </Helmet>
 
-      {/* ── Announcement Bar ── */}
-      <AnnouncementBar messages={announcementMessages} />
-
       {showMobileSearch && <MobileSearchOverlay onClose={() => setShowMobileSearch(false)} />}
 
-      <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
+      <header
+        ref={headerElRef}
+        className={`site-header ${scrolled ? 'site-header--scrolled' : ''} ${isHome ? 'site-header--transparent' : ''}`}
+      >
 
         {/* ══ MOBILE TOP BAR ══ */}
         <div className="site-header__mobile-top d-lg-none">
@@ -1172,64 +1085,56 @@ const Header = () => {
         {/* ══ DESKTOP HEADER ══ */}
         <div className="site-header__desktop d-none d-lg-block">
           <div className="site-header__main">
-            <Container>
-              <div className="d-flex align-items-center justify-content-between gap-3 py-2">
+            <Container className="container-1500">
+              <div className="site-header__row">
 
                 <Link to="/" className="site-header__logo" aria-label={`${siteName} home`}>
                   <LogoImg />
                 </Link>
 
-                <DesktopSearchBox
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  onSubmit={handleSearch}
-                />
+                <DesktopNav navLinks={navLinks} />
 
-                <div className="d-flex align-items-center gap-2">
-                  {/* ✅ UPDATED: phone link fixed — was linking to tel: inside <Link to=> */}
-                  <a href={phoneHref} className="site-header__phone-link d-flex align-items-center gap-1">
-                    📞<span className="fw-bold">{phoneDisplay}</span>
-                  </a>
+                <div className="site-header__icons">
+                  <button
+                    className="site-header__icon-btn"
+                    onClick={() => setShowMobileSearch(true)}
+                    aria-label="Search"
+                  >
+                    <SearchIcon />
+                  </button>
 
                   <div className="site-header__login-wrap" ref={desktopLoginRef}>
-                    {authState.isAuthenticated ? (
-                      <>
-                        <button className="site-header__login-btn" onClick={handleDesktopLoginToggle} aria-label="My Account">
-                          <LoginIcon />
-                          <span className="site-header__login-label">
-                            {authState.user?.name?.split(' ')[0] || 'Account'}
-                          </span>
-                          <svg className={`site-header__login-chevron ${showDesktopLogin ? 'site-header__login-chevron--open' : ''}`}
-                            width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <polyline points="6 9 12 15 18 9" />
-                          </svg>
-                        </button>
-                        {showDesktopLogin && <UserMenu onClose={handleDesktopLoginClose} position="desktop" />}
-                      </>
-                    ) : (
-                      <>
-                        <button className="site-header__login-btn" onClick={handleDesktopLoginToggle} aria-label="Login or Sign Up">
-                          <LoginIcon />
-                          <span className="site-header__login-label">Login | Sign Up</span>
-                          <svg className={`site-header__login-chevron ${showDesktopLogin ? 'site-header__login-chevron--open' : ''}`}
-                            width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <polyline points="6 9 12 15 18 9" />
-                          </svg>
-                        </button>
-                        {showDesktopLogin && <LoginForm onClose={handleDesktopLoginClose} position="desktop" />}
-                      </>
+                    <button
+                      className="site-header__icon-btn"
+                      onClick={handleDesktopLoginToggle}
+                      aria-label={authState.isAuthenticated ? 'My Account' : 'Login or Sign Up'}
+                    >
+                      <LoginIcon />
+                    </button>
+                    {showDesktopLogin && (
+                      authState.isAuthenticated
+                        ? <UserMenu onClose={handleDesktopLoginClose} position="desktop" />
+                        : <LoginForm onClose={handleDesktopLoginClose} position="desktop" />
                     )}
                   </div>
 
-                  <Link to="/cart" className="site-header__action site-header__cart" aria-label={`Cart (${totalItems} items)`}>
-                    <CartIcon />
-                    {totalItems > 0 && <span className="site-header__cart-badge">{totalItems}</span>}
+                  <Link to="/wishlist" className="site-header__icon-btn site-header__icon-btn--badge" aria-label="Wishlist">
+                    <WishlistIcon />
+                    <span className="site-header__icon-badge">{wishlistCount}</span>
                   </Link>
+
+                  <button
+                    className="site-header__icon-btn site-header__icon-btn--badge"
+                    onClick={() => setShowCart(true)}
+                    aria-label={`Cart (${totalItems} items)`}
+                  >
+                    <CartIcon />
+                    <span className="site-header__icon-badge">{totalItems}</span>
+                  </button>
                 </div>
               </div>
             </Container>
           </div>
-          <DesktopNav navLinks={navLinks} />
         </div>
 
         {/* ══ MOBILE OFFCANVAS ══ */}
@@ -1281,14 +1186,13 @@ const Header = () => {
                   Login | Sign Up
                 </Link>
               )}
-              <p className="fw-bold mt-3 mb-0" style={{ fontSize: '0.85rem' }}>
-                <a href={phoneHref}>📞 {phoneDisplay}</a>
-              </p>
             </div>
           </Offcanvas.Body>
         </Offcanvas>
 
       </header>
+
+      {showCart && <CartDrawer onClose={() => setShowCart(false)} />}
 
       <MobileBottomNav
         showMobileLogin={showMobileLogin}

@@ -21,25 +21,19 @@ $btn-size-md: 44px;
 // ══════════════════════════════════════════════════════════════════
 .hero-slider {
   width: 100%;
-  height: map.get($heights, 'xs');
+  height: 100vh;
+  height: 100dvh;
+  min-height: 420px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
   background: var(--text-dark);
 
-  @media (min-width: 480px)  { height: map.get($heights, 'sm'); }
-  @media (min-width: 768px)  { height: map.get($heights, 'md'); }
-  @media (min-width: 992px)  { height: map.get($heights, 'lg'); }
-  @media (min-width: 1200px) { height: map.get($heights, 'xl'); }
-
   &__swiper {
     width: 100%;
-    height: map.get($heights, 'xs');
-
-    @media (min-width: 480px)  { height: map.get($heights, 'sm'); }
-    @media (min-width: 768px)  { height: map.get($heights, 'md'); }
-    @media (min-width: 992px)  { height: map.get($heights, 'lg'); }
-    @media (min-width: 1200px) { height: map.get($heights, 'xl'); }
+    height: 100vh;
+    height: 100dvh;
+    min-height: 420px;
   }
 
   &__slide {
@@ -84,10 +78,10 @@ $btn-size-md: 44px;
     pointer-events: none;
   }
 
-  &__content {
-    position: relative;
-    z-index: 2;
-    padding: 0.75rem 1.25rem;
+&__content {
+  position: relative;
+  z-index: 2;
+  padding: 5.5rem 1.25rem 0.75rem; 
     text-align: center;
     max-width: 90%;
     opacity: 0;

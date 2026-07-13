@@ -244,7 +244,7 @@ const SubCategories = () => {
   if (loading) {
     return (
       <section className="subcats section-wrapper">
-        <Container fluid className="subcats__container">
+        <Container className="container-1500 subcats__container">
           <div className="subcats__loading">
             <div className="spinner-border" style={{ color: '#FF6503' }} role="status">
               <span className="visually-hidden">Loading…</span>
@@ -259,7 +259,7 @@ const SubCategories = () => {
   if (error || !category) {
     return (
       <section className="subcats section-wrapper">
-        <Container fluid className="subcats__container">
+        <Container className="container-1500 subcats__container">
           <div className="subcats__error">{error || 'Category not found'}</div>
         </Container>
       </section>
@@ -281,7 +281,7 @@ const SubCategories = () => {
         schemas={[breadcrumbSchema, ...(collectionPageSchema ? [collectionPageSchema] : []), ...(itemListSchema ? [itemListSchema] : [])]}
       />
 
-    <Container fluid="xl" className="py-3">
+    <Container className="container-1500 py-3">
 
       <nav aria-label="breadcrumb" className="subcats__breadcrumb-wrap">
         <ol className="subcats__breadcrumb">

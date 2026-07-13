@@ -914,7 +914,7 @@ const ProductDetailsPage = () => {
   );
 
   if (!product) return (
-    <Container className="py-5 text-center">
+    <Container className="container-1500 py-5 text-center">
       <h4>Product not found.</h4>
       <Link to="/" className="pdp-btn pdp-btn--buy mt-3">← Back to Home</Link>
     </Container>
@@ -982,7 +982,7 @@ const ProductDetailsPage = () => {
         </div>
       )}
 
-      <Container fluid="xl" className="py-3">
+      <Container className="container-1500 py-3">
 
         {/* Breadcrumb + Back */}
         <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">
