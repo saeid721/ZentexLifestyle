@@ -1,8 +1,7 @@
-// ─── FeaturedCategories ───────────────────────────────────────────
+// ─── FeaturedCategories (shared with CategoriesMobilePage) ─────────
 .featured-cats {
   background: var(--brand-white);
 
-  // ── Section heading: rule–text–rule ───────────────────────────
   &__heading {
     display: flex;
     align-items: center;
@@ -26,26 +25,21 @@
     line-height: 1;
   }
 
-  // ── Grid wrapper (grid itself now — no per-row wrapper needed) ──
+  // ── Grid wrapper ──────────────────────────────────────────────
   &__grid {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
+  }
 
-    // 2 columns on mobile, 4 columns on desktop
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
+  // ── Rows ──────────────────────────────────────────────────────
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
 
-    @media (min-width: 576px) {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
-    &:has(.cat-card:only-child) {
-      grid-template-columns: repeat(1, minmax(0, 200px));
-      justify-content: center;
-    }
-
-    // All cards — same fixed height
-    .cat-card__img {
+    &--tall .cat-card__img {
       aspect-ratio: 4 / 5;
     }
   }
@@ -63,18 +57,23 @@
   background: var(--bg-scrollbar);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   border: 1px solid var(--brand-secondary-soft);
+
+  /* Mobile-first: 2 columns default */
   width: calc(50% - 0.25rem);
 
+  /* Desktop: 5 columns */
+  @media (min-width: 768px) {
+    width: calc(20% - 0.4rem);
+  }
+
+  transform: translateZ(0);
+  transition: box-shadow 0.45s var(--ease-out-expo);
+
   &:hover {
-    transform: translateY(-4px);
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
 
-    .cat-card__img {
-      transform: scale(1.07);
-    }
-    .cat-card__overlay {
-      opacity: 0.5;
-    }
+    .cat-card__img { transform: scale(1.07); }
+    .cat-card__overlay { opacity: 0.5; }
     .cat-card__label {
       background: var(--brand-secondary);
       color: var(--brand-white);
@@ -94,7 +93,18 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.55s var(--ease-out-expo);
+    background: var(--bg-light);
+    opacity: 0;
+    transform: scale(1.04);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 4.1s cubic-bezier(0.25, 0.8, 0.25, 1); /* ✅ UPDATED */
+    will-change: opacity, transform;
+
+    &--loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   &__overlay {
@@ -106,7 +116,6 @@
     pointer-events: none;
   }
 
-  // Label pill at the bottom of the card
   &__label {
     margin: 0;
     text-align: center;
@@ -121,5 +130,10 @@
       background 0.35s var(--ease-out-expo),
       color 0.35s var(--ease-out-expo),
       letter-spacing 0.35s var(--ease-out-expo);
+  }
+
+  &--loading {
+    .cat-card__img-wrap { background: var(--border-extra-light); }
+    .cat-card__label { background: var(--border-extra-light); height: 1.6rem; }
   }
 }

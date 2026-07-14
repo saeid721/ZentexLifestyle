@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { BASE_IMAGE_URL, PLACEHOLDER_IMG } from '../../../utils';
 import './FeaturedCategories.scss';
 
 const CategoryCard = ({ cat }) => {
+  const [loaded, setLoaded] = useState(false);
   const src   = cat.image ? `${BASE_IMAGE_URL}${cat.image}` : PLACEHOLDER_IMG;
   const label = cat.label || cat.name || 'Category';
 
   return (
-    // ✅ FIXED: /categories/ so it matches the SubCategories route in AppRoutes
     <Link to={`/categories/${cat.slug}`} className="cat-card">
       <div className="cat-card__img-wrap">
         <img
           src={src}
           alt={label}
-          className="cat-card__img"
+          className={`cat-card__img${loaded ? ' cat-card__img--loaded' : ''}`}
           loading="lazy"
-          onError={(e) => { e.target.src = PLACEHOLDER_IMG; e.target.onerror = null; }}
+          onLoad={() => setLoaded(true)}
+          onError={(e) => { e.target.src = PLACEHOLDER_IMG; e.target.onerror = null; setLoaded(true); }}
         />
         <div className="cat-card__overlay" />
       </div>

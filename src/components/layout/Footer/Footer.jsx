@@ -41,12 +41,12 @@ const PAYMENTS = [
   { name: 'Visa',            icon: visaIcon },
   { name: 'Mastercard',      icon: mastercardIcon },
   { name: 'AmericanExpress', icon: americanExpressIcon },
-  { name: 'BracBank',        icon: bracBankIcon },
+  // { name: 'BracBank',        icon: bracBankIcon },
   { name: 'CityBank',        icon: cityBankIcon },
   { name: 'Dbbl',            icon: dbblIcon },
   { name: 'bKash',           icon: bKashIcon },
   { name: 'Nagad',           icon: nagadIcon },
-  { name: 'Rocket',          icon: rocketIcon },
+  // { name: 'Rocket',          icon: rocketIcon },
 ];
 
 const Footer = () => {
