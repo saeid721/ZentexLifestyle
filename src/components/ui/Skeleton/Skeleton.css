@@ -58,7 +58,7 @@
 .sk-circle   { border-radius: var(--sk-radius-circle); }
 .sk-badge    { height: 22px; width: 64px; border-radius: 99px; }
 .sk-btn      { height: 36px; border-radius: var(--sk-radius-el); }
-.sk-card-img { width: 100%; aspect-ratio: 1 / 1; border-radius: 0; }
+.sk-card-img { width: 100%; aspect-ratio: 4 / 5; border-radius: 0; }
 
 /* ── Delay helpers (stagger) ── */
 .sk-delay-1 { animation-delay: 0.15s; }

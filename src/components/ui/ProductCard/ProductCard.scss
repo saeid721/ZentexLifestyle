@@ -28,7 +28,7 @@
     display: block;
     position: relative;
     overflow: hidden;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
     background: var(--bg-light);
   }
 
@@ -47,8 +47,8 @@
     position: absolute;
     top: 8px;
     left: 8px;
-    background: var(--brand-gold);
-    color: var(--brand-white);
+    background: var(--brand-secondary-lighter);
+    color: var(--brand-secondary-dark);
     font-size: 10px;
     font-weight: 700;
     padding: 3px 7px;
@@ -64,7 +64,7 @@
   }
   
   &__badge--preorder {
-    background: var(--brand-secondary);
+    background: var(--brand-primary);
   }
 
   &__body {
@@ -74,7 +74,7 @@
   &__name {
     font-size: 13px;
     font-weight: 500;
-    color: var(--text-dark);
+    color: var(--brand-secondary);
     margin: 0 0 6px;
     line-height: 1.35;
     display: -webkit-box;
@@ -108,24 +108,27 @@
     white-space: nowrap;
 
     &--add {
-      background: var(--brand-black);
-      color: var(--brand-white);
+      background: var(--brand-white);
+      color: var(--brand-secondary);
+      border: 1px solid var(--brand-secondary-lighter);
 
-      &:hover { background: var(--brand-black-light); }
+      &:hover { background: var(--brand-secondary); color: var(--brand-white); border: 1px solid var(--brand-secondary) }
     }
 
     &--buy {
-      background: var(--brand-gold);
-      color: var(--brand-white);
+      background: var(--brand-white);
+      color: var(--brand-primary);
+      border: 1px solid var(--brand-primary-lighter);
 
-      &:hover { background: var(--brand-gold-dark); }
+      &:hover { background: var(--brand-primary); color: var(--brand-white); border: 1px solid var(--brand-primary);}
     }
 
     &--preorder {
-      background: var(--brand-secondary);
+      background: var(--brand-primary);
       color: var(--brand-white);
+      border: 1px solid var(--brand-primary);
     
-      &:hover { background: var(--brand-secondary-light); }
+      &:hover { background: var(--brand-secondary-light); border: 1px solid var(--brand-secondary-light);}
     }
 
     &:disabled {
@@ -139,7 +142,7 @@
 .price-current {
   font-size: 14px;
   font-weight: 700;
-  color: var(--brand-gold);
+  color: var(--brand-secondary-dark);
 }
 
 .price-original {

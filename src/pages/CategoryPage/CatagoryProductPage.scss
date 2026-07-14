@@ -99,14 +99,14 @@
   // Skeleton
   &__skeleton-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
     @media (min-width: 576px) { grid-template-columns: repeat(3, 1fr); }
     @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); }
   }
 
   &__skeleton-card { border: 1px solid var(--border-lighter); border-radius: var(--card-radius); overflow: hidden; }
-  &__skeleton-img  { width: 100%; aspect-ratio: 1 / 1; }
+  &__skeleton-img  { width: 100%; aspect-ratio: 4 / 5; }
   &__skeleton-body { padding: 0.75rem; }
 
   // Pagination
@@ -179,7 +179,7 @@
   }
 
   &__img {
-    width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block;
+    width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
     transition: transform 0.35s ease;
     .ccat-card:hover & { transform: scale(1.04); }
   }
@@ -227,14 +227,18 @@
     transition: all 0.18s;
 
     &--cart {
-      background: var(--brand-black); color: var(--brand-white);
-      &:hover:not(:disabled) { background: var(--brand-dark-light); }
+      background: var(--brand-white);
+      color: var(--brand-secondary);
+      border: 1px solid var(--brand-secondary-lighter);
+      &:hover:not(:disabled) { background: var(--brand-secondary); color: var(--brand-white); }
       &:disabled { opacity: 0.4; cursor: not-allowed; }
     }
 
     &--buy {
-      background: var(--error); color: var(--brand-white);
-      &:hover { background: var(--error-dark); color: var(--brand-white); }
+      background: var(--brand-white);
+      color: var(--brand-primary);
+      border: 1px solid var(--brand-primary-lighter);
+      &:hover { background: var(--brand-primary); color: var(--brand-white); }
     }
   }
 }

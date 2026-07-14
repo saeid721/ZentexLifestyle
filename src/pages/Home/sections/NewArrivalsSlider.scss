@@ -101,7 +101,7 @@
   }
 
   &__skeleton-card { background: var(--brand-white); }
-  &__skeleton-img { width: 100%; aspect-ratio: 1 / 1; }
+  &__skeleton-img { width: 100%; aspect-ratio: 4 / 5; }
   &__skeleton-body { padding: 10px 0 16px; }
 }
 
@@ -145,7 +145,7 @@
   &__img-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--bg-light);
     flex-shrink: 0;

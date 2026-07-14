@@ -36,7 +36,7 @@
     justify-items: center;
 
     @media (min-width: 576px) {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     &:has(.cat-card:only-child) {
@@ -46,7 +46,7 @@
 
     // All cards — same fixed height
     .cat-card__img {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 5;
     }
   }
 }
@@ -56,14 +56,14 @@
   display: block;
   text-decoration: none;
   position: relative;
+  font-size: 0.92rem !important;
   border-radius: var(--card-radius);
+  border: 1px solid var(--border);
   overflow: hidden;
-  background: var(--background);
+  background: var(--bg-scrollbar);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  transform: translateZ(0);
-  transition:
-    transform 0.45s var(--ease-out-expo),
-    box-shadow 0.45s var(--ease-out-expo);
+  border: 1px solid var(--brand-secondary-soft);
+  width: calc(50% - 0.25rem);
 
   &:hover {
     transform: translateY(-4px);
@@ -76,7 +76,7 @@
       opacity: 0.5;
     }
     .cat-card__label {
-      background: var(--brand-gold); // পূর্বের var(--brand-red) গোল্ড থিমে কনভার্ট করা হয়েছে
+      background: var(--brand-secondary);
       color: var(--brand-white);
       letter-spacing: 0.1em;
     }
@@ -113,7 +113,7 @@
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: var(--brand-gold);
+    color: var(--brand-secondary-dark);
     background: var(--bg-light);
     padding: 0.45rem 0.5rem;
     border-top: 1px solid var(--border-lighter);

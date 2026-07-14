@@ -42,7 +42,7 @@
   
     &--tall .cat-card__img,
     &--normal .cat-card__img {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 4 / 5;
     }
   }
 }
@@ -58,7 +58,7 @@
   overflow: hidden;
   background: var(--bg-scrollbar);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  border-bottom: 1px solid var(--border-lighter);
+  border: 1px solid var(--brand-secondary-soft);
   width: calc(50% - 0.25rem);
 
   @media (min-width: 576px) {
@@ -81,7 +81,7 @@
       opacity: 0.5;
     }
     .cat-card__label {
-      background: var(--brand-gold);
+      background: var(--brand-secondary);
       color: var(--brand-white);
       letter-spacing: 0.1em;
     }
@@ -115,12 +115,13 @@
   &__label {
     margin: 0;
     text-align: center;
-    font-size: 0.90rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: var(--brand-gold);
+    color: var(--brand-secondary-dark);
     background: var(--bg-light);
     padding: 0.45rem 0.5rem;
+    border-top: 1px solid var(--border-lighter);
     transition:
       background 0.35s var(--ease-out-expo),
       color 0.35s var(--ease-out-expo),
