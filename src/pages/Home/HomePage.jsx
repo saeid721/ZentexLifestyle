@@ -11,6 +11,7 @@ import AnnouncementBar from '../../components/layout/Header/AnnouncementBar';
 const TrustBar = lazy(() => import('./sections/TrustBar'));
 const FeaturedCategories = lazy(() => import('./sections/FeaturedCategories'));
 const NewArrivalsSlider = lazy(() => import('./sections/NewArrivalsSlider'));
+const TabviewProducts = lazy(() => import('./sections/TabviewProducts'));
 const CategorySection = lazy(() => import('./sections/CategorySection'));
 
 const HomePage = () => {
@@ -33,27 +34,33 @@ const HomePage = () => {
         />
       </RevealSection>
 
-      {/* ── Announcement Bar ── */}
+      {/* 2. Announcement Bar */}
       <AnnouncementBar />
 
       <Suspense fallback={null}>
-        {/* 2. New Arrivals — loading prop পাঠাও */}
-        <RevealSection>
-          <NewArrivalsSlider
-            title="NEW ARRIVALS"
-            viewAllLink="/new-arrivals"
-            products={data?.new_arrivals || []}
-            loading={loading}
-          />
-        </RevealSection>
 
         {/* 3. Featured Categories */}
         <RevealSection>
           <FeaturedCategories categories={data?.featuredCategories || []} />
         </RevealSection>
 
+        {/* 4. Tabview Products */}
+        <RevealSection>
+          <TabviewProducts categories={data?.tabviewProducts || []} />
+        </RevealSection>
+
+        {/* 2. New Arrivals */}
+        {/* <RevealSection>
+          <NewArrivalsSlider
+            title="NEW ARRIVALS"
+            viewAllLink="/new-arrivals"
+            products={data?.new_arrivals || []}
+            loading={loading}
+          />
+        </RevealSection> */}
+
         {/* 4-N. Category sections */}
-        {(data?.categories || []).map((cat) => (
+        {/* {(data?.categories || []).map((cat) => (
           <RevealSection key={cat.id}>
             <CategorySection
               title={cat.name.toUpperCase()}
@@ -62,7 +69,7 @@ const HomePage = () => {
               loading={loading}
             />
           </RevealSection>
-        ))}
+        ))} */}
 
         {data?.key_features?.length > 0 && (
           <RevealSection>

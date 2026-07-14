@@ -34,13 +34,13 @@ const FeaturedCategories = ({ categories = [] }) => {
       <Container className="container-1500 featured-cats__container">
         <div className="featured-cats__heading">
           <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">FEATURED CATEGORIES</h2>
+          <h2 className="featured-cats__heading-text">Product Categories</h2>
           <span className="featured-cats__heading-line" />
         </div>
 
         <div className="featured-cats__grid">
-          {Array.from({ length: Math.ceil(categories.length / 4) }, (_, i) =>
-            categories.slice(i * 4, i * 4 + 4)
+          {Array.from({ length: Math.ceil(categories.length / 5) }, (_, i) =>
+            categories.slice(i * 5, i * 5 + 5)
           ).map((rowCats, rowIdx) => (
             <div
               key={rowIdx}

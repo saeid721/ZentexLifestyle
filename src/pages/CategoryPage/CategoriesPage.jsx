@@ -40,7 +40,7 @@ const CategoriesMobilePage = () => {
       <Container className="container-1500 featured-cats__container">
         <div className="featured-cats__heading">
           <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">CATEGORY</h2>
+          <h2 className="featured-cats__heading-text">Product Categories</h2>
           <span className="featured-cats__heading-line" />
         </div>
         <div className="featured-cats__grid">
@@ -62,7 +62,7 @@ const CategoriesMobilePage = () => {
       <Container className="container-1500 featured-cats__container">
         <div className="featured-cats__heading">
           <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">CATEGORY</h2>
+          <h2 className="featured-cats__heading-text">Product Categories</h2>
           <span className="featured-cats__heading-line" />
         </div>
 

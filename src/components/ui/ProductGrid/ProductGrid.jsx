@@ -5,22 +5,15 @@ import Loader from '../Loader/Loader';
 
 /**
  * ProductGrid — responsive grid of ProductCards.
- * cols prop controls max columns on large screens.
+ * Mobile: 2 per row. Desktop (lg+): 5 per row.
  */
-const ProductGrid = ({ products = [], loading = false, cols = 4 }) => {
-  const colProps = {
-    xs: 6,
-    sm: cols >= 3 ? 4 : 6,
-    md: cols >= 4 ? 3 : 4,
-    lg: Math.floor(12 / cols),
-  };
-
+const ProductGrid = ({ products = [], loading = false }) => {
   if (loading) return <Loader />;
 
   return (
-    <Row className="g-3">
+    <Row xs={2} sm={3} md={4} lg={5} className="g-3">
       {products.map((product) => (
-        <Col key={product.id} {...colProps}>
+        <Col key={product.id}>
           <ProductCard product={product} />
         </Col>
       ))}

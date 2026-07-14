@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import '../../../components/ui/Skeleton/Skeleton.css';
 import './HeroSlider.scss';
 
@@ -22,11 +22,28 @@ const shouldRenderCTA = (slide) =>
 const shouldRenderDescription = (slide) =>
   !!(slide?.description?.trim());
 
+const AUTOPLAY_MS = 5000;
+
 // ── Main Component ────────────────────────────────────────────────
 const HeroSlider = ({ banners = [] }) => {
-  if (!banners || banners.length === 0) return null;
-  const slide = banners[0];
-  const imageUrl = getImageUrl(slide.image);
+  const total = banners.length;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const goTo = useCallback((idx) => {
+    setActiveIndex((idx + total) % total);
+  }, [total]);
+
+  const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % total), [total]);
+  const goPrev = useCallback(() => setActiveIndex((i) => (i - 1 + total) % total), [total]);
+
+  // Autoplay — only when more than 1 slide
+  useEffect(() => {
+    if (total <= 1) return;
+    const timer = setInterval(goNext, AUTOPLAY_MS);
+    return () => clearInterval(timer);
+  }, [goNext, total]);
+
+  if (!banners || total === 0) return null;
 
   return (
     <section
@@ -34,49 +51,95 @@ const HeroSlider = ({ banners = [] }) => {
       aria-label="Featured promotions"
       role="region"
     >
-      <article
-        className={`hero-slider__slide${slide.light ? ' hero-slider__slide--light' : ''} is-active`}
-      >
-        <div className="hero-slider__zoom" aria-hidden="true">
-          <img
-            src={imageUrl}
-            alt=""
-            className="hero-slider__img"
-            loading="eager"
-            fetchPriority="high"
-            decoding="sync"
-            sizes="100vw"
-          />
-        </div>
+      <div className="hero-slider__swiper">
+        {banners.map((slide, idx) => {
+          const isActive = idx === activeIndex;
+          const imageUrl = getImageUrl(slide.image);
 
-        <div className="hero-slider__overlay" aria-hidden="true" />
-
-        <div className="hero-slider__content is-visible">
-          {slide.title && (
-            <h2 className="hero-slider__title">{slide.title}</h2>
-          )}
-
-          {slide.titleEn && (
-            <p className="hero-slider__title-en">{slide.titleEn}</p>
-          )}
-
-          {shouldRenderDescription(slide) && (
-            <p className="hero-slider__subtitle">{slide.description}</p>
-          )}
-
-          {shouldRenderCTA(slide) && (
-            <Link
-              to={slide.link}
-              className="hero-slider__cta"
-              style={{ '--cta-bg': slide.accent || '#FF6503' }}
+          return (
+            <article
+              key={slide.id ?? idx}
+              className={`hero-slider__slide${slide.light ? ' hero-slider__slide--light' : ''}${isActive ? ' is-active' : ''}`}
+              style={{ display: isActive ? 'flex' : 'none' }}
+              aria-hidden={!isActive}
             >
-              <span>{slide.btn_text}</span>
-              <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
-            </Link>
-          )}
-        </div>
-      </article>
+              <div className={`hero-slider__zoom${isActive ? ' is-zooming' : ''}`} aria-hidden="true">
+                <img
+                  src={imageUrl}
+                  alt=""
+                  className="hero-slider__img"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={idx === 0 ? 'high' : 'auto'}
+                  decoding={idx === 0 ? 'sync' : 'async'}
+                  sizes="100vw"
+                />
+              </div>
 
+              <div className="hero-slider__overlay" aria-hidden="true" />
+
+              <div className={`hero-slider__content${isActive ? ' is-visible' : ''}`}>
+                {slide.title && (
+                  <h2 className="hero-slider__title">{slide.title}</h2>
+                )}
+
+                {slide.titleEn && (
+                  <p className="hero-slider__title-en">{slide.titleEn}</p>
+                )}
+
+                {shouldRenderDescription(slide) && (
+                  <p className="hero-slider__subtitle">{slide.description}</p>
+                )}
+
+                {shouldRenderCTA(slide) && (
+                  <Link
+                    to={slide.link}
+                    className="hero-slider__cta"
+                    style={{ '--cta-bg': slide.accent || '#FF6503' }}
+                  >
+                    <span>{slide.btn_text}</span>
+                    <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {total > 1 && (
+        <>
+          {/* <button
+            type="button"
+            className="hero-btn hero-btn--prev"
+            onClick={goPrev}
+            aria-label="Previous slide"
+          >
+            <ChevronLeft />
+          </button>
+          <button
+            type="button"
+            className="hero-btn hero-btn--next"
+            onClick={goNext}
+            aria-label="Next slide"
+          >
+            <ChevronRight />
+          </button> */}
+
+          <div className="hero-dots" role="tablist" aria-label="Slide navigation">
+            {banners.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                className={`hero-dots__dot${idx === activeIndex ? ' hero-dots__dot--active' : ''}`}
+                onClick={() => goTo(idx)}
+                role="tab"
+                aria-selected={idx === activeIndex}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 };

@@ -1,0 +1,35 @@
+.tabview-products {
+  &__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-extra-light);
+  }
+
+  &__tab {
+    background: none;
+    border: none;
+    padding: 0 0 0.6rem;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 500;
+    color: var(--text-medium);
+    cursor: pointer;
+    position: relative;
+
+    &--active {
+      font-weight: 700;
+      color: var(--brand-black);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background: var(--brand-black);
+      }
+    }
+  }
+}
