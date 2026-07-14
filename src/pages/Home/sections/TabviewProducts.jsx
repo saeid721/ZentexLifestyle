@@ -48,7 +48,7 @@ const TabviewProducts = () => {
           ))}
         </div>
 
-        <ProductGrid products={products} loading={loading} cols={4} />
+        <ProductGrid products={products} loading={loading} />
       </Container>
     </section>
   );
