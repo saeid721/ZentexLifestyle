@@ -82,10 +82,11 @@
   }
 
   &__img-wrap {
+    display: block;
     position: relative;
     overflow: hidden;
-    display: block;
-    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--bg-light);
   }
 
   &__img {
