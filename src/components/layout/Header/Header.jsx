@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useWishlistStore from '../../../app/wishlistStore';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -987,7 +988,7 @@ const Header = () => {
   const [showDesktopLogin, setShowDesktopLogin] = useState(false);
   const [showMobileLogin, setShowMobileLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const wishlistCount = 0;
+  const wishlistCount = useWishlistStore((s) => s.items.length);
 
   const [authState, setAuthState] = useState(() => getAuth());
 

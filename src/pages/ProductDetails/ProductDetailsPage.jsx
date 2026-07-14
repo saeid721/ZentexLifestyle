@@ -17,8 +17,8 @@ import useCartStore from '../../app/store';
 import useWishlistStore from '../../app/wishlistStore';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL, FACEBOOK_SHARE_URL, TWITTER_SHARE_URL, LINKEDIN_SHARE_URL, WHATSAPP_BASE_URL } from '../../utils';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
-import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, Facebook, 
-         Twitter, Linkedin, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
+import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, MessageCircle,
+         Send, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
 import './ProductDetailsPage.scss';
 
 const buildUrl = (path) =>
@@ -1029,6 +1029,32 @@ const ProductDetailsPage = () => {
           <Col xs={12} md={6}>
             <div className="pdp__gallery-wrap">
               <div className="pdp__gallery">
+                <div className="pdp__thumb-swiper-wrap">
+                  <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-prev" aria-label="Previous">
+                    <ChevronLeft size={14} strokeWidth={2.5} />
+                  </button>
+                  <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-next" aria-label="Next">
+                    <ChevronRight size={14} strokeWidth={2.5} />
+                  </button>
+                  <Swiper
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    onSwiper={setThumbsSwiper}
+                    navigation={{ prevEl: '.pdp__nav-btn--thumb-prev', nextEl: '.pdp__nav-btn--thumb-next' }}
+                    direction="vertical"
+                    spaceBetween={8} slidesPerView={5} freeMode watchSlidesProgress
+                    className="pdp__thumb-swiper"
+                  >
+                    {images.map((img, i) => (
+                      <SwiperSlide key={i}>
+                        <div className="pdp__thumb-wrap">
+                          <img src={img} alt={`thumb ${i + 1}`} className="pdp__thumb-img"
+                            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }} />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+
                 <div className="pdp__main-swiper-wrap">
                   <button className="pdp__nav-btn pdp__nav-btn--prev pdp__nav-btn--main-prev" aria-label="Previous image">
                     <ChevronLeft size={18} strokeWidth={2.5} />
@@ -1093,31 +1119,6 @@ const ProductDetailsPage = () => {
                     ))}
                   </Swiper>
                 </div>
-
-                <div className="pdp__thumb-swiper-wrap">
-                  <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-prev" aria-label="Previous">
-                    <ChevronLeft size={14} strokeWidth={2.5} />
-                  </button>
-                  <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-next" aria-label="Next">
-                    <ChevronRight size={14} strokeWidth={2.5} />
-                  </button>
-                  <Swiper
-                    modules={[FreeMode, Navigation, Thumbs]}
-                    onSwiper={setThumbsSwiper}
-                    navigation={{ prevEl: '.pdp__nav-btn--thumb-prev', nextEl: '.pdp__nav-btn--thumb-next' }}
-                    spaceBetween={8} slidesPerView={5} freeMode watchSlidesProgress
-                    className="pdp__thumb-swiper"
-                  >
-                    {images.map((img, i) => (
-                      <SwiperSlide key={i}>
-                        <div className="pdp__thumb-wrap">
-                          <img src={img} alt={`thumb ${i + 1}`} className="pdp__thumb-img"
-                            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }} />
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
               </div>
 
               <div
@@ -1143,13 +1144,13 @@ const ProductDetailsPage = () => {
                 {product.sku && <p className="pdp__sku">SKU: {product.sku}</p>}
                 <div className="pdp__share">
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${FACEBOOK_SHARE_URL}?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=626,height=436'); }} className="pdp__share-btn pdp__share-btn--fb" aria-label="Share on Facebook">
-                    <Facebook size={14} fill="currentColor" />
+                    <MessageCircle size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${TWITTER_SHARE_URL}?text=${encodeURIComponent(product.name)}&url=${encodeURIComponent(window.location.href)}`, 'twitter-share-dialog', 'width=550,height=420'); }} className="pdp__share-btn pdp__share-btn--tw" aria-label="Share on Twitter">
-                    <Twitter size={14} fill="currentColor" />
+                    <Send size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${LINKEDIN_SHARE_URL}?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=550,height=550'); }} className="pdp__share-btn pdp__share-btn--li" aria-label="Share on LinkedIn">
-                    <Linkedin size={14} fill="currentColor" />
+                    <Share2 size={14} fill="currentColor" />
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${WHATSAPP_BASE_URL}/?text=${encodeURIComponent(product.name + ' - ' + window.location.href)}`, 'whatsapp-share-dialog', 'width=600,height=500'); }} className="pdp__share-btn pdp__share-btn--wa" aria-label="Share on WhatsApp">
                     <Share2 size={14} fill="currentColor" />

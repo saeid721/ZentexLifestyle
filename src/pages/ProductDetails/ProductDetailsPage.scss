@@ -93,7 +93,15 @@
   position: relative; 
 }
 
-.pdp__gallery { position: relative; }
+.pdp__gallery {
+  position: relative;
+
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
 
 // ── Zoom result panel (Desktop) ───────────────────────────────────
 .pdp__zoom-result {
@@ -122,6 +130,13 @@
 .pdp__main-swiper-wrap {
   position: relative;
   margin-bottom: 10px;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+    order: 2;
+  }
 }
 
 .pdp__main-swiper {
@@ -143,6 +158,10 @@
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
+
+  @media (min-width: 768px) {
+    aspect-ratio: 1 / 1;
+  }
   
   &--zooming .pdp__main-img { opacity: 0.85; }
   
@@ -249,12 +268,24 @@
 .pdp__thumb-swiper-wrap {
   position: relative;
   padding: 0 28px;
+
+  @media (min-width: 768px) {
+    width: 90px;
+    flex-shrink: 0;
+    order: 1;
+    padding: 28px 0;
+  }
 }
 
 .pdp__thumb-swiper {
   width: 100%;
   padding: 4px 0;
   .swiper-button-prev, .swiper-button-next { display: none; }
+
+  @media (min-width: 768px) {
+    height: 560px;
+    padding: 0 4px;
+  }
 }
 
 .pdp__thumb-wrap {
@@ -344,7 +375,7 @@
 .pdp__name {
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 700;
-  color: var(--brand-black-light);
+  color: var(--brand-secondary);
   line-height: 1.3;
   margin-bottom: 0.6rem;
 }
@@ -370,14 +401,14 @@
   border-radius: 4px;
   text-decoration: none;
   transition: opacity 0.2s, transform 0.15s;
-  color: var(--brand-white);
+  color: #fff;
   font-size: 0.7rem;
-  &:hover { opacity: 0.85; transform: scale(1.1); color: var(--brand-white); }
-  &--fb { background: var(--brand-primary); }
-  &--tw { background: var(--brand-secondary); }
-  &--li { background: var(--brand-secondary-light); }
-  &--wa { background: var(--brand-primary-light); }
-  &--em { background: var(--text-muted); }
+  &:hover { opacity: 0.85; transform: scale(1.1); color: #fff; }
+  &--fb { background: #1877f2; }
+  &--tw { background: #000; }
+  &--li { background: #0077b5; }
+  &--wa { background: #25d366; }
+  &--em { background: #888; }
 }
 
 // ── Price ─────────────────────────────────────────────────────────
@@ -390,7 +421,7 @@
 }
 
 .pdp__price-label { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); letter-spacing: 0.04em; }
-.pdp__price-current { font-size: 1.5rem; font-weight: 800; color: var(--brand-black-light); line-height: 1; }
+.pdp__price-current { font-size: 1.5rem; font-weight: 800; color: var(--brand-secondary-dark); line-height: 1; }
 .pdp__price-original { font-size: 0.95rem; color: var(--text-placeholder); text-decoration: line-through; font-weight: 500; }
 .pdp__price-discount {
   font-size: 0.72rem; font-weight: 700;
@@ -425,9 +456,9 @@
   gap: 5px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--brand-gold);
-  background: var(--brand-gold-light);
-  border: 1.5px solid var(--brand-gold-hover);
+  color: var(--brand-primary);
+  background: var(--brand-white);
+  border: 1.5px solid var(--brand-primary-light);
   border-radius: 20px;
   padding: 0.28rem 0.75rem;
   cursor: pointer;
@@ -437,9 +468,9 @@
   svg { flex-shrink: 0; transition: transform var(--transition); }
 
   &:hover {
-    background: var(--brand-gold);
-    color: var(--brand-white);
-    border-color: var(--brand-gold);
+  color: var(--brand-primary-dark);
+  background: var(--brand-white);
+    border-color: 1.5px solid var(--brand-primary-dark);
     box-shadow: 0 3px 10px var(--brand-gold-rgba);
     svg { transform: scale(1.15); }
   }
@@ -686,8 +717,14 @@
   &--main-next { right: 10px; }
 
   &--sm { width: 24px; height: 24px; border-radius: 4px; background: var(--background); border-color: var(--border-medium); top: 50%; }
-  &--thumb-prev { left: 0; }
-  &--thumb-next { right: 0; }
+  &--thumb-prev {
+    left: 0;
+    @media (min-width: 768px) { left: 50%; top: 0; transform: translateX(-50%); }
+  }
+  &--thumb-next {
+    right: 0;
+    @media (min-width: 768px) { right: auto; left: 50%; top: auto; bottom: 0; transform: translateX(-50%); }
+  }
 
   &--more { width: 40px; height: 40px; top: 35%; background: var(--brand-white); box-shadow: 0 2px 12px rgba(0,0,0,.1); }
   &--more-prev { left: 0; }

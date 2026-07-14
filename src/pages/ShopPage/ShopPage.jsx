@@ -100,6 +100,12 @@ const ShopPage = () => {
     <section className="section-wrapper tabview-products">
       <Container className="container-1500">
 
+        <div className="featured-cats__heading">
+          <span className="featured-cats__heading-line" />
+          <h2 className="featured-cats__heading-text">Shop</h2>
+          <span className="featured-cats__heading-line" />
+        </div>
+
         {/* ── Filter bar (same style as Wishlist/Search pages) ── */}
         {!loading && (
           <div className="ccat-page__filter-bar d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">

@@ -10,7 +10,7 @@ const TrashIcon = () => <Trash2 size={16} strokeWidth={2} />;
 
 const CartDrawer = ({ onClose }) => {
   const items = useCartStore((s) => s.items);
-  const removeItem = useCartStore((s) => s.removeItem);
+  const removeFromCart = useCartStore((s) => s.removeFromCart);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -61,7 +61,7 @@ const CartDrawer = ({ onClose }) => {
                   </div>
                   <button
                     className="cart-drawer__item-remove"
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                     aria-label={`Remove ${item.name}`}
                   >
                     <TrashIcon />
