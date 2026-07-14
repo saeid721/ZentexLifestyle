@@ -78,28 +78,30 @@ const HeroSlider = ({ banners = [] }) => {
               <div className="hero-slider__overlay" aria-hidden="true" />
 
               <div className={`hero-slider__content${isActive ? ' is-visible' : ''}`}>
-                {slide.title && (
-                  <h2 className="hero-slider__title">{slide.title}</h2>
-                )}
+                <div className="hero-slider__text-col">
+                  {slide.title && (
+                    <h2 className="hero-slider__title">{slide.title}</h2>
+                  )}
 
-                {slide.titleEn && (
-                  <p className="hero-slider__title-en">{slide.titleEn}</p>
-                )}
+                  {slide.titleEn && (
+                    <p className="hero-slider__title-en">{slide.titleEn}</p>
+                  )}
 
-                {shouldRenderDescription(slide) && (
-                  <p className="hero-slider__subtitle">{slide.description}</p>
-                )}
+                  {shouldRenderDescription(slide) && (
+                    <p className="hero-slider__subtitle">{slide.description}</p>
+                  )}
 
-                {shouldRenderCTA(slide) && (
-                  <Link
-                    to={slide.link}
-                    className="hero-slider__cta"
-                    style={{ '--cta-bg': slide.accent || '#FF6503' }}
-                  >
-                    <span>{slide.btn_text}</span>
-                    <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
-                  </Link>
-                )}
+                  {shouldRenderCTA(slide) && (
+                    <Link
+                      to={slide.link}
+                      className="hero-slider__cta"
+                      style={{ '--cta-bg': slide.accent || '#FF6503' }}
+                    >
+                      <span>{slide.btn_text}</span>
+                      <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
+                    </Link>
+                  )}
+                </div>
               </div>
             </article>
           );

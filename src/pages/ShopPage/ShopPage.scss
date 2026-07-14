@@ -1,0 +1,12 @@
+.tabview-products {
+  &__sentinel {
+    height: 1px;
+  }
+
+  &__loading-more {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 13px;
+    color: var(--text-medium);
+  }
+}

@@ -58,6 +58,7 @@ $btn-size-md: 44px;
     transform: scale(1);
     will-change: transform;
     z-index: 0;
+    
 
     &.is-zooming {
       animation: heroZoomIn $zoom-duration ease-out forwards;
@@ -106,6 +107,19 @@ $btn-size-md: 44px;
   }
 }
 
+&__text-col {
+    width: 100%;
+    max-width: 100%;
+
+    @media (min-width: 768px) {
+      max-width: 70%;
+    }
+
+    @media (min-width: 992px) {
+      max-width: 50%;
+    }
+  }
+  
   &__title {
     font-family: var(--font-primary);
     font-size: clamp(1.4rem, 3.5vw, 3.6rem);

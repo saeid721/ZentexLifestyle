@@ -19,6 +19,8 @@ const PageDetailPage = lazy(() => import('../pages/CompanyPage/PageDetailPage'))
 const ContactPage = lazy(() => import('../pages/Contact/ContactPage'));
 const SearchResultsPage = lazy(() => import('../pages/SearchResults/SearchResultsPage'));
 const WishlistPage = lazy(() => import('../pages/WishlistPage/WishlistPage'));
+const ShopPage = lazy(() => import('../pages/ShopPage/ShopPage'));
+const AboutPage = lazy(() => import('../pages/AboutPage/AboutPage'));
 const NotFoundPage = lazy(() => import('../pages/NotFound/NotFoundPage'));
 
 const PageLoader = () => (
@@ -63,6 +65,8 @@ const AppRoutes = () => {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/search" element={<SearchResultsPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/about-us" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

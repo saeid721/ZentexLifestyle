@@ -345,7 +345,7 @@ const FIXED_MENU_ITEMS = [
   { key: 'home',       label: 'Home',       href: '/',               megamenu: false },
   { key: 'shop',       label: 'Shop',       href: '/shop',           megamenu: true  },
   { key: 'categories', label: 'Categories', href: '/category',       megamenu: false },
-  { key: 'about',      label: 'About Us',   href: '/page/about-us',  megamenu: false },
+  { key: 'about',      label: 'About Us',   href: '/about-us',       megamenu: false },
 ];
 
 const DesktopNav = ({ navLinks }) => {
@@ -1000,6 +1000,12 @@ const { settings, contact } = useGeneralSettings();
 
 useEffect(() => {
   const setOffset = () => {
+    if (headerElRef.current) {
+      document.documentElement.style.setProperty(
+        '--site-header-height',
+        `${headerElRef.current.offsetHeight}px`
+      );
+    }
     if (isHome) {
       document.body.style.paddingTop = '';
     } else if (headerElRef.current) {

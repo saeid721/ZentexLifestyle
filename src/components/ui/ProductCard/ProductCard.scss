@@ -80,10 +80,9 @@
     color: var(--brand-secondary);
     margin: 0 0 6px;
     line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     text-decoration: none;
   }
 
@@ -137,6 +136,40 @@
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+  }
+  &__sizes {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 7px 6px;
+    background: rgb(255 255 255 / 28%);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    pointer-events: none;
+  }
+
+  &:hover &__sizes {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &__size {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--brand-secondary);
+
+    &--out {
+      color: var(--text-disabled);
+      text-decoration: line-through;
     }
   }
 }

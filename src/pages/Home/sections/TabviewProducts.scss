@@ -6,7 +6,16 @@
     margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-extra-light);
   }
+  &__sentinel {
+      height: 1px;
+    }
 
+    &__loading-more {
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 13px;
+      color: var(--text-medium);
+    }
   &__tab {
     background: none;
     border: none;

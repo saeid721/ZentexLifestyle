@@ -331,7 +331,9 @@ const ProductCard = ({ product }) => {
   const discountPct   = originalPrice > price
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : null;
-    const [isStockOut, setIsStockOut] = useState(false);
+  const [isStockOut, setIsStockOut] = useState(false);
+
+  const [availableSizes, setAvailableSizes] = useState([]);
 
   const addToCart = useCartStore((s) => s.addToCart);
   const navigate  = useNavigate();
@@ -372,6 +374,21 @@ const ProductCard = ({ product }) => {
       if (variants.length === 0) { setIsStockOut(true); return; }
       const totalStock = variants.reduce((sum, v) => sum + Number(v.stock || 0), 0);
       setIsStockOut(totalStock <= 0);
+
+      const seen = new Set();
+      const sizes = variants
+        .filter((v) => v.size?.sizeName)
+        .filter((v) => {
+          const n = v.size.sizeName;
+          if (seen.has(n)) return false;
+          seen.add(n);
+          return true;
+        })
+        .map((v) => ({
+          name: v.size.sizeName,
+          inStock: Number(v.stock || 0) > 0,
+        }));
+      setAvailableSizes(sizes);
     };
     const cached = getPrefetchedProduct(slug);
     if (cached) { checkStock(cached); return; }
@@ -453,6 +470,19 @@ const ProductCard = ({ product }) => {
             onError={() => setImgError(true)}
             loading="lazy"
           />
+
+          {availableSizes.length > 0 && (
+            <div className="product-card__sizes">
+              {availableSizes.map((s) => (
+                <span
+                  key={s.name}
+                  className={`product-card__size${s.inStock ? '' : ' product-card__size--out'}`}
+                >
+                  {s.name}
+                </span>
+              ))}
+            </div>
+          )}
         </Link>
 
         <Card.Body className="product-card__body d-flex flex-column">
