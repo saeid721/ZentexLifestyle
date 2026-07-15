@@ -1,29 +1,38 @@
+// ─── Hero Section ─────────────────────────────────────────────
+.hero-section {
+  background: var(--brand-secondary-bg);
+  padding: 1.2rem 0;
+  text-align: center;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--brand-secondary-soft);
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--brand-secondary);
+    margin: 0 0 .75rem;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .85rem;
+
+    a { color: var(--brand-secondary-dark); font-weight: 500; }
+    li:last-child { display: flex; align-items: center; gap: .35rem; color: var(--brand-secondary-muted); }
+  }
+
+  &__sep { color: var(--brand-secondary-lighter); }
+}
+
 // ─── FeaturedCategories (shared with CategoriesMobilePage) ─────────
 .featured-cats {
   background: var(--brand-white);
 
-  &__heading {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  &__heading-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border-medium);
-  }
-
-  &__heading-text {
-    font-size: clamp(20px, 4.5vw, 30px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--brand-black);
-    margin: 0;
-    line-height: 1;
-  }
 
   // ── Grid wrapper ──────────────────────────────────────────────
   &__grid {
@@ -45,6 +54,9 @@
   }
 }
 
+.featured-cats__container{
+  padding-top: 2rem;
+}
 // ─── Category Card ────────────────────────────────────────────────
 .cat-card {
   display: block;

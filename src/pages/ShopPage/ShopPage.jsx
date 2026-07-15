@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
 import ProductGrid from '../../components/ui/ProductGrid/ProductGrid';
@@ -97,14 +98,20 @@ const ShopPage = () => {
   });
 
   return (
-    <section className="section-wrapper tabview-products">
-      <Container className="container-1500">
+    <section className="shop-page">
+      <div className="hero-section">
+        <Container className="container-1500">
+          <h1 className="hero-section__title">Shop</h1>
+          <nav aria-label="breadcrumb">
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>Shop</span></li>
+            </ol>
+          </nav>
+        </Container>
+      </div>
 
-        <div className="featured-cats__heading">
-          <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">Shop</h2>
-          <span className="featured-cats__heading-line" />
-        </div>
+      <Container className="container-1500">
 
         {/* ── Filter bar (same style as Wishlist/Search pages) ── */}
         {!loading && (

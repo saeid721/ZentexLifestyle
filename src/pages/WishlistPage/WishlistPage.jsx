@@ -76,19 +76,19 @@ const WishlistPage = () => {
 
   return (
     <main className="ccat-page">
-      <div className="wishlist-hero">
-        <Container className="container-1500">
-          <h1 className="wishlist-hero__title">Wishlist</h1>
-          <nav aria-label="breadcrumb">
-            <ol className="wishlist-hero__breadcrumb">
-              <li><Link to="/">Home</Link></li>
-              <li><span className="wishlist-hero__sep">&gt;</span><span>Wishlist</span></li>
-            </ol>
-          </nav>
-        </Container>
-      </div>
+          <div className="hero-section">
+            <Container className="container-1500">
+              <h1 className="hero-section__title">Wishlist</h1>
+              <nav aria-label="breadcrumb">
+                <ol className="hero-section__breadcrumb">
+                  <li><Link to="/">Home</Link></li>
+                  <li><span className="hero-section__sep">&gt;</span><span>Wishlist</span></li>
+                </ol>
+              </nav>
+            </Container>
+          </div>
 
-      <Container className="container-1500 py-3">
+      <Container className="container-1500">
 
         {/* ── Empty Wishlist State ── */}
         {isEmpty ? (
@@ -132,9 +132,9 @@ const WishlistPage = () => {
             </div>
 
             {/* ── Product Grid ── */}
-            <Row className="g-3">
+            <Row xs={2} sm={3} md={4} lg={5} className="g-3">
               {paginated.map((product) => (
-                <Col key={product.id} xs={6} sm={4} md={3}>
+                <Col key={product.id}>
                   <ProductCard product={product} />
                 </Col>
               ))}

@@ -58,13 +58,19 @@ const CategoriesMobilePage = () => {
   );
 
   return (
-    <section className="featured-cats section-wrapper">
-      <Container className="container-1500 featured-cats__container">
-        <div className="featured-cats__heading">
-          <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">Product Categories</h2>
-          <span className="featured-cats__heading-line" />
-        </div>
+    <section className="featured-cats">
+            <div className="hero-section">
+              <Container className="container-1500">
+                <h1 className="hero-section__title">Categories</h1>
+                <nav aria-label="breadcrumb">
+                  <ol className="hero-section__breadcrumb">
+                    <li><Link to="/">Home</Link></li>
+                    <li><span className="hero-section__sep">&gt;</span><span>Categories</span></li>
+                  </ol>
+                </nav>
+              </Container>
+            </div>
+      <Container className="container-1500 featured-cats__container ">
 
         <div className="featured-cats__grid">
           {Array.from(

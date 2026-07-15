@@ -990,7 +990,7 @@ const ProductDetailsPage = () => {
         </div>
       )}
 
-      <Container className="container-1500 py-3">
+      <Container className="container-1500">
 
         {/* Breadcrumb + Back */}
         <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">

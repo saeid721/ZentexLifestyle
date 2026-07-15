@@ -135,29 +135,18 @@ const SearchResultsPage = () => {
 
   return (
     <main className="ccat-page">
-      <Container className="container-1500 py-3">
-
-        {/* ── Breadcrumb + Back ── */}
-        <div className="ccat-page__topbar d-flex align-items-center justify-content-between mb-3">
+      
+      <div className="hero-section">
+        <Container className="container-1500">
           <nav aria-label="breadcrumb">
-            <ol className="ccat-page__breadcrumb">
-              <li className="ccat-page__bc-item">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="ccat-page__bc-item">
-                <span className="ccat-page__bc-sep">&gt;</span>
-                <span className="ccat-page__bc-active">Search: {query}</span>
-              </li>
-            </ol>
+            {/* ── Title ── */}
+            <h1 className="ccat-page__title">{title}</h1>
           </nav>
-          <Link to="/" className="ccat-page__back-btn">
-            <ChevronLeft size={14} strokeWidth={2} />
-            Back To Home
-          </Link>
-        </div>
+        </Container>
+      </div>
+      <Container className="container-1500 ">
 
-        {/* ── Title ── */}
-        <h1 className="ccat-page__title">{title}</h1>
+        
 
         {/* ── Empty query ── */}
         {!query.trim() && (
@@ -215,9 +204,9 @@ const SearchResultsPage = () => {
             <p>No products found for "<strong>{query}</strong>". Try a different search term.</p>
           </div>
         ) : !error && query.trim() && (
-          <Row className="g-3">
+          <Row xs={2} sm={3} md={4} lg={5} className="g-3">
             {paginated.map((product) => (
-              <Col key={product.id} xs={6} sm={4} md={3}>
+              <Col key={product.id}>
                 <ProductCard product={product} />
               </Col>
             ))}

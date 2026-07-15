@@ -1,14 +1,37 @@
+// ─── Hero Section ─────────────────────────────────────────────
+.hero-section {
+  background: var(--brand-secondary-bg);
+  padding: 1.2rem 0;
+  text-align: center;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--brand-secondary-soft);
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--brand-secondary);
+    margin: 0 0 .75rem;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .85rem;
+
+    a { color: var(--brand-secondary-dark); font-weight: 500; }
+    li:last-child { display: flex; align-items: center; gap: .35rem; color: var(--brand-secondary-muted); }
+  }
+
+  &__sep { color: var(--brand-secondary-lighter); }
+}
+
 // ─── Category Product Page ────────────────────────────────────────
 .ccat-page {
   background: var(--brand-white);
-  min-height: 60vh;
-  padding-bottom: 3rem;
-
-  &__topbar {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-extra-light);
-    margin-bottom: 1rem;
-  }
 
   &__breadcrumb {
     display: flex !important;
@@ -65,12 +88,11 @@
 
   &__title {
     font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--brand-black-light);
+    font-weight: 600;
+    color: var(--brand-secondary);
     letter-spacing: 0.04em;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--brand-black-light);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
     display: inline-block;
   }
 

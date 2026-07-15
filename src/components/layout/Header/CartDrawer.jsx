@@ -36,7 +36,7 @@ const CartDrawer = ({ onClose }) => {
             <p className="cart-drawer__empty-sub">
               You may check out all the available products and buy some in the shop
             </p>
-            <Link to="/" className="cart-drawer__return-btn" onClick={onClose}>
+            <Link to="/shop" className="cart-drawer__return-btn" onClick={onClose}>
               Return to shop <span aria-hidden="true">↗</span>
             </Link>
           </div>
