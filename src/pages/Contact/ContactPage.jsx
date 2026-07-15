@@ -5,15 +5,16 @@ import axios from 'axios';
 import './ContactPage.scss';
 import { API_BASE_URL } from '../../utils';
 import { Phone, Mail, MapPin, Send, CheckCircle, AlertCircle, ChevronLeft } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 
 // ── SVG Icons ──────────────────────────────────────────────────────────────────
-const PhoneIcon = () => <Phone size={16} fill="#fff" />;
+const PhoneIcon = () => <Phone size={16} />;
 
-const EmailIcon = () => <Mail size={16} fill="#fff" />;
+const EmailIcon = () => <Mail size={16} />;
 
-const MapPinIcon = () => <MapPin size={16} fill="#fff" />;
+const MapPinIcon = () => <MapPin size={16} />;
 
-const SendIcon = () => <Send size={16} fill="#fff" />;
+const SendIcon = () => <Send size={16} />;
 
 const CheckIcon = () => <CheckCircle size={16} fill="currentColor" />;
 
@@ -135,34 +136,24 @@ const ContactPage = () => {
   // ── Render ──
   return (
     <main className="pdp">
-      <Container className="container-1500 py-3">
-
-        {/* Breadcrumb + Back */}
-        <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">
+      <div className="hero-section">
+        <Container className="container-1500">
+          <Reveal as="h1" type="fade-up" className="hero-section__title">Contact Us</Reveal>
           <nav aria-label="breadcrumb">
-            <ol className="pdp__breadcrumb">
-              <li className="pdp__bc-item">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="pdp__bc-item">
-                <span className="pdp__bc-sep">&gt;</span>
-                <span className="pdp__bc-active">Contact Us</span>
-              </li>
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>Contact Us</span></li>
+              
             </ol>
           </nav>
-          <Link to="/" className="pdp__back-btn">
-            <ChevronLeft size={14} strokeWidth={2} />
-            Back To Home
-          </Link>
-        </div>
-
+        </Container>
+      </div>
+      <Container className="container-1500">
         {/* Contact Content */}
         <div className="contact-page">
 
           {/* Header */}
           <div className="contact-header">
-            <p className="contact-eyebrow">Get in touch</p>
-            <h1 className="contact-title">Contact Us</h1>
             <p className="contact-description">
               We'd love to hear from you. Send us a message and we'll respond as soon as possible.
             </p>
