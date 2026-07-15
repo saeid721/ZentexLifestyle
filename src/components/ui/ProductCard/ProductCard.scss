@@ -70,6 +70,34 @@
     background: var(--brand-primary);
   }
 
+  &__wishlist-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-white);
+    border: none;
+    border-radius: 50%;
+    color: var(--brand-secondary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: color var(--transition), transform var(--transition), background var(--transition);
+
+    &:hover {
+      color: var(--error);
+      transform: scale(1.08);
+    }
+
+    &--active {
+      color: var(--error);
+      background: var(--brand-white);
+    }
+  }
   &__body {
     padding: 10px 10px 12px;
   }

@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import SectionHeader from '../../../components/ui/SectionHeader/SectionHeader';
 import ProductGrid from '../../../components/ui/ProductGrid/ProductGrid';
 import { apiGet } from '../../../utils/api';
+import Reveal from '../../../components/ui/Reveal/Reveal';
 import './TabviewProducts.scss';
 
 const TABS = [
@@ -81,7 +82,7 @@ const TabviewProducts = () => {
     <section className="section-wrapper tabview-products">
       <Container className="container-1500">
 
-        <div className="tabview-products__tabs">
+        <Reveal type="fade-up" className="tabview-products__tabs">
           {TABS.map((tab) => (
             <button
               key={tab.key}
@@ -93,10 +94,12 @@ const TabviewProducts = () => {
             >
               {tab.label}
             </button>
-          ))}
-        </div>
+           ))}
+        </Reveal>
 
-        <ProductGrid products={products} loading={loading} />
+        <Reveal type="fade-up" delay={100}>
+          <ProductGrid products={products} loading={loading} />
+        </Reveal>
 
         {/* Sentinel — triggers next page fetch when scrolled into view */}
         {hasMore && !loading && (

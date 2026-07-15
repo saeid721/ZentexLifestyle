@@ -1,116 +1,59 @@
-// ─── Trust Bar (HomePage) ─────────────────────────────────────────
 .trust-bar {
   background: var(--background);
-  padding: 0.75rem 0;
-  border-top: 1px solid var(--border-lighter);
-  border-bottom: 1px solid var(--border-lighter);
 
-  &__desktop {
-    justify-content: space-between;
-  }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
 
-  &__mobile {
-    width: 100%;
-    overflow: hidden;
-  }
+    @media (max-width: 991px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.1rem;
+    }
 
-  &__slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 0;
-
-    &::-webkit-scrollbar {
-      display: none;
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
     }
   }
 
-  &__slide {
-    flex: 0 0 100%;
-    scroll-snap-align: center;
+  &__card {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-width: 100%;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--brand-secondary-bg);
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    width: 90%;
-    max-width: 320px;
+    text-align: center;
+    padding: 2rem 1.25rem;
     border: 1px solid var(--brand-secondary-soft);
+    border-radius: 8px;
+    background: var(--background);
+    transition: var(--transition);
 
-    @media (min-width: 576px) {
-      border-left: 1px solid var(--brand-secondary-soft);
-      background: transparent;
-      max-width: none;
-      width: auto;
-      padding: 0.5rem 1.5rem;
-    }
 
-    @media (max-width: 575px) {
-      flex-direction: row;
-      text-align: left;
+    &:hover {
+      border-color: var(--brand-secondary-lighter);
     }
   }
 
   &__icon {
-    font-size: 1.6rem;
-    flex-shrink: 0;
-
-    @media (max-width: 575px) {
-      font-size: 2rem;
-    }
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 1rem;
   }
 
   &__title {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--brand-black);
-    margin: 0;
+    margin: 0 0 0.4rem;
 
-    @media (max-width: 575px) {
+    @media (max-width: 480px) {
       font-size: 1rem;
     }
   }
 
   &__sub {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     margin: 0;
-
-    @media (max-width: 575px) {
-      font-size: 0.85rem;
-    }
-  }
-
-  &__dots {
-    display: flex;
-    justify-content: center;
-    margin-top: 6px;
-    gap: 6px;
-  }
-
-  &__dot {
-    width: 6px;
-    height: 6px;
-    background: var(--border-dark);
-    border-radius: 50%;
-    transition: var(--transition);
-    cursor: pointer;
-
-    &.active {
-      width: 18px;
-      border-radius: 10px;
-      background: var(--brand-black);
-    }
   }
 }

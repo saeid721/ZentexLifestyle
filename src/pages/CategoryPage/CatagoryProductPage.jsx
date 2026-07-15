@@ -7,6 +7,7 @@ import axios from 'axios';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import { API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, SCHEMA_ORG_IN_STOCK } from '../../config/env';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './CatagoryProductPage.scss';
 
 const SORT_OPTIONS = [
@@ -273,7 +274,7 @@ const CatagoryProductPage = () => {
         </div>
 
         {/* ── Title ── */}
-        <h1 className="ccat-page__title">{title}</h1>
+        <Reveal as="h1" type="fade-up" className="ccat-page__title">{title}</Reveal>
 
         {/* ── Error ── */}
         {error && <div className="alert alert-danger">{error}</div>}
@@ -325,9 +326,11 @@ const CatagoryProductPage = () => {
           </div>
         ) : !error && (
           <Row className="g-3">
-            {paginated.map((product) => (
+            {paginated.map((product, idx) => (
               <Col key={product.id} xs={6} sm={4} md={3}>
-                <ProductCard product={product} />
+                <Reveal type="fade-up" delay={(idx % 8) * 70}>
+                  <ProductCard product={product} />
+                </Reveal>
               </Col>
             ))}
           </Row>

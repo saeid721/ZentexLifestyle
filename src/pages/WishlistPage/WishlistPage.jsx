@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import useWishlistStore from '../../app/wishlistStore';
 import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import '../CategoryPage/CatagoryProductPage.scss';
 import './wishlist.scss';
 
@@ -78,7 +79,7 @@ const WishlistPage = () => {
     <main className="ccat-page">
           <div className="hero-section">
             <Container className="container-1500">
-              <h1 className="hero-section__title">Wishlist</h1>
+              <Reveal as="h1" type="fade-up" className="hero-section__title">Wishlist</Reveal>
               <nav aria-label="breadcrumb">
                 <ol className="hero-section__breadcrumb">
                   <li><Link to="/">Home</Link></li>
@@ -133,9 +134,11 @@ const WishlistPage = () => {
 
             {/* ── Product Grid ── */}
             <Row xs={2} sm={3} md={4} lg={5} className="g-3">
-              {paginated.map((product) => (
+              {paginated.map((product, idx) => (
                 <Col key={product.id}>
-                  <ProductCard product={product} />
+                  <Reveal type="fade-up" delay={(idx % 10) * 60}>
+                    <ProductCard product={product} showWishlistToggle />
+                  </Reveal>
                 </Col>
               ))}
             </Row>

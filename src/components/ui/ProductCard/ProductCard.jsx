@@ -6,7 +6,8 @@ import useCartStore from '../../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
 import apiClient from '../../../services/apiClient';
 import { prefetchProduct, getPrefetchedProduct } from '../../../utils/productPrefetchCache';
-import { Check, CircleAlert, X, Info } from 'lucide-react';
+import { Check, CircleAlert, X, Info, Heart } from 'lucide-react';
+import useWishlistStore from '../../../app/wishlistStore';
 import './ProductCard.scss';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -315,7 +316,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
 };
 
 // ─── ProductCard ──────────────────────────────────────────────────────────────
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, showWishlistToggle = false }) => {
   const [imgError,  setImgError]  = useState(false);
   const [popupMode, setPopupMode] = useState(null);
   const [toast,     setToast]     = useState(null);
@@ -337,6 +338,25 @@ const ProductCard = ({ product }) => {
 
   const addToCart = useCartStore((s) => s.addToCart);
   const navigate  = useNavigate();
+
+  const toggleWishlistItem = useWishlistStore((s) => s.toggleItem);
+  const isInWishlist        = useWishlistStore((s) => s.isInWishlist);
+  const inWishlist = product?.id ? isInWishlist(product.id) : false;
+
+  const handleToggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlistItem({
+      id: product.id,
+      name,
+      slug,
+      price,
+      new_price: price,
+      old_price: originalPrice,
+      image: resolvedImage,
+      images: product?.images,
+    });
+  };
 
   // ── Fetch image from product detail API when search API gives none ──
   useEffect(() => {
@@ -452,6 +472,17 @@ const ProductCard = ({ product }) => {
     <div className="product-card-wrapper" style={{ position: 'relative' }}>
       <Card className="product-card h-100" onMouseEnter={handleMouseEnter}>
         <Link to={`/product/${slug}`} className="product-card__img-wrapper">
+        {showWishlistToggle && (
+            <button
+              type="button"
+              className={`product-card__wishlist-btn${inWishlist ? ' product-card__wishlist-btn--active' : ''}`}
+              onClick={handleToggleWishlist}
+              aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+              title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
+              <Heart size={15} fill={inWishlist ? 'currentColor' : 'none'} strokeWidth={2} />
+            </button>
+          )}
           {discountPct && (
             <span className="product-card__badge">{discountPct}% OFF</span>
           )}

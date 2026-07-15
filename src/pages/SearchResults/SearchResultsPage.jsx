@@ -6,6 +6,7 @@ import axios from 'axios';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import { API_BASE_URL } from '../../config/env';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import '../CategoryPage/CatagoryProductPage.scss';
 
 const SORT_OPTIONS = [
@@ -140,7 +141,7 @@ const SearchResultsPage = () => {
         <Container className="container-1500">
           <nav aria-label="breadcrumb">
             {/* ── Title ── */}
-            <h1 className="ccat-page__title">{title}</h1>
+            <Reveal as="h1" type="fade-up" className="ccat-page__title">{title}</Reveal>
           </nav>
         </Container>
       </div>
@@ -204,10 +205,12 @@ const SearchResultsPage = () => {
             <p>No products found for "<strong>{query}</strong>". Try a different search term.</p>
           </div>
         ) : !error && query.trim() && (
-          <Row xs={2} sm={3} md={4} lg={5} className="g-3">
-            {paginated.map((product) => (
+           <Row xs={2} sm={3} md={4} lg={5} className="g-3">
+            {paginated.map((product, idx) => (
               <Col key={product.id}>
-                <ProductCard product={product} />
+                <Reveal type="fade-up" delay={(idx % 10) * 60}>
+                  <ProductCard product={product} />
+                </Reveal>
               </Col>
             ))}
           </Row>

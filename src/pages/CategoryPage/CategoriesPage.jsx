@@ -4,16 +4,17 @@ import { Container } from 'react-bootstrap';
 import './CategoriesPage.scss';
 import { useHomeData } from '../Home/useHomeData';
 import { BASE_IMAGE_URL, PLACEHOLDER_IMG } from '../../utils';
+import Reveal from '../../components/ui/Reveal/Reveal';
 
 const CATEGORIES_PER_ROW = 5; // ✅ matches desktop column count
 
-const CategoryCard = ({ cat }) => {
+const CategoryCard = ({ cat, index = 0 }) => {
   const [loaded, setLoaded] = useState(false);
   const src   = cat.image ? `${BASE_IMAGE_URL}${cat.image}` : PLACEHOLDER_IMG;
   const label = cat.label || cat.name || 'Category';
 
   return (
-    <Link to={`/categories/${cat.slug}`} className="cat-card">
+    <Reveal as={Link} to={`/categories/${cat.slug}`} type="fade-up" delay={(index % CATEGORIES_PER_ROW) * 80} className="cat-card">
       <div className="cat-card__img-wrap">
         <img
           src={src}
@@ -26,7 +27,7 @@ const CategoryCard = ({ cat }) => {
         <div className="cat-card__overlay" />
         <p className="cat-card__label">{label}</p>
       </div>
-    </Link>
+    </Reveal>
   );
 };
 
@@ -61,7 +62,7 @@ const CategoriesMobilePage = () => {
     <section className="featured-cats">
             <div className="hero-section">
               <Container className="container-1500">
-                <h1 className="hero-section__title">Categories</h1>
+                <Reveal as="h1" type="fade-up" className="hero-section__title">Categories</Reveal>
                 <nav aria-label="breadcrumb">
                   <ol className="hero-section__breadcrumb">
                     <li><Link to="/">Home</Link></li>
@@ -78,8 +79,8 @@ const CategoriesMobilePage = () => {
             (_, i) => categories.slice(i * CATEGORIES_PER_ROW, i * CATEGORIES_PER_ROW + CATEGORIES_PER_ROW)
           ).map((rowCats, rowIdx) => (
             <div key={rowIdx} className="featured-cats__row featured-cats__row--tall">
-              {rowCats.map((cat) => (
-                <CategoryCard key={cat.id} cat={cat} />
+              {rowCats.map((cat, idx) => (
+                <CategoryCard key={cat.id} cat={cat} index={rowIdx * CATEGORIES_PER_ROW + idx} />
               ))}
             </div>
           ))}

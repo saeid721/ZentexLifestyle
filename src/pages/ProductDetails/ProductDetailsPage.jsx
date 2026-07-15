@@ -17,6 +17,7 @@ import useCartStore from '../../app/store';
 import useWishlistStore from '../../app/wishlistStore';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL, FACEBOOK_SHARE_URL, TWITTER_SHARE_URL, LINKEDIN_SHARE_URL, WHATSAPP_BASE_URL } from '../../utils';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, MessageCircle,
          Send, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
 import './ProductDetailsPage.scss';
@@ -1027,7 +1028,7 @@ const ProductDetailsPage = () => {
 
           {/* ── Left: Gallery ── */}
           <Col xs={12} md={6}>
-            <div className="pdp__gallery-wrap">
+            <Reveal type="fade" className="pdp__gallery-wrap">
               <div className="pdp__gallery">
                 <div className="pdp__thumb-swiper-wrap">
                   <button className="pdp__nav-btn pdp__nav-btn--sm pdp__nav-btn--thumb-prev" aria-label="Previous">
@@ -1131,12 +1132,12 @@ const ProductDetailsPage = () => {
                 }}
                 aria-hidden="true"
               />
-            </div>
+            </Reveal>
           </Col>
 
           {/* ── Right: Info ── */}
           <Col xs={12} md={6}>
-            <div className="pdp__info">
+            <Reveal type="fade-up" delay={120} className="pdp__info">
 
               <h1 className="pdp__name">{product.name}</h1>
 
@@ -1341,9 +1342,9 @@ const ProductDetailsPage = () => {
                 </p>
               )}
 
-            </div>
+            </Reveal>
 
-            <div className="pdp__accordion mt-4">
+            <Reveal type="fade-up" delay={180} className="pdp__accordion mt-4">
 
               <div className="pdp__accordion-item">
                 <button className={`pdp__accordion-header ${openTab === 'description' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('description')}>
@@ -1402,19 +1403,19 @@ const ProductDetailsPage = () => {
                         <span className="pdp__info-label">Total Stock:</span>
                         <span className="pdp__info-value pdp__info-value--stock">{totalStock} items</span>
                       </div>
-                    )}
+                     )}
                   </div>
                 </div>
               </div>
 
-            </div>
+            </Reveal>
           </Col>
         </Row>
 
         {/* ── Related Products ── */}
         {relatedProducts.length > 0 && (
           <div className="pdp__more-section mt-5">
-            <h2 className="pdp__more-title">RELATED PRODUCTS</h2>
+            <Reveal as="h2" type="fade-up" className="pdp__more-title">RELATED PRODUCTS</Reveal>
             <div className="pdp__more-swiper-wrap">
               <button className="pdp__nav-btn pdp__nav-btn--more pdp__nav-btn--more-prev" aria-label="Previous products">
                 <ChevronLeft size={18} strokeWidth={2.5} />
@@ -1431,9 +1432,11 @@ const ProductDetailsPage = () => {
                 breakpoints={{ 576: { slidesPerView: 3 }, 768: { slidesPerView: 4 }, 992: { slidesPerView: 4 } }}
                 className="pdp__more-swiper"
               >
-                {relatedProducts.map((rp) => (
+                {relatedProducts.map((rp, idx) => (
                   <SwiperSlide key={rp.id}>
-                    <ProductCard product={rp} />
+                    <Reveal type="fade-up" delay={(idx % 4) * 90}>
+                      <ProductCard product={rp} />
+                    </Reveal>
                   </SwiperSlide>
                 ))}
               </Swiper>

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
 import ProductGrid from '../../components/ui/ProductGrid/ProductGrid';
 import { apiGet } from '../../utils/api';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import '../CategoryPage/CatagoryProductPage.scss';
 import './ShopPage.scss';
 
@@ -101,7 +102,7 @@ const ShopPage = () => {
     <section className="shop-page">
       <div className="hero-section">
         <Container className="container-1500">
-          <h1 className="hero-section__title">Shop</h1>
+          <Reveal as="h1" type="fade-up" className="hero-section__title">Shop</Reveal>
           <nav aria-label="breadcrumb">
             <ol className="hero-section__breadcrumb">
               <li><Link to="/">Home</Link></li>
@@ -130,7 +131,9 @@ const ShopPage = () => {
           </div>
         )}
 
-        <ProductGrid products={sorted} loading={loading} />
+        <Reveal type="fade-up">
+          <ProductGrid products={sorted} loading={loading} />
+        </Reveal>
 
         {/* Sentinel — triggers next page fetch when scrolled into view */}
         {hasMore && !loading && (

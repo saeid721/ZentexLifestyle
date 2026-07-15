@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import AppRoutes from './routes/AppRoutes';
 import ScrollToTop from './components/layout/ScrollToTop/ScrollToTop';
+import './styles/scrollAnimations.scss';
 import { TRACK_VISIT_URL } from './config/env';
 
 const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));

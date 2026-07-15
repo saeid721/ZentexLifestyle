@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Alert } from 'react-bootstrap';
 import { ChevronLeft, Leaf } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './AboutUs.scss';
 
 const API_URL = 'https://admin.zentexlifestyle.softwaresale.xyz/api/about-us';
@@ -98,16 +99,16 @@ const AboutPage = () => {
       <Container className="container-1500">
 
         {/* ── Intro Title + Description ── */}
-        <section className="about__intro">
+          <Reveal as="section" type="fade-up" className="about__intro">
           {about.about_title && <h1 className="about__intro-title">{about.about_title}</h1>}
           {about.about_description && (
             <p className="about__intro-desc">{about.about_description}</p>
           )}
-        </section>
+        </Reveal>
 
         {/* ── Mission Section (image collage) ── */}
         {(about.mission_image || about.vision_image || about.mission_title || about.mission_description) && (
-        <section className="about__split">
+        <Reveal as="section" type="fade-up" className="about__split">
             <div className="about__media-stack">
             {about.mission_image && (
                 <div className="about__media-stack-item about__media-stack-item--back">
@@ -124,12 +125,12 @@ const AboutPage = () => {
             {about.mission_title && <h2>{about.mission_title}</h2>}
             {about.mission_description && <p>{about.mission_description}</p>}
             </div>
-        </section>
+        </Reveal>
         )}
 
         {/* ── Vision Section (reversed layout) ── */}
         {(about.vision_image || about.vision_title || about.vision_description) && (
-          <section className="about__split about__split--reverse">
+          <Reveal as="section" type="fade-up" className="about__split about__split--reverse">
             <div className="about__split-content">
               {about.vision_title && <h2>{about.vision_title}</h2>}
               {about.vision_description && <p>{about.vision_description}</p>}
@@ -139,7 +140,7 @@ const AboutPage = () => {
                 <img src={about.vision_image} alt={about.vision_title || 'Our Vision'} />
               </div>
             )}
-          </section>
+          </Reveal>
         )}
 
       </Container>
@@ -148,15 +149,15 @@ const AboutPage = () => {
       {(about.core_value_title || coreValues.length > 0) && (
         <section className="about__values">
           <Container className="container-1500">
-            <div className="about__values-header">
+            <Reveal type="fade-up" className="about__values-header">
               {about.core_value_title && <h2>{about.core_value_title}</h2>}
               {about.core_value_description && <p>{about.core_value_description}</p>}
-            </div>
+            </Reveal>
 
             {coreValues.length > 0 && (
               <div className="about__values-grid">
-                {coreValues.map((value) => (
-                  <div className="about__value-card" key={value.id}>
+                {coreValues.map((value, idx) => (
+                  <Reveal key={value.id} type="fade-up" delay={(idx % 3) * 100} className="about__value-card">
                     <span className="about__value-icon">
                       {value.icon ? (
                         <img src={getIconUrl(value.icon)} alt={value.title} />
@@ -166,7 +167,7 @@ const AboutPage = () => {
                     </span>
                     <h3>{value.title}</h3>
                     <p>{value.description}</p>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
             )}

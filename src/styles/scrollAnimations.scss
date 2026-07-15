@@ -1,0 +1,17 @@
+// Global premium hover polish — additive only
+.pdp__btn:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.015);
+}
+
+.ccat-card__btn:hover:not(:disabled),
+.pdp__related-btn:hover:not(:disabled) {
+  transform: scale(1.03);
+}
+
+.pdp__color-btn:hover .pdp__color-btn-img,
+.cat-card__img { backface-visibility: hidden; }
+
+.pdp__accordion-icon svg,
+.pdp__size-guide-trigger svg {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
