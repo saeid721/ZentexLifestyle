@@ -21,8 +21,8 @@ const HomePage = () => {
   return (
     <main className="home-page">
       <SEO
-        title="Zentex | Premium Sneakers in Bangladesh"
-        description="Discover top sneakers, apparel, and accessories with best price in Bangladesh."
+        title="Zentex | Built for the Confident"
+        description="Premium Quality Clothing Manufacturer & Exporter."
         url={window.location.href}
       />
 

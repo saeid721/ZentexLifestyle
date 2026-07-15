@@ -1,7 +1,7 @@
 // src/pages/Home/useHomeData.js
 import { useEffect, useState } from "react";
 import { apiGet } from "../../utils/api";
-import fallbackHero from "../../assets/images/banner02.jpg";
+import fallbackHero from "../../assets/images/banner.webp";
 
 let homeDataCache = null;
 let homeDataPromise = null;
@@ -13,10 +13,10 @@ const fallbackHomeData = {
     {
       id: "local-first-paint",
       image: fallbackHero,
-      title: "Premium Sneaker Collection",
-      description: "Shop the latest sneakers, apparel, and accessories.",
+      title: "Built for the Confident",
+      description: "Manufacturing and exporting high-quality garments with precision, style, and reliability.",
       btn_text: "Shop Now",
-      link: "/new-arrivals",
+      link: "/shop",
     },
   ],
   new_arrivals: [],

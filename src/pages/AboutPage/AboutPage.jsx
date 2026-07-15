@@ -4,9 +4,10 @@ import { Container, Alert } from 'react-bootstrap';
 import { ChevronLeft, Leaf } from 'lucide-react';
 import Reveal from '../../components/ui/Reveal/Reveal';
 import './AboutUs.scss';
+import { API_BASE_URL, BASE_IMAGE_URL } from '../../config/env';
 
-const API_URL = 'https://admin.zentexlifestyle.softwaresale.xyz/api/about-us';
-const ASSET_BASE = 'https://admin.zentexlifestyle.softwaresale.xyz/';
+
+const API = API_BASE_URL;
 
 const AboutPage = () => {
   const [about, setAbout] = useState(null);
@@ -22,7 +23,7 @@ const AboutPage = () => {
         setLoading(true);
         setError(null);
 
-        const res = await fetch(API_URL);
+        const res = await fetch(`${API_BASE_URL}/about-us`);
         if (!res.ok) throw new Error('Failed to load About Us page');
 
         const json = await res.json();
@@ -45,7 +46,7 @@ const AboutPage = () => {
 
   const getIconUrl = (icon) => {
     if (!icon) return '';
-    return icon.startsWith('http') ? icon : `${ASSET_BASE}${icon}`;
+    return icon.startsWith('http') ? icon : `${BASE_IMAGE_URL}${icon}`;
   };
 
   if (loading) {

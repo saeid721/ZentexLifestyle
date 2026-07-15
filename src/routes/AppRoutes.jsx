@@ -50,7 +50,7 @@ const AppRoutes = () => {
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/category" element={<CategoriesMobilePage />} />
-            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+            {/* <Route path="/new-arrivals" element={<NewArrivalsPage />} /> */}
             <Route path="/product/:slug" element={<ProductDetails />} />
             <Route path="/products/:catSlug" element={<CatagoryProductPage />} />
             <Route path="/categories/:catSlug/:subSlug" element={<CatagoryProductPage />} />

@@ -35,11 +35,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {/* <Helmet>
-        <title>Elonis | Premium Sneakers, Loafers and Sandal</title>
-        <meta name="description" content="Shop premium sneakers, Loafers, Sandal, apparel, and accessories in Bangladesh at Elonis." />
+      <Helmet>
+        <title>Zentex | Built for the Confident</title>
+        <meta name="description" content="Premium Quality Clothing Manufacturer & Exporter." />
         <meta name="robots" content="index, follow" />
-      </Helmet> */}
+      </Helmet>
 
       <div className="app-shell" style={{ minHeight: '100%' }}>
         <ScrollToTop smooth delay={100} />
