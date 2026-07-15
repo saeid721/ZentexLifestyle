@@ -158,7 +158,7 @@ const RegisterPage = () => {
             {/* Header */}
             <div className="rp__card-header">
               <h1 className="rp__title">Create Account</h1>
-              <p className="rp__subtitle">Join Elonis — shop smarter, live better</p>
+              <p className="rp__subtitle">Join Zentex — shop smarter, live better</p>
             </div>
 
             {/* Alerts */}

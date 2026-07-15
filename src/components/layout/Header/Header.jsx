@@ -1024,7 +1024,7 @@ useEffect(() => {
       ? `${BASE_IMAGE_URL}${settings.white_logo}`
       : null;
 
-  const siteName = settings?.name || 'Elonis';
+  const siteName = settings?.name || 'Zentex';
   const phoneDisplay = contact?.hotline || contact?.phone || PHONE;
   const phoneHref = `tel:${(contact?.hotline || contact?.phone || PHONE).replace(/\s/g, '')}`;
 

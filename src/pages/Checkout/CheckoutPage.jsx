@@ -1787,10 +1787,10 @@ export const InvoicePage = ({ orderData, token }) => {
   const couponCode = orderData?._couponCode || invoice.coupon_code || null;
 
   // Site info from settings
-  const siteName = settings?.name || 'ELONIS';
+  const siteName = settings?.name || 'Zentex';
   const siteAddress = settings?.contact?.address || 'Dhaka, Bangladesh';
-  const sitePhone = settings?.contact?.hotline || settings?.contact?.phone || '+88 01886 899103';
-  const siteEmail = settings?.contact?.hotmail || settings?.contact?.email || 'info@elonis.com.bd';
+  const sitePhone = settings?.contact?.hotline || settings?.contact?.phone || '+88 01846-139660';
+  const siteEmail = settings?.contact?.hotmail || settings?.contact?.email || 'info@zentex.com';
   // logoUrl already derived above (before hooks); logoPath also derived above
   // Re-derive the display URL the same way for use in JSX (logoUrl already available)
 
@@ -1927,7 +1927,7 @@ export const InvoicePage = ({ orderData, token }) => {
       await navigator.share({
         files: [file],
         title: `Invoice ${invoiceNo}`,
-        text: `Check out my invoice from Elonis Lifestyle`,
+        text: `Check out my invoice from Zentex Lifestyle`,
       });
     } catch (err) {
       // AbortError means user cancelled share — not a real error

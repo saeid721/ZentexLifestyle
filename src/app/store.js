@@ -100,7 +100,7 @@ const useCartStore = create(
       clearCouponData: () => set({ couponData: null }),
     }),
     {
-      name: 'elonis-cart', // localStorage key — keep your existing name
+      name: 'zentex-cart', // localStorage key — keep your existing name
     },
   ),
 );

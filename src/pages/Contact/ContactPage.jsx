@@ -70,8 +70,8 @@ const ContactPage = () => {
       })
       .catch(() => {
         setContactInfo({
-          hotline: '+88 01886 899103',
-          hotmail: 'info@elonis.com.bd',
+          hotline: '+88 01846-139660',
+          hotmail: 'info@zentex.com',
           address: 'Dhaka, Bangladesh',
         });
       })

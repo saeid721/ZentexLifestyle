@@ -195,7 +195,7 @@ const SubCategories = () => {
                 '@type': 'ImageObject',
                 url: subImage,
                 name: sub.subcategoryName || sub.name || '',
-                description: `${sub.subcategoryName || sub.name || ''} products at Elonis`,
+                description: `${sub.subcategoryName || sub.name || ''} products at Zentex`,
               }
             : undefined,
         },
@@ -206,7 +206,7 @@ const SubCategories = () => {
       '@context': SCHEMA_ORG_URL,
       '@type': 'ItemList',
       name: categoryName,
-      description: `Browse all ${categoryName} subcategories at Elonis Bangladesh.`,
+      description: `Browse all ${categoryName} subcategories at Zentex Bangladesh.`,
       url: canonicalUrl,
       numberOfItems: sortedSubcategories.length + 1,
       itemListElement: [allProductsEntry, ...subEntries],
@@ -219,8 +219,8 @@ const SubCategories = () => {
     return {
       '@context': SCHEMA_ORG_URL,
       '@type': 'CollectionPage',
-      name: `${categoryName} | Elonis`,
-      description: `Shop ${categoryName} online in Bangladesh. Browse all subcategories at Elonis.`,
+      name: `${categoryName} | Zentex`,
+      description: `Shop ${categoryName} online in Bangladesh. Browse all subcategories at Zentex.`,
       url: canonicalUrl,
       // ✅ IMAGE SEO: Category image as ImageObject on the page schema
       image: categoryImg !== PLACEHOLDER_IMG
@@ -228,7 +228,7 @@ const SubCategories = () => {
             '@type': 'ImageObject',
             url: categoryImg,
             name: `${categoryName} category`,
-            description: `${categoryName} products at Elonis Bangladesh`,
+            description: `${categoryName} products at Zentex Bangladesh`,
           }
         : undefined,
       breadcrumb: breadcrumbSchema,
@@ -272,12 +272,12 @@ const SubCategories = () => {
 
       {/* ✅ LINE 245: SEO meta tags */}
       <SEO
-        title={`${categoryName} | Elonis`}
-        description={`Shop ${categoryName} online in Bangladesh. Browse all subcategories and latest products at Elonis.`}
+        title={`${categoryName} | Zentex`}
+        description={`Shop ${categoryName} online in Bangladesh. Browse all subcategories and latest products at Zentex.`}
         canonical={canonicalUrl}
         ogImage={ogImage}
         ogType="website"
-        keywords={`${categoryName}, buy online Bangladesh, Elonis`}
+        keywords={`${categoryName}, buy online Bangladesh, Zentex`}
         schemas={[breadcrumbSchema, ...(collectionPageSchema ? [collectionPageSchema] : []), ...(itemListSchema ? [itemListSchema] : [])]}
       />
 

@@ -27,8 +27,8 @@ export const formatPrice = (amount, currency = '৳') =>
 
 export const PLACEHOLDER_IMG = new URL('../assets/images/placehold.jpg', import.meta.url).href;
 
-export const SITE_NAME = 'Elonis';
-export const PHONE = '+88 01886 899103';
+export const SITE_NAME = 'Zentex';
+export const PHONE = '+88 01846-139660';
 
 if (typeof window !== 'undefined' && WWW_HOST && window.location.hostname === WWW_HOST) {
   window.location.replace(`${SITE_URL}${window.location.pathname}`);

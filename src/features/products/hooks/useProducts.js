@@ -27,8 +27,8 @@ const mockProducts = (category, count = 4) =>
     const price   = Math.round(orig * (1 - discPct / 100) / 5) * 5;
     return {
       id:            `${category}-${i + 1}`,
-      name:          `Elonis ${category} #${i + 1}`,
-      slug:          `elonis-${category.toLowerCase().replace(/\s+/g, '-')}-${i + 1}`,
+      name:          `Zentex ${category} #${i + 1}`,
+      slug:          `zentex-${category.toLowerCase().replace(/\s+/g, '-')}-${i + 1}`,
       sku:           `MU-00${100 + i}`,
       price,
       originalPrice: orig,

@@ -128,7 +128,7 @@ const CatagoryProductPage = () => {
   const collectionPageSchema = useMemo(() => ({
     '@context': SCHEMA_ORG_URL,
     '@type': 'CollectionPage',
-    name: `${title} | Elonis`,
+    name: `${title} | Zentex`,
     description: `Buy ${title} online in Bangladesh. Best price and latest collection available.`,
     url: canonicalUrl,
     breadcrumb: breadcrumbSchema,
@@ -164,7 +164,7 @@ const CatagoryProductPage = () => {
                   ? product.image
                   : `${baseUrl}${product.image}`,
                 name: product.name || title,
-                description: `Image of ${product.name || title} at Elonis`,
+                description: `Image of ${product.name || title} at Zentex`,
               }
             : undefined,
           offers: {
@@ -228,12 +228,12 @@ const CatagoryProductPage = () => {
 
       {/* ✅ LINE 197: SEO — passes canonical, ogImage, keywords */}
       <SEO
-        title={`${title} | Elonis`}
+        title={`${title} | Zentex`}
         description={`Buy ${title} online in Bangladesh. Best price and latest collection available.`}
         canonical={canonicalUrl}
         ogImage={ogImage}
         ogType="website"
-        keywords={`${title}, buy online Bangladesh, Elonis`}
+        keywords={`${title}, buy online Bangladesh, Zentex`}
         // ✅ structured data injected via SEO component's Helmet
         schemas={[breadcrumbSchema, collectionPageSchema, ...(itemListSchema ? [itemListSchema] : [])]}
       />
