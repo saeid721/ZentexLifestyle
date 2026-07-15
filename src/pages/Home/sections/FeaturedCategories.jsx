@@ -21,8 +21,8 @@ const CategoryCard = ({ cat }) => {
           onError={(e) => { e.target.src = PLACEHOLDER_IMG; e.target.onerror = null; setLoaded(true); }}
         />
         <div className="cat-card__overlay" />
+        <p className="cat-card__label">{label}</p>
       </div>
-      <p className="cat-card__label">{label}</p>
     </Link>
   );
 };
