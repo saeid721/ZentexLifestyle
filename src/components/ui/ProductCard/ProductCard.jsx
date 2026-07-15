@@ -1,5 +1,5 @@
 // src/components/common/ProductCard/ProductCard.jsx
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { memo, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import useCartStore from '../../../app/store';
@@ -323,7 +323,7 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
 
   // ── Image state ───────────────────────────────────────────────
   const [resolvedImage, setResolvedImage] = useState(() => extractImageFromProduct(product));
-  const fetchedRef = useRef(false);
+  const fetchedRef = useRef(null);
 
   const slug          = product?.slug;
   const name          = product?.name;
@@ -358,64 +358,55 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
     });
   };
 
-  // ── Fetch image from product detail API when search API gives none ──
-  useEffect(() => {
-    // Already have an image — nothing to do
-    if (resolvedImage && resolvedImage !== PLACEHOLDER_IMG) return;
-    // No slug to fetch with
-    if (!slug) return;
-    // Already tried fetching
-    if (fetchedRef.current) return;
-    fetchedRef.current = true;
+  const applyProductPayload = useCallback((body) => {
+    if (!body?.success) return;
 
-    // 1. Check prefetch cache first (instant, no network)
-    const cached = getPrefetchedProduct(slug);
-    if (cached) {
-      const img = extractImageFromCacheBody(cached);
-      if (img) { setResolvedImage(img); return; }
+    const img = extractImageFromCacheBody(body);
+    if (img) {
+      setResolvedImage(img);
     }
 
-    // 2. Fetch from API
-    apiClient.get(`/product/${slug}`)
-      .then((body) => {
-        const img = extractImageFromCacheBody(body);
-        if (img) setResolvedImage(img);
+    const variants = body.variants || [];
+    if (variants.length === 0) {
+      setIsStockOut(true);
+      setAvailableSizes([]);
+      return;
+    }
+
+    const totalStock = variants.reduce((sum, v) => sum + Number(v.stock || 0), 0);
+    setIsStockOut(totalStock <= 0);
+
+    const seen = new Set();
+    const sizes = variants
+      .filter((v) => v.size?.sizeName)
+      .filter((v) => {
+        const n = v.size.sizeName;
+        if (seen.has(n)) return false;
+        seen.add(n);
+        return true;
       })
-      .catch(() => {
-        // leave as PLACEHOLDER_IMG — already the default
-      });
-  }, [slug, resolvedImage]);
+      .map((v) => ({
+        name: v.size.sizeName,
+        inStock: Number(v.stock || 0) > 0,
+      }));
+    setAvailableSizes(sizes);
+  }, []);
 
   useEffect(() => {
     if (!slug) return;
-    const checkStock = (body) => {
-      if (!body?.success) return;
-      const variants = body.variants || [];
-      if (variants.length === 0) { setIsStockOut(true); return; }
-      const totalStock = variants.reduce((sum, v) => sum + Number(v.stock || 0), 0);
-      setIsStockOut(totalStock <= 0);
+    if (fetchedRef.current === slug) return;
+    fetchedRef.current = slug;
 
-      const seen = new Set();
-      const sizes = variants
-        .filter((v) => v.size?.sizeName)
-        .filter((v) => {
-          const n = v.size.sizeName;
-          if (seen.has(n)) return false;
-          seen.add(n);
-          return true;
-        })
-        .map((v) => ({
-          name: v.size.sizeName,
-          inStock: Number(v.stock || 0) > 0,
-        }));
-      setAvailableSizes(sizes);
-    };
     const cached = getPrefetchedProduct(slug);
-    if (cached) { checkStock(cached); return; }
-    apiClient.get(`/product/${slug}`)
-      .then(checkStock)
+    if (cached) {
+      applyProductPayload(cached);
+      return;
+    }
+
+    prefetchProduct(slug, () => apiClient.get(`/product/${slug}`))
+      .then(applyProductPayload)
       .catch(() => {});
-  }, [slug]);
+  }, [slug, applyProductPayload]);
 
   // ── Prefetch on hover (for variant popup speed) ───────────────
   const handleMouseEnter = useCallback(() => {
@@ -466,7 +457,10 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
 
   if (!product) return null;
 
-  const displayImage = imgError ? PLACEHOLDER_IMG : (resolvedImage || PLACEHOLDER_IMG);
+  const displayImage = useMemo(
+    () => (imgError ? PLACEHOLDER_IMG : (resolvedImage || PLACEHOLDER_IMG)),
+    [imgError, resolvedImage],
+  );
 
   return (
     <div className="product-card-wrapper" style={{ position: 'relative' }}>
@@ -500,6 +494,10 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
             className="product-card__img"
             onError={() => setImgError(true)}
             loading="lazy"
+            decoding="async"
+            width={320}
+            height={320}
+            fetchPriority="auto"
           />
 
           {availableSizes.length > 0 && (
@@ -576,4 +574,4 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

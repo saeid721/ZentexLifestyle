@@ -15,27 +15,32 @@ const CACHE_TTL_MS  = 5 * 60 * 1000; // 5 minutes
  *                              Pass productService.getProductBySlug(slug) wrapped in a thunk.
  */
 export const prefetchProduct = (slug, fetcher) => {
-  if (!slug || typeof fetcher !== 'function') return;
+  if (!slug || typeof fetcher !== 'function') return Promise.resolve(null);
 
   const cached = prefetchCache.get(slug);
-  const now    = Date.now();
+  const now = Date.now();
 
-  // Already cached and fresh → nothing to do
-  if (cached?.data && now - cached.ts < CACHE_TTL_MS) return;
+  if (cached?.data && now - cached.ts < CACHE_TTL_MS) {
+    return Promise.resolve(cached.data);
+  }
 
-  // Already in-flight → nothing to do
-  if (cached?.promise) return;
+  if (cached?.promise) {
+    return cached.promise;
+  }
 
   const promise = fetcher()
     .then((body) => {
       // body is already the unwrapped API payload (apiClient interceptor strips axios wrapper)
       prefetchCache.set(slug, { data: body, promise: null, ts: Date.now() });
+      return body;
     })
     .catch(() => {
       prefetchCache.delete(slug); // allow retry on next hover
+      return null;
     });
 
   prefetchCache.set(slug, { data: null, promise, ts: now });
+  return promise;
 };
 
 /**

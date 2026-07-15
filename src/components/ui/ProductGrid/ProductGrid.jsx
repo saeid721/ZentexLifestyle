@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import ProductCard from '../ProductCard/ProductCard';
 import Loader from '../Loader/Loader';
@@ -21,4 +21,4 @@ const ProductGrid = ({ products = [], loading = false }) => {
   );
 };
 
-export default ProductGrid;
+export default memo(ProductGrid);

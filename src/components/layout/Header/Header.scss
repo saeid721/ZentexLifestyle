@@ -20,11 +20,16 @@
     .desktop-nav { background: transparent; border-color: transparent; }
   }
 
-  &__mobile-top {
-    background: var(--brand-white);
-    border-bottom: 1px solid var(--brand-secondary-lighter);
-    padding: 0.65rem 0;
+ &__mobile-top {
+  display: flex;
+  background: var(--brand-white);
+  border-bottom: 1px solid var(--brand-secondary-lighter);
+  padding: 0.65rem 0;
+
+  @media (min-width: 992px) {
+    display: none !important;
   }
+}
 
   &__mobile-row {
     display: flex;
@@ -59,7 +64,14 @@
     &:hover { color: var(--brand-primary); }
   }
 
-  &__desktop { background: var(--brand-white); }
+  &__desktop {
+  display: none;
+  background: var(--brand-white);
+
+  @media (min-width: 992px) {
+    display: block !important;
+  }
+}
 
   &__main {
     
@@ -67,12 +79,12 @@
   }
 
   &__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0.75rem 0;
-  }
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 0;
+}
 
   &__icons {
     display: flex;
@@ -232,6 +244,7 @@
 // ─── Desktop Hover Nav ────────────────────────────────────────────
 .desktop-nav {
   background: var(--brand-white);
+  width: 100%;          // ← ei line ta notun add korte hobe
 
   &__list {
     display: flex;

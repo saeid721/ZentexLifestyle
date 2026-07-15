@@ -1,7 +1,7 @@
 // src/pages/ProductDetails/ProductDetailsPage.jsx
 import SEO from '../../components/SEO';
 import { SCHEMA_ORG_URL, SCHEMA_ORG_IN_STOCK } from '../../utils';
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense, memo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,6 +21,10 @@ import Reveal from '../../components/ui/Reveal/Reveal';
 import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, MessageCircle,
          Send, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
 import './ProductDetailsPage.scss';
+
+// Lazy load components that appear below the fold
+const LazySizeGuideModal = lazy(() => import('./LazySizeGuideModal'));
+const LazyRelatedProducts = lazy(() => import('./LazyRelatedProducts'));
 
 const buildUrl = (path) =>
   path ? `${BASE_IMAGE_URL}${path}` : PLACEHOLDER_IMG;
@@ -42,12 +46,14 @@ const resolveRawImage = (imageField) => {
 };
 
 // ─── Wishlist Heart Icon ──────────────────────────────────────────────────────
-const HeartIcon = ({ filled }) => (
+const HeartIcon = memo(({ filled }) => (
   <Heart size={20} fill={filled ? 'currentColor' : 'none'} strokeWidth={2} />
-);
+));
+
+HeartIcon.displayName = 'HeartIcon';
 
 // ─── Toast Component ──────────────────────────────────────────────────────────
-const Toast = ({ message, type, onClose, anchorRef }) => {
+const Toast = memo(({ message, type, onClose, anchorRef }) => {
   const toastRef = useRef(null);
 
   useEffect(() => {
@@ -84,10 +90,12 @@ const Toast = ({ message, type, onClose, anchorRef }) => {
       {message}
     </div>
   );
-};
+});
+
+Toast.displayName = 'Toast';
 
 // ─── Variant Popup ────────────────────────────────────────────────────────────
-const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, onConfirm }) => {
+const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClose, onConfirm }) => {
   const [variants, setVariants] = useState([]);
   const [preOrderColors, setPreOrderColors] = useState([]);
   const [preOrderSizes, setPreOrderSizes] = useState([]);
@@ -315,7 +323,9 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
       </div>
     </div>
   );
-};
+});
+
+VariantPopup.displayName = 'VariantPopup';
 
 // ─── Size Guide Modal ─────────────────────────────────────────────────────────
 const SizeGuideModal = ({ onClose, sizeGuideImg }) => {
@@ -966,7 +976,9 @@ const ProductDetailsPage = () => {
       )}
 
       {showSizeGuide && (
-        <SizeGuideModal onClose={() => setShowSizeGuide(false)} sizeGuideImg={sizeGuideImg} />
+        <Suspense fallback={null}>
+          <LazySizeGuideModal onClose={() => setShowSizeGuide(false)} sizeGuideImg={sizeGuideImg} />
+        </Suspense>
       )}
       {toast && (
         <Toast
@@ -1414,34 +1426,9 @@ const ProductDetailsPage = () => {
 
         {/* ── Related Products ── */}
         {relatedProducts.length > 0 && (
-          <div className="pdp__more-section mt-5">
-            <Reveal as="h2" type="fade-up" className="pdp__more-title">RELATED PRODUCTS</Reveal>
-            <div className="pdp__more-swiper-wrap">
-              <button className="pdp__nav-btn pdp__nav-btn--more pdp__nav-btn--more-prev" aria-label="Previous products">
-                <ChevronLeft size={18} strokeWidth={2.5} />
-              </button>
-              <button className="pdp__nav-btn pdp__nav-btn--more pdp__nav-btn--more-next" aria-label="Next products">
-                <ChevronRight size={18} strokeWidth={2.5} />
-              </button>
-              <Swiper
-                modules={[Navigation, Autoplay]}
-                navigation={{ prevEl: '.pdp__nav-btn--more-prev', nextEl: '.pdp__nav-btn--more-next' }}
-                autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-                loop={relatedProducts.length > 2}
-                spaceBetween={16} slidesPerView={2}
-                breakpoints={{ 576: { slidesPerView: 3 }, 768: { slidesPerView: 4 }, 992: { slidesPerView: 4 } }}
-                className="pdp__more-swiper"
-              >
-                {relatedProducts.map((rp, idx) => (
-                  <SwiperSlide key={rp.id}>
-                    <Reveal type="fade-up" delay={(idx % 4) * 90}>
-                      <ProductCard product={rp} />
-                    </Reveal>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </div>
+          <Suspense fallback={null}>
+            <LazyRelatedProducts relatedProducts={relatedProducts} />
+          </Suspense>
         )}
 
       </Container>

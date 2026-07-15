@@ -4,7 +4,6 @@
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
-@import "bootstrap/scss/utilities";
 
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";
@@ -23,4 +22,200 @@
 @import "bootstrap/scss/offcanvas";
 @import "bootstrap/scss/spinners";
 @import "bootstrap/scss/helpers";
+
+// Custom minimal utilities - significantly reduces CSS output
+$utilities: (
+  // Display utilities
+  "display": (
+    property: display,
+    class: d,
+    values: inline inline-block block grid flex none
+  ),
+  // Visibility
+  "visibility": (
+    property: visibility,
+    class: invisible,
+    values: (
+      invisible: hidden,
+    )
+  ),
+  // Flexbox basics
+  "flex-direction": (
+    property: flex-direction,
+    class: flex,
+    values: row column row-reverse column-reverse
+  ),
+  "justify-content": (
+    property: justify-content,
+    class: justify,
+    values: start end center between around evenly
+  ),
+  "align-items": (
+    property: align-items,
+    class: align,
+    values: start end center baseline stretch
+  ),
+  "gap": (
+    property: gap,
+    class: gap,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+    )
+  ),
+  // Margin utilities
+  "margin": (
+    property: margin,
+    class: m,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+      auto: auto,
+    )
+  ),
+  "margin-x": (
+    property: margin-right margin-left,
+    class: mx,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+      auto: auto,
+    )
+  ),
+  "margin-y": (
+    property: margin-top margin-bottom,
+    class: my,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+      auto: auto,
+    )
+  ),
+  "margin-top": (
+    property: margin-top,
+    class: mt,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+      auto: auto,
+    )
+  ),
+  "margin-bottom": (
+    property: margin-bottom,
+    class: mb,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+      auto: auto,
+    )
+  ),
+  // Padding utilities
+  "padding": (
+    property: padding,
+    class: p,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+    )
+  ),
+  "padding-x": (
+    property: padding-right padding-left,
+    class: px,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+    )
+  ),
+  "padding-y": (
+    property: padding-top padding-bottom,
+    class: py,
+    values: (
+      0: 0,
+      1: $spacer * .25,
+      2: $spacer * .5,
+      3: $spacer,
+      4: $spacer * 1.5,
+      5: $spacer * 3,
+    )
+  ),
+  // Text utilities
+  "text-align": (
+    property: text-align,
+    class: text,
+    values: (
+      start: left,
+      end: right,
+      center: center,
+    )
+  ),
+  // Width & Height
+  "width": (
+    property: width,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto,
+    )
+  ),
+  "height": (
+    property: height,
+    class: h,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto,
+    )
+  ),
+  // Overflow
+  "overflow": (
+    property: overflow,
+    class: overflow,
+    values: auto hidden visible scroll
+  ),
+  // Position
+  "position": (
+    property: position,
+    class: position,
+    values: static relative absolute fixed sticky
+  ),
+);
+
+// Generate utilities using Bootstrap's API
 @import "bootstrap/scss/utilities/api";
