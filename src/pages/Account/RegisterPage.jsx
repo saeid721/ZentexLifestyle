@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './RegisterPage.scss';
 import { API_BASE_URL } from '../../utils';
 import { setAuth } from '../../utils/auth';
@@ -132,24 +133,20 @@ const RegisterPage = () => {
       {/* Ambient background blobs */}
       <div className="rp__blob rp__blob--1" />
       <div className="rp__blob rp__blob--2" />
+      <div className="hero-section">
+            <Container className="container-1500">
+              <Reveal as="h1" type="fade-up" className="hero-section__title">Create Account</Reveal>
+              <nav aria-label="breadcrumb">
+                <ol className="hero-section__breadcrumb">
+                  <li><Link to="/">Home</Link></li>
+                  <li><span className="hero-section__sep">&gt;</span><span>Create Account</span></li>
+                </ol>
+              </nav>
+            </Container>
+          </div>
 
-      <Container className="container-1500 rp__container">
-        {/* Topbar */}
-        <div className="rp__topbar">
-          <nav aria-label="breadcrumb">
-            <ol className="rp__breadcrumb">
-              <li><Link to="/">Home</Link></li>
-              <li className="rp__breadcrumb-sep">›</li>
-              <li className="rp__breadcrumb-active">Register</li>
-            </ol>
-          </nav>
-          <Link to="/" className="rp__back-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-            Back to Home
-          </Link>
-        </div>
+          
+      <Container className="container-1500">
 
         {/* Card */}
         <div className="rp__card-wrap">
@@ -157,7 +154,6 @@ const RegisterPage = () => {
 
             {/* Header */}
             <div className="rp__card-header">
-              <h1 className="rp__title">Create Account</h1>
               <p className="rp__subtitle">Join Zentex — shop smarter, live better</p>
             </div>
 

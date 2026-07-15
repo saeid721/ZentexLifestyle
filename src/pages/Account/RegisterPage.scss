@@ -24,6 +24,39 @@
   100% { box-shadow: 0 0 0 0   rgba(189, 138, 40, 0);   }
 }
 
+
+// ─── Hero Section ─────────────────────────────────────────────
+.hero-section {
+  background: var(--brand-secondary-bg);
+  padding: 1.2rem 0;
+  text-align: center;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--brand-secondary-soft);
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--brand-secondary);
+    margin: 0 0 .75rem;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .85rem;
+
+    a { color: var(--brand-secondary-dark); font-weight: 500; }
+    li:last-child { display: flex; align-items: center; gap: .35rem; color: var(--brand-secondary-muted); }
+  }
+
+  &__sep { color: var(--brand-secondary-lighter); }
+}
+
+
 // ── Root Component ────────────────────────────────────────────────
 .rp {
   background: var(--brand-white);
@@ -127,13 +160,14 @@
 
   &__card {
     background: var(--brand-white);
-    border-radius: var(--card-radius); // $radius replaced
-    box-shadow: var(--shadow-md);      // $shadow replaced
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-md);
     padding: 1.5rem;
     width: 100%;
     max-width: 550px;
     border: 1px solid var(--border-extra-light);
-    margin-bottom: 2rem;  
+    margin-top: 2.5rem;  
+    margin-bottom: 1rem;  
 
     @media (max-width: 480px) {
       padding: 1.75rem 1.25rem;
@@ -329,20 +363,20 @@
     width: 100%;
     height: 36px;
     padding: 0 12px 0 40px;
-    border: 1.5px solid var(--border-light);
-    border-radius: 6px; // $radius-sm replaced
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    background: var(--bg-light);
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--brand-secondary-bg);
+    border: 1px solid var(--brand-secondary-soft);
+    border-radius: 8px;
+    font-family: var(--font-primary);
     transition: all var(--transition);
     outline: none;
 
-    &::placeholder { color: var(--text-placeholder); }
+    &::placeholder { color: var(--brand-secondary-lighter); }
 
     &:focus {
-      border-color: var(--brand-gold);
-      background: var(--brand-white);
-      box-shadow: 0 0 0 3px var(--brand-gold-rgba);
+    border-color: var(--brand-secondary);
+    box-shadow: 0 0 0 3px var(--brand-secondary-bg);
     }
 
     &:disabled {
