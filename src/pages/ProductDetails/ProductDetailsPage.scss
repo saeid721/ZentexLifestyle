@@ -102,9 +102,11 @@
 
 .pdp__gallery {
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 768px) {
-    display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 10px;
   }
@@ -137,6 +139,7 @@
 .pdp__main-swiper-wrap {
   position: relative;
   margin-bottom: 10px;
+  order: 1;
 
   @media (min-width: 768px) {
     flex: 1;
@@ -274,20 +277,26 @@
 // ── Thumbnails ────────────────────────────────────────────────────
 .pdp__thumb-swiper-wrap {
   position: relative;
-  padding: 0 28px;
+  padding: 0;
+  margin-top: 8px;
+  order: 2;
 
   @media (min-width: 768px) {
     width: 90px;
     flex-shrink: 0;
     order: 1;
     padding: 28px 0;
+    margin-top: 0;
   }
 }
 
 .pdp__thumb-swiper {
   width: 100%;
-  padding: 4px 0;
+  padding: 0;
   .swiper-button-prev, .swiper-button-next { display: none; }
+  .swiper-wrapper {
+    justify-content: flex-start;
+  }
 
   @media (min-width: 768px) {
     height: 560px;
@@ -296,13 +305,19 @@
 }
 
 .pdp__thumb-wrap {
-  border: 2px solid var(--brand-secondary-soft);
-  border-radius: 6px;
+  border: 1.5px solid var(--brand-secondary-soft);
+  border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
   transition: border-color 0.18s;
   aspect-ratio: 4 / 5;
+  max-width: 56px;
   .swiper-slide-thumb-active & { border-color: var(--brand-primary); }
+
+  @media (min-width: 768px) {
+    border-width: 2px;
+    max-width: none;
+  }
 }
 
 .pdp__thumb-img { 
@@ -727,12 +742,12 @@
 
   &--sm { width: 24px; height: 24px; border-radius: 4px; background: var(--brand-secondary-bg); border-color: var(--brand-secondary-light); top: 50%; }
   &--thumb-prev {
-    left: 0;
-    @media (min-width: 768px) { left: 50%; top: 0; transform: translateX(-50%); }
+    display: none;
+    @media (min-width: 768px) { display: flex; left: 50%; top: 0; transform: translateX(-50%); }
   }
   &--thumb-next {
-    right: 0;
-    @media (min-width: 768px) { right: auto; left: 50%; top: auto; bottom: 0; transform: translateX(-50%); }
+    display: none;
+    @media (min-width: 768px) { display: flex; right: auto; left: 50%; top: auto; bottom: 0; transform: translateX(-50%); }
   }
 
   &--more { width: 40px; height: 40px; top: 35%; background: var(--brand-white); box-shadow: 0 2px 12px rgba(0,0,0,.1); }

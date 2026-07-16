@@ -6,7 +6,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Offcanvas, Form, InputGroup, Button } from 'react-bootstrap';
 import useCartStore from '../../../app/store';
 import useDebounce from '../../../hooks/useDebounce';
-import { PHONE, BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL } from '../../../utils';
+import { PHONE, BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, PLACEHOLDER_LOGO } from '../../../utils';
 import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
 import { setAuth, getAuth, removeAuth } from '../../../utils/auth';
 import ProductCard from '../../../components/ui/ProductCard/ProductCard';
@@ -1046,7 +1046,7 @@ useEffect(() => {
     ? `${BASE_IMAGE_URL}${settings.dark_logo}`
     : settings?.white_logo
       ? `${BASE_IMAGE_URL}${settings.white_logo}`
-      : null;
+      : PLACEHOLDER_LOGO;
 
   const siteName = settings?.name || 'Zentex';
   const phoneDisplay = contact?.hotline || contact?.phone || PHONE;
@@ -1115,24 +1115,23 @@ useEffect(() => {
     return () => window.removeEventListener('storage', onStorage);
   }, [refreshAuth]);
 
-  // ✅ UPDATED LogoImg — added descriptive alt, width, height, fetchpriority
-  const LogoImg = ({ style = {} }) =>
-    logoSrc ? (
-      <img
-        src={logoSrc}
-        alt={`${siteName} - Official Store`}
-        className="site-header__logo-img"
-        style={style}
-        width="160"
-        height="48"
-        fetchPriority="high"
-      />
-    ) : (
-      <span
-        className="site-header__logo-skeleton"
-        style={{ display: 'inline-block', width: 100, height: 36, background: '#eee', borderRadius: 4, ...style }}
-      />
-    );
+  // ✅ UPDATED LogoImg — added descriptive alt, width, height, fetchpriority, error fallback
+  const LogoImg = ({ style = {} }) => (
+    <img
+      src={logoSrc}
+      alt={`${siteName} - Official Store`}
+      className="site-header__logo-img"
+      style={style}
+      width="160"
+      height="48"
+      fetchPriority="high"
+      onError={(e) => {
+        if (e.target.src !== PLACEHOLDER_LOGO) {
+          e.target.src = PLACEHOLDER_LOGO;
+        }
+      }}
+    />
+  );
 
   return (
     <>

@@ -1056,8 +1056,18 @@ const ProductDetailsPage = () => {
                     modules={[FreeMode, Navigation, Thumbs]}
                     onSwiper={setThumbsSwiper}
                     navigation={{ prevEl: '.pdp__nav-btn--thumb-prev', nextEl: '.pdp__nav-btn--thumb-next' }}
-                    direction="vertical"
-                    spaceBetween={8} slidesPerView={5} freeMode watchSlidesProgress
+                    direction="horizontal"
+                    spaceBetween={6}
+                    slidesPerView={5}
+                    freeMode
+                    watchSlidesProgress
+                    breakpoints={{
+                      768: {
+                        direction: 'vertical',
+                        spaceBetween: 8,
+                        slidesPerView: 5,
+                      },
+                    }}
                     className="pdp__thumb-swiper"
                   >
                     {images.map((img, i) => (

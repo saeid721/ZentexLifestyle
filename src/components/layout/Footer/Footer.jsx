@@ -5,8 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import './Footer.scss';
 
-import logoFallback from '../../../assets/images/logo.png';
-
 // Social Icons (Static)
 import fbIcon from '../../../assets/icons/facebook.png';
 import igIcon from '../../../assets/icons/instagram.png';
@@ -27,7 +25,7 @@ import nagadIcon           from '../../../assets/icons/nogod.png';
 import rocketIcon          from '../../../assets/icons/rocket.png';
 
 import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
-import { BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, STITBD_URL } from '../../../utils';
+import { BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, STITBD_URL, PLACEHOLDER_LOGO } from '../../../utils';
 
 const SOCIAL_ICON_MAP = {
   facebook:  fbIcon,
@@ -63,7 +61,7 @@ const Footer = () => {
 
   const logo = settings?.dark_logo
     ? `${BASE_IMAGE_URL}/${settings.dark_logo}`
-    : logoFallback;
+    : PLACEHOLDER_LOGO;
 
   const showToast = (type, text) => {
     setToast({ type, text });
@@ -179,6 +177,11 @@ const Footer = () => {
                   width="160"
                   height="48"
                   loading="lazy"
+                  onError={(e) => {
+                    if (e.target.src !== PLACEHOLDER_LOGO) {
+                      e.target.src = PLACEHOLDER_LOGO;
+                    }
+                  }}
                 />
               </Link>
               <ul className="site-footer__contact list-unstyled mt-3">

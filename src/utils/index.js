@@ -26,6 +26,7 @@ export const formatPrice = (amount, currency = '৳') =>
   `${currency}${Number(amount).toLocaleString('en-US')}`;
 
 export const PLACEHOLDER_IMG = new URL('../assets/images/placehold.jpg', import.meta.url).href;
+export const PLACEHOLDER_LOGO = new URL('../assets/images/logo.png', import.meta.url).href;
 
 export const SITE_NAME = 'Zentex';
 export const PHONE = '+88 01846-139660';
