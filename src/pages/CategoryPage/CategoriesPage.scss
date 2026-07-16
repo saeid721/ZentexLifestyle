@@ -52,6 +52,21 @@
       aspect-ratio: 4 / 5;
     }
   }
+
+  // ── Flat grid: consistent columns without row-breakdown gaps ──
+  &__grid--flat {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .cat-card {
+      width: 100%;
+    }
+  }
 }
 
 .featured-cats__container{

@@ -24,8 +24,10 @@ const TrustBar = ({ features = [] }) => {
           {features.map((f, idx) => (
             <Reveal key={f.id} type="fade-up" delay={idx * 90} className="trust-bar__card">
               <span className="trust-bar__icon">{getIcon(f.icon)}</span>
-              <p className="trust-bar__title">{f.title}</p>
-              <p className="trust-bar__sub">{f.description}</p>
+              <div className="trust-bar__text">
+                <p className="trust-bar__title">{f.title}</p>
+                <p className="trust-bar__sub">{f.description}</p>
+              </div>
             </Reveal>
           ))}
         </div>

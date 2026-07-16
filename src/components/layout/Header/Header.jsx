@@ -13,8 +13,8 @@ import ProductCard from '../../../components/ui/ProductCard/ProductCard';
 import { apiGet } from '../../../utils/api';
 import CartDrawer from './CartDrawer';
 import './Header.scss';
-import { Heart, Home, LayoutGrid, ShoppingCart, User, Search, ChevronDown, 
-  ArrowLeft, ArrowRight, X, Eye, EyeOff } from "lucide-react";
+import { Heart, Home, LayoutGrid, ShoppingCart, ShoppingBag, User, Search, ChevronDown, 
+  ArrowLeft, ArrowRight, X, Eye, EyeOff, Plus, Minus } from "lucide-react";
 
 
 // ─── Icons ───────────────────────────────────────────────────────
@@ -22,6 +22,8 @@ import { Heart, Home, LayoutGrid, ShoppingCart, User, Search, ChevronDown,
 const WishlistIcon = () => <Heart size={22} strokeWidth={2} />;
 
 const HomeIcon = () => <Home size={24} strokeWidth={2} />;
+
+const ShopIcon = () => <ShoppingBag size={24} strokeWidth={2} />;
 
 const CategoryIcon = () => <LayoutGrid size={24} strokeWidth={2} />;
 
@@ -38,6 +40,10 @@ const ArrowLeftIcon = () => <ArrowLeft size={18} strokeWidth={2.5} />;
 const ArrowRightIcon = () => <ArrowRight size={18} strokeWidth={2.5} />;
 
 const CloseIcon = () => <X size={20} strokeWidth={2.5} />;
+
+const PlusIcon = () => <Plus size={16} strokeWidth={2.5} />;
+
+const MinusIcon = () => <Minus size={16} strokeWidth={2.5} />;
 
 const EyeOpenIcon = () => <Eye size={16} strokeWidth={1.5} />;
 
@@ -713,7 +719,7 @@ const UserMenu = ({ onClose, position = 'desktop' }) => {
 
 
 // ─── Mobile Bottom Nav ────────────────────────────────────────────
-const MobileBottomNav = ({ showMobileLogin, onMobileLoginToggle, onMobileLoginClose }) => {
+const MobileBottomNav = ({ showMobileLogin, onMobileLoginToggle, onMobileLoginClose, onCartClick, wishlistCount }) => {
   const totalItems = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
   const location = useLocation();
   const navigate = useNavigate();
@@ -740,8 +746,9 @@ const MobileBottomNav = ({ showMobileLogin, onMobileLoginToggle, onMobileLoginCl
 
   const links = [
     { icon: <HomeIcon />, label: 'Home', href: '/', onClick: () => { navigate('/'); onMobileLoginClose(); } },
-    { icon: <CategoryIcon />, label: 'Category', href: '/category', onClick: () => { navigate('/category'); onMobileLoginClose(); } },
-    { icon: <CartIcon />, label: 'Cart', href: '/cart', badge: totalItems, onClick: () => onMobileLoginClose() },
+    { icon: <ShopIcon />, label: 'Shop', href: '/shop', onClick: () => { navigate('/shop'); onMobileLoginClose(); } },
+    { icon: <CategoryIcon />, label: 'Categories', href: '/category', onClick: () => { navigate('/category'); onMobileLoginClose(); } },
+    { icon: <WishlistIcon />, label: 'Wishlist', href: '/wishlist', badge: wishlistCount, onClick: () => { navigate('/wishlist'); onMobileLoginClose(); } },
   ];
 
   return (
@@ -770,6 +777,19 @@ const MobileBottomNav = ({ showMobileLogin, onMobileLoginToggle, onMobileLoginCl
             <span className="mobile-bottom-nav__label">{item.label}</span>
           </Link>
         ))}
+
+        <button
+          className="mobile-bottom-nav__item mobile-bottom-nav__btn"
+          onClick={() => { onCartClick(); onMobileLoginClose(); }}
+          aria-label={`Cart (${totalItems} items)`}
+        >
+          <div className="mobile-bottom-nav__icon-wrap">
+            <CartIcon />
+            {totalItems > 0 && <span className="mobile-bottom-nav__badge">{totalItems}</span>}
+          </div>
+          <span className="mobile-bottom-nav__label">Cart</span>
+        </button>
+
         <button
           ref={loginBtnRef}
           className={`mobile-bottom-nav__item mobile-bottom-nav__btn ${showMobileLogin ? 'mobile-bottom-nav__item--active' : ''}`}
@@ -895,7 +915,9 @@ const MobileSearchOverlay = ({ onClose }) => {
   };
 
   return (
-    <div className="search-modal">
+    <>
+      <div className="search-modal-backdrop" onClick={onClose} />
+      <div className="search-modal">
       <button type="button" className="search-modal__close" onClick={onClose} aria-label="Close">
         <CloseIcon />
       </button>
@@ -972,6 +994,7 @@ const MobileSearchOverlay = ({ onClose }) => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
@@ -988,6 +1011,7 @@ const Header = () => {
   const [showDesktopLogin, setShowDesktopLogin] = useState(false);
   const [showMobileLogin, setShowMobileLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [showShopMenu, setShowShopMenu] = useState(true);
   const wishlistCount = useWishlistStore((s) => s.items.length);
 
   const [authState, setAuthState] = useState(() => getAuth());
@@ -1101,7 +1125,7 @@ useEffect(() => {
         style={style}
         width="160"
         height="48"
-        fetchpriority="high"
+        fetchPriority="high"
       />
     ) : (
       <span
@@ -1220,27 +1244,56 @@ useEffect(() => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchQuery.trim()) { navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`); setShowOffcanvas(false); }
-              }}
-              className="mb-3"
-            >
-              <InputGroup>
-                <Form.Control
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="site-header__search-input"
-                />
-                <Button type="submit" className="site-header__search-btn" aria-label="Search"><SearchIcon /></Button>
-              </InputGroup>
-            </Form>
             <div className="mobile-nav">
-              {navLinks.map((link) => (
-                <MobileNavItem key={link.key} item={link} onClose={() => setShowOffcanvas(false)} />
-              ))}
+              <div className="mobile-nav__item mobile-nav__item--top">
+                <div className="mobile-nav__row">
+                  <Link to="/" className="mobile-nav__link" onClick={() => setShowOffcanvas(false)}>
+                    Home
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mobile-nav__item mobile-nav__item--top">
+                <div className="mobile-nav__row">
+                  <Link
+                    to="/shop"
+                    className="mobile-nav__link"
+                    onClick={(e) => { e.preventDefault(); setShowShopMenu((v) => !v); }}
+                  >
+                    Shop
+                  </Link>
+                  <button
+                    className={`mobile-nav__toggle ${showShopMenu ? 'mobile-nav__toggle--open' : ''}`}
+                    onClick={() => setShowShopMenu((v) => !v)}
+                    aria-label="expand shop menu"
+                  >
+                    {showShopMenu ? <MinusIcon /> : <PlusIcon />}
+                  </button>
+                </div>
+                {showShopMenu && (
+                  <div className="mobile-nav__children">
+                    {navLinks.map((link) => (
+                      <MobileNavItem key={link.key} item={link} depth={1} onClose={() => setShowOffcanvas(false)} />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="mobile-nav__item mobile-nav__item--top">
+                <div className="mobile-nav__row">
+                  <Link to="/category" className="mobile-nav__link" onClick={() => setShowOffcanvas(false)}>
+                    Categories
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mobile-nav__item mobile-nav__item--top">
+                <div className="mobile-nav__row">
+                  <Link to="/about-us" className="mobile-nav__link" onClick={() => setShowOffcanvas(false)}>
+                    About Us
+                  </Link>
+                </div>
+              </div>
             </div>
             <div className="mt-4 pt-3 border-top">
               {authState.isAuthenticated ? (
@@ -1273,6 +1326,8 @@ useEffect(() => {
         showMobileLogin={showMobileLogin}
         onMobileLoginToggle={handleMobileLoginToggle}
         onMobileLoginClose={handleMobileLoginClose}
+        onCartClick={() => setShowCart(true)}
+        wishlistCount={wishlistCount}
       />
     </>
   );

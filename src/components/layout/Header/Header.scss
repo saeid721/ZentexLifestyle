@@ -623,12 +623,13 @@ body {
   animation: slideInRight .28s cubic-bezier(.32,1,.28,1) both;
 
   @media (max-width: 480px) {
-    max-width: 100%;
+    left: 30px;
+    max-width: calc(100% - 30px);
   }
 
   &__header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 1.5rem;
+    padding: .72rem 1.5rem;
     border-bottom: 1px solid var(--brand-secondary-lighter);
   }
   &__title { font-size: 1.15rem; font-weight: 700; color: var(--brand-secondary); margin: 0; }
@@ -649,8 +650,20 @@ body {
     display: inline-flex; align-items: center; gap: .4rem;
     background: var(--brand-secondary); color: var(--brand-white);
     font-size: .88rem; font-weight: 600; padding: .7rem 1.4rem; border-radius: 6px;
-    text-decoration: none; transition: background .2s;
+    text-decoration: none; transition: background .2s, color .2s, border-color .2s;
     &:hover { background: var(--brand-primary); color: var(--brand-white); }
+
+    &--outline {
+      background: var(--brand-white);
+      color: var(--brand-secondary);
+      border: 1.5px solid var(--brand-secondary);
+
+      &:hover {
+        background: var(--brand-secondary);
+        color: var(--brand-white);
+        border-color: var(--brand-secondary);
+      }
+    }
   }
 
   &__items { flex: 1; overflow-y: auto; padding: 0.5rem 1.5rem; }
@@ -666,6 +679,37 @@ body {
   &__item-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .2rem; }
   &__item-name { font-size: .85rem; font-weight: 500; color: var(--brand-secondary); }
   &__item-meta { font-size: .78rem; color: var(--brand-secondary-muted); }
+  &__qty-ctrl {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 6px;
+    border: 1.5px solid var(--brand-secondary-soft);
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+
+    button {
+      background: var(--brand-secondary-bg);
+      border: none;
+      padding: 3px 10px;
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--brand-secondary);
+      line-height: 1;
+      transition: background .2s;
+
+      &:hover { background: var(--brand-secondary-soft); }
+      &:disabled { opacity: .5; cursor: not-allowed; }
+    }
+
+    span {
+      min-width: 26px;
+      text-align: center;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--brand-secondary);
+    }
+  }
   &__item-remove {
     background: none; border: none; cursor: pointer; color: var(--brand-secondary-lighter);
     padding: 6px; border-radius: 50%; transition: background .2s, color .2s;
@@ -678,6 +722,15 @@ body {
     font-size: .95rem; color: var(--brand-secondary); margin-bottom: 1rem;
     strong { font-size: 1.05rem; }
   }
+  &__footer-actions {
+    display: flex;
+    gap: 0.75rem;
+
+    .cart-drawer__return-btn {
+      flex: 1;
+      justify-content: center;
+    }
+  }
 }
 
 @keyframes slideInRight {
@@ -688,13 +741,44 @@ body {
 
 
 // ─── Full-Screen Search Modal ─────────────────────────────────────
+.search-modal-backdrop {
+  position: fixed; inset: 0; z-index: 20000;
+  background: rgba(0, 0, 0, 0.45);
+  animation: fadeIn .2s ease both;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+}
+
 .search-modal {
   position: fixed;
-  inset: 0;
-  z-index: 20000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20001;
+  width: 100%;
+  max-width: 420px;
   background: var(--brand-white);
   overflow-y: auto;
-  animation: fadeIn .2s ease both;
+  box-shadow: -8px 0 32px rgba(0,0,0,.18);
+  animation: slideInRight .28s cubic-bezier(.32,1,.28,1) both;
+
+  @media (max-width: 480px) {
+    left: 30px;
+    max-width: calc(100% - 30px);
+  }
+
+  // ✅ Desktop: full-screen, top-down modal (original behavior)
+  @media (min-width: 992px) {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    animation: fadeIn .2s ease both;
+  }
 
   &__close {
     position: absolute;
@@ -717,7 +801,7 @@ body {
   &__inner {
     max-width: 900px;
     margin: 0 auto;
-    padding: 5rem 1.5rem 3rem;
+    padding: 1.5rem;
   }
 
   &__title {
@@ -830,6 +914,34 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
 
     &:hover { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--brand-white); }
+  }
+
+  // ✅ Mobile: inspiration list stacks vertically instead of horizontal scroll
+  @media (max-width: 991.98px) {
+    &__carousel {
+      display: block;
+
+      &--loading { display: block; }
+    }
+
+    &__track {
+      display: flex;
+      flex-direction: column;
+      overflow-x: visible;
+      gap: 1rem;
+    }
+
+    &__card {
+      flex: none;
+      max-width: 100%;
+      width: 100%;
+
+      &--skeleton { height: 90px; }
+    }
+
+    &__nav {
+      display: none;
+    }
   }
 }
 

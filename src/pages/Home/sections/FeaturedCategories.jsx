@@ -39,18 +39,9 @@ const FeaturedCategories = ({ categories = [] }) => {
           <span className="featured-cats__heading-line" />
         </Reveal>
 
-        <div className="featured-cats__grid">
-          {Array.from({ length: Math.ceil(categories.length / 5) }, (_, i) =>
-            categories.slice(i * 5, i * 5 + 5)
-          ).map((rowCats, rowIdx) => (
-            <div
-              key={rowIdx}
-              className="featured-cats__row featured-cats__row--tall"
-            >
-              {rowCats.map((cat, idx) => (
-                <CategoryCard key={cat.id} cat={cat} index={rowIdx * 5 + idx} />
-              ))}
-            </div>
+        <div className="featured-cats__grid featured-cats__grid--flat">
+          {categories.map((cat, idx) => (
+            <CategoryCard key={cat.id} cat={cat} index={idx} />
           ))}
         </div>
       </Container>

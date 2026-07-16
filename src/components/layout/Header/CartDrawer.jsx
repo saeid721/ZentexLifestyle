@@ -11,6 +11,7 @@ const TrashIcon = () => <Trash2 size={16} strokeWidth={2} />;
 const CartDrawer = ({ onClose }) => {
   const items = useCartStore((s) => s.items);
   const removeFromCart = useCartStore((s) => s.removeFromCart);
+  const updateQty = useCartStore((s) => s.updateQty);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -56,8 +57,26 @@ const CartDrawer = ({ onClose }) => {
                   <div className="cart-drawer__item-info">
                     <span className="cart-drawer__item-name">{item.name}</span>
                     <span className="cart-drawer__item-meta">
-                      {item.quantity} × ৳{Number(item.price).toLocaleString('en-US')}
+                      ৳{Number(item.price).toLocaleString('en-US')}
                     </span>
+                    <div className="cart-drawer__qty-ctrl" role="group" aria-label={`Quantity for ${item.name}`}>
+                      <button
+                        type="button"
+                        onClick={() => item.quantity > 1 ? updateQty(item.id, item.quantity - 1) : removeFromCart(item.id)}
+                        aria-label="Decrease quantity"
+                      >
+                        −
+                      </button>
+                      <span aria-live="polite">{item.quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => updateQty(item.id, item.quantity + 1)}
+                        disabled={item.quantity >= 99}
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                   <button
                     className="cart-drawer__item-remove"
@@ -74,9 +93,14 @@ const CartDrawer = ({ onClose }) => {
                 <span>Subtotal</span>
                 <strong>৳{subtotal.toLocaleString('en-US')}</strong>
               </div>
-              <Link to="/cart" className="cart-drawer__return-btn" onClick={onClose}>
-                View Cart
-              </Link>
+              <div className="cart-drawer__footer-actions">
+                <Link to="/cart" className="cart-drawer__return-btn cart-drawer__return-btn--outline" onClick={onClose}>
+                  View Cart
+                </Link>
+                <Link to="/checkout" className="cart-drawer__return-btn" onClick={onClose}>
+                  Checkout
+                </Link>
+              </div>
             </div>
           </>
         )}

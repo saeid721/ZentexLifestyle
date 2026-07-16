@@ -44,15 +44,13 @@ const CategoriesMobilePage = () => {
           <h2 className="featured-cats__heading-text">Product Categories</h2>
           <span className="featured-cats__heading-line" />
         </div>
-        <div className="featured-cats__grid">
-          <div className="featured-cats__row featured-cats__row--tall">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="cat-card cat-card--loading">
-                <div className="cat-card__img-wrap" style={{ aspectRatio: '4/5' }} />
-                <p className="cat-card__label" />
-              </div>
-            ))}
-          </div>
+        <div className="featured-cats__grid featured-cats__grid--flat">
+          {[...Array(10)].map((_, i) => (
+            <div key={i} className="cat-card cat-card--loading">
+              <div className="cat-card__img-wrap" style={{ aspectRatio: '4/5' }} />
+              <p className="cat-card__label" />
+            </div>
+          ))}
         </div>
       </Container>
     </section>
@@ -73,16 +71,9 @@ const CategoriesMobilePage = () => {
             </div>
       <Container className="container-1500 featured-cats__container ">
 
-        <div className="featured-cats__grid">
-          {Array.from(
-            { length: Math.ceil(categories.length / CATEGORIES_PER_ROW) },
-            (_, i) => categories.slice(i * CATEGORIES_PER_ROW, i * CATEGORIES_PER_ROW + CATEGORIES_PER_ROW)
-          ).map((rowCats, rowIdx) => (
-            <div key={rowIdx} className="featured-cats__row featured-cats__row--tall">
-              {rowCats.map((cat, idx) => (
-                <CategoryCard key={cat.id} cat={cat} index={rowIdx * CATEGORIES_PER_ROW + idx} />
-              ))}
-            </div>
+        <div className="featured-cats__grid featured-cats__grid--flat">
+          {categories.map((cat, idx) => (
+            <CategoryCard key={cat.id} cat={cat} index={idx} />
           ))}
         </div>
       </Container>
