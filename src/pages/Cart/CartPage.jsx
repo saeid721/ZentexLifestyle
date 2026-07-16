@@ -3,6 +3,7 @@ import { Container, Row, Col, Table, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import useCartStore from '../../app/store';
 import { formatPrice, CALCULATE_API, PLACEHOLDER_IMG } from '../../utils';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './CartPage.scss';
 
 
@@ -181,15 +182,23 @@ const CartPage = () => {
   return (
     <>
     {ToastEl}
-    <main className="cart-page" role="main">
-      <Container className="container-1500 py-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="cart-page__title">Your Cart</h2>
-          <span className="text-muted small">
+    <main className="cart-page">
+      <div className="hero-section">
+        <Container className="container-1500">
+          <Reveal as="h1" type="fade-up" className="hero-section__title">Your Cart</Reveal>
+          <nav aria-label="breadcrumb">
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>Your Cart</span> <span className="text-muted small">
             {items.reduce((acc, item) => acc + item.quantity, 0)} item(s)
-          </span>
-        </div>
+          </span></li>
+              
+            </ol>
+          </nav>
+        </Container>
+      </div>
 
+      <Container className="container-1500  mt-4">
         <Row className="g-4">
           {/* ── Left: Items ── */}
           <Col xs={12} lg={8}>

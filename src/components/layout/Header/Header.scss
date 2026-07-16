@@ -244,7 +244,7 @@
 // ─── Desktop Hover Nav ────────────────────────────────────────────
 .desktop-nav {
   background: var(--brand-white);
-  width: 100%;          // ← ei line ta notun add korte hobe
+  width: 100%;
 
   &__list {
     display: flex;
@@ -355,10 +355,10 @@
   }
 
   &__btn {
-    width: 100%; background: var(--brand-primary); color: var(--brand-white); border: none;
+    width: 100%; background: var(--brand-secondary); color: var(--brand-white); border: none;
     border-radius: 6px; padding: .65rem; font-size: .88rem; font-weight: 600;
     cursor: pointer; margin-top: .5rem; transition: background .2s;
-    &:hover { background: var(--brand-primary-dark); }
+    &:hover { background: var(--brand-primary); }
   }
 
   &__forgot {
@@ -389,7 +389,7 @@
 
   &__remember-info {
     margin-top: 8px; padding: 8px 12px;
-    background: var(--bg-info); border-left: 3px solid var(--info); border-radius: 4px;
+    background: var(--brand-secondary-bg); border-left: 3px solid var(--info); border-radius: 4px;
     small { color: var(--info); font-size: 12px; }
   }
 }
@@ -460,9 +460,6 @@
 }
 
 // ─── Mobile Accordion Nav ─────────────────────────────────────────
-// ⚠️ FIXED: __row was accidentally overwritten with the desktop
-// site-header__row styles (gap:1.5rem, padding:0.75rem 0). Restored
-// to its correct compact accordion-row layout below.
 .mobile-nav {
   &__item {
     border-bottom: 1px solid var(--brand-secondary-soft);
@@ -738,8 +735,6 @@ body {
   to   { transform: translateX(0); }
 }
 
-
-
 // ─── Full-Screen Search Modal ─────────────────────────────────────
 .search-modal-backdrop {
   position: fixed; inset: 0; z-index: 20000;
@@ -769,7 +764,6 @@ body {
     max-width: calc(100% - 30px);
   }
 
-  // ✅ Desktop: full-screen, top-down modal (original behavior)
   @media (min-width: 992px) {
     left: 0;
     top: 0;
@@ -916,7 +910,6 @@ body {
     &:hover { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--brand-white); }
   }
 
-  // ✅ Mobile: inspiration list stacks vertically instead of horizontal scroll
   @media (max-width: 991.98px) {
     &__carousel {
       display: block;
@@ -944,7 +937,6 @@ body {
     }
   }
 }
-
 
 // ─── Mega Menu (Shop) ──────────────────────────────────────────────
 .mega-menu {
@@ -1075,4 +1067,39 @@ body {
       grid-template-columns: repeat(3, 1fr);
     }
   }
+}
+
+// ─── Animations ──────────────────────────────────────────────────
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes navBarIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dropDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes activeBarIn {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

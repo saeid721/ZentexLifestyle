@@ -26,29 +26,7 @@
   --brand-secondary-medium:   #354652;
   --brand-secondary-soft:     #dde3e6;
 
-  /* --- Legacy brand aliases mapped to the shared brand palette --- */
   --brand-white:              #ffffff;
-  --brand-black:              var(--brand-secondary);
-  --brand-black-light:        var(--brand-secondary-light);
-  --brand-black-dark:         var(--brand-secondary-dark);
-  --brand-black-hover:        var(--brand-secondary-hover);
-  --brand-black-bg:           var(--brand-secondary-bg);
-  --brand-black-rgba:         var(--brand-secondary-rgba);
-  --brand-gold:               var(--brand-primary);
-  --brand-gold-dark:          var(--brand-primary-dark);
-  --brand-gold-light:         var(--brand-primary-light);
-  --brand-gold-lighter:       var(--brand-primary-lighter);
-  --brand-gold-bg:            var(--brand-primary-bg);
-  --brand-gold-hover:         var(--brand-primary-hover);
-  --brand-gold-rgba:          var(--brand-primary-rgba);
-  --brand-gold-accent:        var(--brand-primary-accent);
-  --brand-gold-muted:         var(--brand-primary-muted);
-  --brand-gold-medium:        var(--brand-primary-medium);
-  --brand-gold-soft:          var(--brand-primary-soft);
-  --brand-red:                var(--brand-primary);
-  --brand-red-dark:           var(--brand-primary-dark);
-  --brand-red-light:          var(--brand-primary-light);
-  --brand-red-hover:          var(--brand-primary-hover);
 
   /* --- UI / Status Colors --- */
   --success:            #28a745;

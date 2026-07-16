@@ -5,6 +5,7 @@ import useCartStore from '../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, API_BASE_URL } from '../../utils';
 import { setAuth, getAuth } from '../../utils/auth';
 import { Eye, EyeOff, Phone, Mail, MapPin } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import axios from 'axios';
 import './CheckoutPage.scss';
 
@@ -574,8 +575,20 @@ const CheckoutPage = () => {
           </Container>
         </div>
       )}
-      <Container className="container-1500 py-4">
-        <h2 className="checkout-page__title mb-4">Checkout</h2>
+      
+      <div className="hero-section">
+        <Container className="container-1500">
+          <Reveal as="h1" type="fade-up" className="hero-section__title">Checkout</Reveal>
+          <nav aria-label="breadcrumb">
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>Checkout</span></li>
+              
+            </ol>
+          </nav>
+        </Container>
+      </div>
+      <Container className="container-1500 mt-4">
 
         <Row className="g-4">
 
