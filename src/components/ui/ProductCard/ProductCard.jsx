@@ -136,7 +136,9 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
   const isOutOfStock = !isPreOrder && (variants.length === 0 || totalStock <= 0);
 
   const uniqueColors = isPreOrder
-  ? preOrderColors.map((c) => ({ color: { colorName: c.colorName }, id: c.id, stock: 9999 }))
+  ? preOrderColors
+      .filter((c) => c && c.colorName)
+      .map((c) => ({ color: { colorName: c.colorName }, id: c.id, stock: 9999 }))
   : (() => {
       const seen = {};
       return variants
@@ -150,7 +152,9 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
     })();
 
     const availableSizes = isPreOrder
-    ? preOrderSizes.map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
+    ? preOrderSizes
+        .filter((s) => s && s.sizeName)
+        .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
     : selectedColor
       ? variants.filter((v) => v.size !== null && v.color?.colorName === selectedColor)
       : variants.filter((v) => v.size !== null);

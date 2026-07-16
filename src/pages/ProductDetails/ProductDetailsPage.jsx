@@ -147,7 +147,9 @@ const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClo
 
   // Pre-order: use top-level colors/sizes; ignore variant stock entirely
   const uniqueColors = isPreOrder
-    ? preOrderColors.map((c) => ({ id: c.id, color: { colorName: c.colorName }, stock: 9999 }))
+    ? preOrderColors
+        .filter((c) => c && c.colorName)
+        .map((c) => ({ id: c.id, color: { colorName: c.colorName }, stock: 9999 }))
     : (() => {
       const seen = {};
       return variants
@@ -161,7 +163,9 @@ const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClo
     })();
 
   const availableSizes = isPreOrder
-    ? preOrderSizes.map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
+    ? preOrderSizes
+        .filter((s) => s && s.sizeName)
+        .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
     : selectedColor
       ? variants.filter((v) => v.size !== null && v.color?.colorName === selectedColor)
       : variants.filter((v) => v.size !== null);
