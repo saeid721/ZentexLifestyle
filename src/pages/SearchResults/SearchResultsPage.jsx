@@ -4,6 +4,8 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import ProductToolbar from '../../components/ui/ProductToolbar/ProductToolbar';
+import FilterDrawer from '../../components/ui/FilterDrawer/FilterDrawer';
 import { API_BASE_URL } from '../../config/env';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Reveal from '../../components/ui/Reveal/Reveal';
@@ -30,6 +32,17 @@ const SearchResultsPage = () => {
   const [sortBy,      setSortBy]      = useState('default');
   const [perPage,     setPerPage]     = useState(25);
   const [currentPage, setCurrentPage] = useState(1);
+
+  // ✅ NEW: filter drawer state
+  const [viewCols, setViewCols] = useState(5);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filters, setFilters] = useState({
+    categories: [],
+    status: [],
+    sizes: [],
+    priceMin: 0,
+    priceMax: 10000,
+  });
 
   useEffect(() => {
     if (!query.trim()) {
@@ -86,7 +99,26 @@ const SearchResultsPage = () => {
   }, [query]);
 
   // ── Sorting ───────────────────────────────────────────────────
-  const sorted = [...allProducts].sort((a, b) => {
+  // ✅ NEW: apply filters before sorting
+  const filteredProducts = allProducts.filter((p) => {
+    const price = p.new_price ?? p.price ?? 0;
+    if (price < filters.priceMin || price > filters.priceMax) return false;
+
+    if (filters.categories.length > 0) {
+      const catSlug = p.category?.slug || p.subcategory?.slug;
+      if (!filters.categories.includes(catSlug)) return false;
+    }
+
+    if (filters.status.includes('on_sale')) {
+      const hasDiscount = (p.old_price ?? 0) > (p.new_price ?? p.price ?? 0);
+      if (!hasDiscount) return false;
+    }
+
+    return true;
+  });
+
+  // ── Sorting ───────────────────────────────────────────────────
+  const sorted = [...filteredProducts].sort((a, b) => {
     const aPrice = a.new_price ?? a.price ?? 0;
     const bPrice = b.new_price ?? b.price ?? 0;
 
@@ -161,25 +193,23 @@ const SearchResultsPage = () => {
 
         {/* ── Filter bar ── */}
         {!loading && !error && query.trim() && (
-          <div className="ccat-page__filter-bar d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
-            <p className="ccat-page__count mb-0">
-              Showing {sorted.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + perPage, sorted.length)} of {sorted.length} products
-            </p>
-            <div className="d-flex align-items-center gap-2 flex-wrap">
-              <div className="ccat-page__select-wrap">
-                <label className="ccat-page__select-label">Sort by:</label>
-                <select className="ccat-page__select" value={sortBy} onChange={(e) => handleSort(e.target.value)}>
-                  {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
-              </div>
-              <div className="ccat-page__select-wrap">
-                <label className="ccat-page__select-label">Per page:</label>
-                <select className="ccat-page__select" value={perPage} onChange={(e) => handlePerPage(e.target.value)}>
-                  {PER_PAGE_OPTIONS.map((n) => <option key={n} value={n}>{n} per page</option>)}
-                </select>
-              </div>
-            </div>
-          </div>
+          <>
+            <ProductToolbar
+              onFilterClick={() => setShowFilter(true)}
+              viewCols={viewCols}
+              onViewChange={setViewCols}
+              sortBy={sortBy}
+              onSortChange={handleSort}
+              sortOptions={SORT_OPTIONS}
+            />
+
+            <FilterDrawer
+              show={showFilter}
+              onClose={() => setShowFilter(false)}
+              filters={filters}
+              onApply={setFilters}
+            />
+          </>
         )}
 
         {/* ── Product Grid ── */}
@@ -205,7 +235,7 @@ const SearchResultsPage = () => {
             <p>No products found for "<strong>{query}</strong>". Try a different search term.</p>
           </div>
         ) : !error && query.trim() && (
-           <Row xs={2} sm={3} md={4} lg={5} className="g-3">
+           <Row xs={2} sm={3} md={4} lg={viewCols} className="g-3">
             {paginated.map((product, idx) => (
               <Col key={product.id}>
                 <Reveal type="fade-up" delay={(idx % 10) * 60}>

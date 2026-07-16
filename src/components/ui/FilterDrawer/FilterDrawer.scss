@@ -1,0 +1,124 @@
+.filter-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10098;
+  background: rgba(0, 0, 0, 0.45);
+  animation: fdFadeIn 0.2s ease both;
+}
+
+.filter-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10099;
+  width: 100%;
+  max-width: 340px;
+  background: var(--brand-white, #fff);
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  animation: fdSlideInLeft 0.28s cubic-bezier(.32,1,.28,1) both;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-lighter, #eee);
+  }
+
+  &__title { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.05em; }
+
+  &__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-medium, #555);
+    display: flex;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    &:hover { background: var(--border-extra-light, #f2f2f2); }
+  }
+
+  &__body { flex: 1; overflow-y: auto; padding: 1.25rem; }
+
+  &__section { margin-bottom: 1.75rem; }
+
+  &__section-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-medium, #444);
+    padding: 0.3rem 0;
+    cursor: pointer;
+    input { width: 15px; height: 15px; cursor: pointer; accent-color: var(--brand-gold, #c9a24b); }
+  }
+
+  &__price-slider { width: 100%; accent-color: var(--brand-gold, #c9a24b); }
+  &__price-label { font-size: 0.82rem; color: var(--text-medium, #555); margin-top: 0.5rem; }
+
+  &__sizes { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  &__size-btn {
+    min-width: 40px;
+    height: 36px;
+    padding: 0 0.6rem;
+    border: 1.5px solid var(--border, #ddd);
+    border-radius: 4px;
+    background: var(--brand-white, #fff);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    &:hover { border-color: var(--brand-gold, #c9a24b); }
+    &--active { background: var(--brand-gold, #c9a24b); border-color: var(--brand-gold, #c9a24b); color: #fff; }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border-lighter, #eee);
+  }
+
+  &__reset-btn, &__apply-btn {
+    flex: 1;
+    padding: 0.65rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  &__reset-btn {
+    background: var(--brand-white, #fff);
+    border: 1.5px solid var(--border, #ddd);
+    color: var(--text-primary, #222);
+    &:hover { border-color: var(--text-disabled, #aaa); }
+  }
+
+  &__apply-btn {
+    background: var(--brand-black, #111);
+    border: none;
+    color: #fff;
+    &:hover { opacity: 0.85; }
+  }
+
+  @media (max-width: 480px) { max-width: 100%; }
+}
+
+@keyframes fdFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fdSlideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }

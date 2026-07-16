@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Container, Alert } from 'react-bootstrap';
 import { usePageDetail } from '../../hooks/usePageDetail';
 import { ChevronLeft } from 'lucide-react';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './PageDetailPage.scss';
 
 const PageDetailPage = () => {
@@ -45,25 +46,19 @@ const PageDetailPage = () => {
 
   return (
     <main className="pdp">
-      <Container className="container-1500 py-3">
       
-      {/* ── Breadcrumb + Back ── */}
-      <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb pdp__breadcrumb mb-0">
-            <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              {page.title || 'Page Details'}
-            </li>
-          </ol>
-        </nav>
-          <Link to="/" className="pdp__back-btn">
-              <ChevronLeft size={14} strokeWidth={2} />
-              Back To Home
-          </Link>
+      <div className="hero-section">
+        <Container className="container-1500">
+          <Reveal as="h1" type="fade-up" className="hero-section__title">{page.title || 'Page Details'}</Reveal>
+          <nav aria-label="breadcrumb">
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>{page.title || 'Page Details'}</span></li>
+            </ol>
+          </nav>
+        </Container>
       </div>
+      <Container className="container-1500 mt-4">
 
         {/* ── Main Content Layout ── */}
         <article className="details-page__form-card">

@@ -710,15 +710,17 @@ const ProductDetailsPage = () => {
     const isPreOrder = !!product?.pre_order_status;
     if (isPreOrder) {
       // Use top-level colors array from API, no stock check
-      return preOrderColors.map((c) => {
-        const matched = variants.find((v) => v.color?.colorName === c.colorName && v.image);
-        return {
-          name: c.colorName,
-          hex: c.color || null,
-          totalStock: 9999,
-          variantImage: matched?.image ? buildUrl(matched.image) : null,
-        };
-      });
+      return preOrderColors
+        .filter((c) => c && c.colorName)
+        .map((c) => {
+          const matched = variants.find((v) => v.color?.colorName === c.colorName && v.image);
+          return {
+            name: c.colorName,
+            hex: c.color || null,
+            totalStock: 9999,
+            variantImage: matched?.image ? buildUrl(matched.image) : null,
+          };
+        });
     }
     const map = {};
     variants.forEach((v) => {
@@ -739,9 +741,10 @@ const ProductDetailsPage = () => {
 
   const availableSizes = useMemo(() => {
     const isPreOrder = !!product?.pre_order_status;
-    if (isPreOrder) {
+        if (isPreOrder) {
       const order = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
       return preOrderSizes
+        .filter((s) => s && s.sizeName)
         .map((s) => ({ name: s.sizeName, totalStock: 9999 }))
         .sort((a, b) => {
           const ai = order.indexOf(a.name.toUpperCase());

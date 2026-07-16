@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
 import ProductGrid from '../../components/ui/ProductGrid/ProductGrid';
+import ProductToolbar from '../../components/ui/ProductToolbar/ProductToolbar';
+import FilterDrawer from '../../components/ui/FilterDrawer/FilterDrawer';
 import { apiGet } from '../../utils/api';
 import Reveal from '../../components/ui/Reveal/Reveal';
 import '../CategoryPage/CatagoryProductPage.scss';
@@ -29,6 +31,17 @@ const ShopPage = () => {
   const [sortBy,       setSortBy]       = useState('default');
 
   const sentinelRef = useRef(null);
+
+  // ✅ NEW: toolbar + filter state
+  const [viewCols, setViewCols] = useState(5);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filters, setFilters] = useState({
+    categories: [],
+    status: [],
+    sizes: [],
+    priceMin: 0,
+    priceMax: 10000,
+  });
 
   // Fetch whenever page changes
   useEffect(() => {
@@ -78,8 +91,26 @@ const ShopPage = () => {
 
   const handleSort = useCallback((v) => setSortBy(v), []);
 
+  // ✅ NEW: client-side filter applied on top of loaded products
+  const filtered = products.filter((p) => {
+    const price = p.new_price ?? p.price ?? 0;
+    if (price < filters.priceMin || price > filters.priceMax) return false;
+
+    if (filters.categories.length > 0) {
+      const catSlug = p.category?.slug || p.subcategory?.slug;
+      if (!filters.categories.includes(catSlug)) return false;
+    }
+
+    if (filters.status.includes('on_sale')) {
+      const hasDiscount = (p.old_price ?? 0) > (p.new_price ?? p.price ?? 0);
+      if (!hasDiscount) return false;
+    }
+
+    return true;
+  });
+
   // ── Client-side sort of everything loaded so far ──
-  const sorted = [...products].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     const aPrice = a.new_price ?? a.price ?? 0;
     const bPrice = b.new_price ?? b.price ?? 0;
 
@@ -114,25 +145,27 @@ const ShopPage = () => {
 
       <Container className="container-1500">
 
-        {/* ── Filter bar (same style as Wishlist/Search pages) ── */}
+        {/* ── Toolbar: Filter (left) / View icons (center) / Sort (right) ── */}
         {!loading && (
-          <div className="ccat-page__filter-bar d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
-            <p className="ccat-page__count mb-0">
-              Showing {sorted.length} of {total} products
-            </p>
-            <div className="d-flex align-items-center gap-2 flex-wrap">
-              <div className="ccat-page__select-wrap">
-                <label className="ccat-page__select-label">Sort by:</label>
-                <select className="ccat-page__select" value={sortBy} onChange={(e) => handleSort(e.target.value)}>
-                  {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
-              </div>
-            </div>
-          </div>
+          <ProductToolbar
+            onFilterClick={() => setShowFilter(true)}
+            viewCols={viewCols}
+            onViewChange={setViewCols}
+            sortBy={sortBy}
+            onSortChange={handleSort}
+            sortOptions={SORT_OPTIONS}
+          />
         )}
 
+        <FilterDrawer
+          show={showFilter}
+          onClose={() => setShowFilter(false)}
+          filters={filters}
+          onApply={setFilters}
+        />
+
         <Reveal type="fade-up">
-          <ProductGrid products={sorted} loading={loading} />
+          <ProductGrid products={sorted} loading={loading} cols={viewCols} />
         </Reveal>
 
         {/* Sentinel — triggers next page fetch when scrolled into view */}
