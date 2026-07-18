@@ -6,6 +6,7 @@ import ProductToolbar from '../../components/ui/ProductToolbar/ProductToolbar';
 import FilterDrawer from '../../components/ui/FilterDrawer/FilterDrawer';
 import { apiGet } from '../../utils/api';
 import Reveal from '../../components/ui/Reveal/Reveal';
+import { PackageOpen } from 'lucide-react';
 import '../CategoryPage/CatagoryProductPage.scss';
 import './ShopPage.scss';
 
@@ -146,7 +147,7 @@ const ShopPage = () => {
       <Container className="container-1500">
 
         {/* ── Toolbar: Filter (left) / View icons (center) / Sort (right) ── */}
-        {!loading && (
+        {!loading && sorted.length > 0 && (
           <ProductToolbar
             onFilterClick={() => setShowFilter(true)}
             viewCols={viewCols}
@@ -164,9 +165,24 @@ const ShopPage = () => {
           onApply={setFilters}
         />
 
-        <Reveal type="fade-up">
-          <ProductGrid products={sorted} loading={loading} cols={viewCols} />
-        </Reveal>
+        {!loading && sorted.length === 0 ? (
+          <div className="products-empty">
+            <PackageOpen size={56} strokeWidth={1.5} className="products-empty__icon" />
+            <p className="products-empty__title">
+              <span className="products-empty__title-highlight">Products</span> not found.
+            </p>
+            <p className="products-empty__desc">
+              No products are available right now. Please check back later.
+            </p>
+            <Link to="/" className="products-empty__btn">
+              Return to Home
+            </Link>
+          </div>
+        ) : (
+          <Reveal type="fade-up">
+            <ProductGrid products={sorted} loading={loading} cols={viewCols} />
+          </Reveal>
+        )}
 
         {/* Sentinel — triggers next page fetch when scrolled into view */}
         {hasMore && !loading && (
