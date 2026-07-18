@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import './CategoriesPage.scss';
-import { useHomeData } from '../Home/useHomeData';
+import { apiGet } from '../../utils/api';
 import { BASE_IMAGE_URL, PLACEHOLDER_IMG } from '../../utils';
 import Reveal from '../../components/ui/Reveal/Reveal';
 import { LayoutGrid } from 'lucide-react';
@@ -14,8 +14,11 @@ const CategoryCard = ({ cat, index = 0 }) => {
   const src   = cat.image ? `${BASE_IMAGE_URL}${cat.image}` : PLACEHOLDER_IMG;
   const label = cat.label || cat.name || 'Category';
 
+  const hasSubcategories = Array.isArray(cat.subcategories) && cat.subcategories.length > 0;
+  const cardHref = hasSubcategories ? `/categories/${cat.slug}` : `/products/${cat.slug}`;
+
   return (
-    <Reveal as={Link} to={`/categories/${cat.slug}`} type="fade-up" delay={(index % CATEGORIES_PER_ROW) * 80} className="cat-card">
+    <Reveal as={Link} to={cardHref} type="fade-up" delay={(index % CATEGORIES_PER_ROW) * 80} className="cat-card">
       <div className="cat-card__img-wrap">
         <img
           src={src}
@@ -33,8 +36,20 @@ const CategoryCard = ({ cat, index = 0 }) => {
 };
 
 const CategoriesPage = () => {
-  const { data, loading } = useHomeData();
-  const categories = data?.featuredCategories || [];
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    apiGet('/categories')
+      .then((res) => {
+        if (cancelled) return;
+        setCategories(Array.isArray(res.data?.data) ? res.data.data : []);
+      })
+      .catch(() => { if (!cancelled) setCategories([]); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   if (loading) return (
     <section className="featured-cats section-wrapper">
