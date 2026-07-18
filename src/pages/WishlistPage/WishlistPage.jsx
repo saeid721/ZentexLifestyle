@@ -136,7 +136,7 @@ const WishlistPage = () => {
               products on our "Shop" page.
             </p>
 
-            <Link to="/" className="wishlist-empty__btn">
+            <Link to="/shop" className="wishlist-empty__btn">
               Return to shop
             </Link>
           </div>

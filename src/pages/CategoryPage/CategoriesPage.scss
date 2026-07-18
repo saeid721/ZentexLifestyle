@@ -31,7 +31,6 @@
 
 // ─── FeaturedCategories (shared with CategoriesMobilePage) ─────────
 .featured-cats {
-  min-height: 50vh;
   background: var(--brand-white);
 
 
@@ -177,12 +176,12 @@
 
 // ─── Empty State ─────────────────────────────────────────────
 .categories-empty {
-  min-height: 50vh;
+  min-height: 30vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 2rem 1rem;
 
   &__icon {
     color: var(--brand-secondary-lighter);

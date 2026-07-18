@@ -32,7 +32,7 @@ const CategoryCard = ({ cat, index = 0 }) => {
   );
 };
 
-const CategoriesMobilePage = () => {
+const CategoriesPage = () => {
   const { data, loading } = useHomeData();
   const categories = data?.featuredCategories || [];
 
@@ -95,4 +95,4 @@ const CategoriesMobilePage = () => {
   );
 };
 
-export default CategoriesMobilePage;
+export default CategoriesPage;

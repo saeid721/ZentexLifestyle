@@ -4,10 +4,10 @@ import Header from '../components/layout/Header/Header';
 import HomePage from '../pages/Home/HomePage';
 
 const Footer = lazy(() => import('../components/layout/Footer/Footer'));
-const CategoriesMobilePage = lazy(() => import('../pages/CategoryPage/CategoriesPage'));
-const NewArrivalsPage = lazy(() => import('../pages/CategoryPage/NewArrivalsPage'));
-const ProductDetails = lazy(() => import('../pages/ProductDetails/ProductDetailsPage'));
+const CategoriesPage = lazy(() => import('../pages/CategoryPage/CategoriesPage'));
 const CatagoryProductPage = lazy(() => import('../pages/CategoryPage/CatagoryProductPage'));
+// const NewArrivalsPage = lazy(() => import('../pages/CategoryPage/NewArrivalsPage'));
+const ProductDetails = lazy(() => import('../pages/ProductDetails/ProductDetailsPage'));
 const SubCategories = lazy(() => import('../components/ui/SubCategory/SubCategories'));
 const CartPage = lazy(() => import('../pages/Cart/CartPage'));
 const CheckoutPage = lazy(() => import('../pages/Checkout/CheckoutPage'));
@@ -49,7 +49,7 @@ const AppRoutes = () => {
         <div style={{ width: '100%' }}>
           <Routes location={location}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/category" element={<CategoriesMobilePage />} />
+            <Route path="/category" element={<CategoriesPage />} />
             {/* <Route path="/new-arrivals" element={<NewArrivalsPage />} /> */}
             <Route path="/product/:slug" element={<ProductDetails />} />
             <Route path="/products/:catSlug" element={<CatagoryProductPage />} />

@@ -21,24 +21,19 @@
     border: none;
     padding: 0 0 0.6rem;
     font-size: clamp(20px, 3vw, 28px);
-    font-weight: 500;
-    color: var(--text-medium);
+    font-weight: 700;
+    color: var(--brand-secondary-light);
     cursor: pointer;
     position: relative;
+    text-decoration: none;
+    transition: color 0.2s;
 
     &--active {
-      font-weight: 700;
-      color: var(--brand-black);
-
-      &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -1px;
-        height: 2px;
-        background: var(--brand-black);
-      }
+      color: var(--brand-secondary-dark);
+      text-decoration: underline;
+      text-decoration-color: var(--brand-secondary-dark);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 10px;
     }
   }
 }

@@ -7,7 +7,9 @@ import Reveal from '../../../components/ui/Reveal/Reveal';
 import './TabviewProducts.scss';
 
 const TABS = [
+  { key: 'best-selling', label: 'Best Selling' },
   { key: 'new_arrival', label: 'New Arrivals' },
+  { key: 'on-sale', label: 'On Sale' },
   { key: 'pre_order',   label: 'Pre Order' },
 ];
 
@@ -82,20 +84,22 @@ const TabviewProducts = () => {
     <section className="section-wrapper tabview-products">
       <Container className="container-1500">
 
-        <Reveal type="fade-up" className="tabview-products__tabs">
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              className={`tabview-products__tab${
-                activeTab === tab.key ? ' tabview-products__tab--active' : ''
-              }`}
-              onClick={() => handleTabClick(tab.key)}
-            >
-              {tab.label}
-            </button>
-           ))}
-        </Reveal>
+        {!loading && products.length > 0 && (
+          <Reveal type="fade-up" className="tabview-products__tabs">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                className={`tabview-products__tab${
+                  activeTab === tab.key ? ' tabview-products__tab--active' : ''
+                }`}
+                onClick={() => handleTabClick(tab.key)}
+              >
+                {tab.label}
+              </button>
+             ))}
+          </Reveal>
+        )}
 
         <Reveal type="fade-up" delay={100}>
           <ProductGrid products={products} loading={loading} />
