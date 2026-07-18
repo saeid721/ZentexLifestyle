@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { X } from 'lucide-react';
 import { useCategories } from '../../../hooks/useCategories';
 import './FilterDrawer.scss';
 
 const STATUS_OPTIONS = [
+  { key: 'new_arrivals', label: 'New Arrivals' },
   { key: 'on_sale', label: 'On sale' },
-  { key: 'in_stock', label: 'In stock' },
+  { key: 'in_stock',     label: 'In stock' },
   { key: 'out_of_stock', label: 'Out of stock' },
+  { key: 'pre_order',    label: 'Pre Order' },
 ];
 
 const SIZE_OPTIONS = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -14,6 +16,7 @@ const SIZE_OPTIONS = ['S', 'M', 'L', 'XL', 'XXL'];
 const FilterDrawer = ({ show, onClose, filters, onApply, minPrice = 0, maxPrice = 10000 }) => {
   const { categories } = useCategories();
   const [local, setLocal] = useState(filters);
+  const priceDebounceRef = useRef(null);
 
   useEffect(() => { if (show) setLocal(filters); }, [show, filters]);
 
@@ -22,27 +25,54 @@ const FilterDrawer = ({ show, onClose, filters, onApply, minPrice = 0, maxPrice 
     return () => { document.body.style.overflow = ''; };
   }, [show]);
 
+  useEffect(() => () => {
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+  }, []);
+
   if (!show) return null;
 
-  const toggleCategory = (slug) =>
-    setLocal((f) => ({
-      ...f,
-      categories: f.categories.includes(slug)
-        ? f.categories.filter((c) => c !== slug)
-        : [...f.categories, slug],
-    }));
+  const toggleCategory = (slug) => {
+    const next = {
+      ...local,
+      categories: local.categories.includes(slug)
+        ? local.categories.filter((c) => c !== slug)
+        : [...local.categories, slug],
+    };
+    setLocal(next);
+    onApply(next); // ✅ auto-apply immediately
+  };
 
-  const toggleStatus = (key) =>
-    setLocal((f) => ({
-      ...f,
-      status: f.status.includes(key) ? f.status.filter((s) => s !== key) : [...f.status, key],
-    }));
+  const toggleStatus = (key) => {
+    const next = {
+      ...local,
+      status: local.status.includes(key)
+        ? local.status.filter((s) => s !== key)
+        : [...local.status, key],
+    };
+    setLocal(next);
+    onApply(next); // ✅ auto-apply immediately
+  };
 
-  const toggleSize = (size) =>
-    setLocal((f) => ({
-      ...f,
-      sizes: f.sizes.includes(size) ? f.sizes.filter((s) => s !== size) : [...f.sizes, size],
-    }));
+  const toggleSize = (size) => {
+    const next = {
+      ...local,
+      sizes: local.sizes.includes(size)
+        ? local.sizes.filter((s) => s !== size)
+        : [...local.sizes, size],
+    };
+    setLocal(next);
+    onApply(next); // ✅ auto-apply immediately
+  };
+
+  const handlePriceChange = (value) => {
+    const next = { ...local, priceMax: value };
+    setLocal(next);
+
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    priceDebounceRef.current = setTimeout(() => {
+      onApply(next); // ✅ auto-apply after user stops dragging (400ms)
+    }, 400);
+  };
 
   const handleApply = () => { onApply(local); onClose(); };
 
@@ -104,7 +134,7 @@ const FilterDrawer = ({ show, onClose, filters, onApply, minPrice = 0, maxPrice 
               min={minPrice}
               max={maxPrice}
               value={local.priceMax}
-              onChange={(e) => setLocal((f) => ({ ...f, priceMax: Number(e.target.value) }))}
+              onChange={(e) => handlePriceChange(Number(e.target.value))}
               className="filter-drawer__price-slider"
             />
             <p className="filter-drawer__price-label">

@@ -36,26 +36,58 @@ const ShopPage = () => {
   // ✅ NEW: toolbar + filter state
   const [viewCols, setViewCols] = useState(5);
   const [showFilter, setShowFilter] = useState(false);
+  const [priceBounds, setPriceBounds] = useState({ min: 0, max: 20000 });
   const [filters, setFilters] = useState({
     categories: [],
     status: [],
     sizes: [],
     priceMin: 0,
-    priceMax: 10000,
+    priceMax: 20000,
   });
 
-  // Fetch whenever page changes
+  // ✅ Fetch actual min/max new_price from API once, to set dynamic price bounds
+  useEffect(() => {
+    apiGet('/all/products?per_page=1000')
+      .then((res) => {
+        const items = res.data?.products?.data ?? [];
+        if (items.length === 0) return;
+        const prices = items.map((p) => Number(p.new_price ?? p.price ?? 0));
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        setPriceBounds({ min, max });
+        setFilters((f) => ({ ...f, priceMin: min, priceMax: max }));
+      })
+      .catch((err) => console.error('[ShopPage price bounds]', err));
+  }, []);
+
+  // ✅ Reset pagination whenever filters change
+  useEffect(() => {
+    setProducts([]);
+    setPage(1);
+    setHasMore(true);
+  }, [filters]);
+
+  // Fetch whenever page or filters change
   useEffect(() => {
     let cancelled = false;
     if (page === 1) setLoading(true);
     else setLoadingMore(true);
 
-    apiGet(`/all/products?page=${page}&per_page=${PER_PAGE}`)
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('per_page', PER_PAGE);
+    if (filters.categories.length > 0) params.append('category', filters.categories.join(','));
+    if (filters.status.length > 0) params.append('status', filters.status.join(','));
+    if (filters.sizes.length > 0) params.append('size', filters.sizes.join(','));
+    if (filters.priceMin > 0) params.append('min_price', filters.priceMin);
+    if (filters.priceMax < 10000) params.append('max_price', filters.priceMax);
+
+    apiGet(`/all/products?${params.toString()}`)
       .then((res) => {
         if (cancelled) return;
-        const newItems = res.data?.data ?? [];
-        const lastPage = res.data?.last_page ?? page;
-        const totalCnt = res.data?.total ?? newItems.length;
+        const newItems = res.data?.products?.data ?? [];
+        const lastPage = res.data?.products?.last_page ?? page;
+        const totalCnt = res.data?.products?.total ?? newItems.length;
 
         setProducts((prev) => (page === 1 ? newItems : [...prev, ...newItems]));
         setHasMore(page < lastPage);
@@ -69,7 +101,7 @@ const ShopPage = () => {
       });
 
     return () => { cancelled = true; };
-  }, [page]);
+  }, [page, filters]);
 
   // Observe sentinel to auto-load next page on scroll
   useEffect(() => {
@@ -92,26 +124,8 @@ const ShopPage = () => {
 
   const handleSort = useCallback((v) => setSortBy(v), []);
 
-  // ✅ NEW: client-side filter applied on top of loaded products
-  const filtered = products.filter((p) => {
-    const price = p.new_price ?? p.price ?? 0;
-    if (price < filters.priceMin || price > filters.priceMax) return false;
-
-    if (filters.categories.length > 0) {
-      const catSlug = p.category?.slug || p.subcategory?.slug;
-      if (!filters.categories.includes(catSlug)) return false;
-    }
-
-    if (filters.status.includes('on_sale')) {
-      const hasDiscount = (p.old_price ?? 0) > (p.new_price ?? p.price ?? 0);
-      if (!hasDiscount) return false;
-    }
-
-    return true;
-  });
-
-  // ── Client-side sort of everything loaded so far ──
-  const sorted = [...filtered].sort((a, b) => {
+  // ── Client-side sort of everything loaded so far (filtering now happens server-side) ──
+  const sorted = [...products].sort((a, b) => {
     const aPrice = a.new_price ?? a.price ?? 0;
     const bPrice = b.new_price ?? b.price ?? 0;
 
@@ -163,6 +177,8 @@ const ShopPage = () => {
           onClose={() => setShowFilter(false)}
           filters={filters}
           onApply={setFilters}
+          minPrice={priceBounds.min}
+          maxPrice={priceBounds.max}
         />
 
         {!loading && sorted.length === 0 ? (

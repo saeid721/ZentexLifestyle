@@ -176,7 +176,7 @@
     z-index: 2;
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     padding: 7px 6px;
     background: rgb(255 255 255 / 28%);
     backdrop-filter: blur(2px);
@@ -192,13 +192,13 @@
   }
 
   &__size {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.02em;
-    color: var(--brand-secondary);
+    color: var(--brand-black);
 
     &--out {
-      color: var(--brand-secondary-lighter);
+      color: var(--brand-secondary);
       text-decoration: line-through;
     }
   }

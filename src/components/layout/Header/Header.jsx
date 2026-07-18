@@ -66,41 +66,30 @@ const uniqueBy = (items, getKey) => {
   });
 };
 
-// ✅ FIXED: Sub-categories & child-categories sorted alphabetically (A-Z)
-const buildNavLinks = (categories) =>
+// ✅ UPDATED: builds mega-menu columns from navbar-categories groups
+// Each group (e.g. "Summer Items") becomes a column; its "category" array becomes list items
+const buildNavLinks = (groups) =>
   uniqueBy(
-    [...categories].sort((a, b) => Number(a.serial_no) - Number(b.serial_no)),
-    (cat, index) => cat.id ?? `${cat.slug}-${index}`
-  ).map((cat, catIndex) => ({
-    key: `cat-${cat.id ?? cat.slug ?? catIndex}`,
-    label: cat.name.toUpperCase(),
-    href: `/categories/${cat.slug}`,
-    slug: cat.slug,
+    [...groups].sort((a, b) => Number(a.serial_no) - Number(b.serial_no)),
+    (group, index) => group.id ?? `${group.name}-${index}`
+  ).map((group, groupIndex) => ({
+    key: `group-${group.id ?? groupIndex}`,
+    label: group.name,
+    href: '#', // group headers aren't clickable categories themselves
+    slug: null,
     children: uniqueBy(
-      [...(cat.subcategories || [])].sort((a, b) =>
-        (a.subcategoryName || '').localeCompare(b.subcategoryName || '', 'en', { sensitivity: 'base' })
-      ),
-      (sub, subIndex) => `${cat.slug}-${sub.id ?? sub.slug ?? subIndex}`
-    ).map((sub, subIndex) => ({
-      key: `sub-${cat.id ?? cat.slug ?? catIndex}-${sub.id ?? sub.slug ?? subIndex}`,
-      label: toTitleCase(sub.subcategoryName),
-      href: `/categories/${cat.slug}/${sub.slug}`,
-      slug: sub.slug,
-      catSlug: cat.slug,
-      children: uniqueBy(
-        [...(sub.childcategories || [])].sort((a, b) =>
-          (a.childcategoryName || '').localeCompare(b.childcategoryName || '', 'en', { sensitivity: 'base' })
-        ),
-        (child, childIndex) =>
-          `${cat.slug}-${sub.slug}-${child.id ?? child.slug ?? child.childcategoryName ?? childIndex}`
-      ).map((child, childIndex) => ({
-        key: `child-${cat.id ?? cat.slug ?? catIndex}-${sub.id ?? sub.slug ?? subIndex}-${child.id ?? child.slug ?? childIndex}`,
-        label: child.childcategoryName,
-        href: `/categories/${cat.slug}/${child.slug}`,
-        slug: child.slug,
+      [...(group.category || [])].sort((a, b) => Number(a.serial_no) - Number(b.serial_no)),
+      (cat, catIndex) => cat.id ?? `${group.id}-${cat.slug}-${catIndex}`
+    ).map((cat, catIndex) => {
+      const hasSubcategories = Array.isArray(cat.subcategories) && cat.subcategories.length > 0;
+      return {
+        key: `cat-${group.id ?? groupIndex}-${cat.id ?? cat.slug ?? catIndex}`,
+        label: cat.name,
+        href: hasSubcategories ? `/categories/${cat.slug}` : `/products/${cat.slug}`,
+        slug: cat.slug,
         catSlug: cat.slug,
-      })),
-    })),
+      };
+    }),
   }));
 
 // ─── Hook: fetch categories once, cache at module level ──────────
@@ -123,7 +112,7 @@ const useNavLinks = () => {
       return;
     }
 
-    _navLinksFetchPromise = apiGet('/categories')
+    _navLinksFetchPromise = apiGet('/navbar-categories')
       .then((res) => {
         if (res.data.success) {
           const links = buildNavLinks(res.data.data);
@@ -452,13 +441,9 @@ const DesktopNav = ({ navLinks }) => {
             <div className="mega-menu__grid">
               {navLinks.map((cat) => (
                 <div key={cat.key} className="mega-menu__col">
-                  <Link
-                    to={cat.href}
-                    className="mega-menu__col-title"
-                    onClick={() => closeAll()}
-                  >
+                  <span className="mega-menu__col-title">
                     {cat.label}
-                  </Link>
+                  </span>
                   <ul className="mega-menu__list">
                     {(cat.children || []).map((sub) => (
                       <li key={sub.key} className="mega-menu__list-item">

@@ -1,5 +1,5 @@
 // src/pages/WishlistPage/WishlistPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
@@ -33,6 +33,14 @@ const WishlistPage = () => {
   // ✅ NEW: filter drawer state
   const [viewCols, setViewCols] = useState(5);
   const [showFilter, setShowFilter] = useState(false);
+
+  // ✅ Dynamic price bounds computed from actual wishlist item prices
+  const priceBounds = useMemo(() => {
+    if (items.length === 0) return { min: 0, max: 20000 };
+    const prices = items.map((p) => Number(p.new_price ?? p.price ?? 0));
+    return { min: Math.min(...prices), max: Math.max(...prices) };
+  }, [items]);
+
   const [filters, setFilters] = useState({
     categories: [],
     status: [],
@@ -40,6 +48,11 @@ const WishlistPage = () => {
     priceMin: 0,
     priceMax: 10000,
   });
+
+  // ✅ Keep filter price range in sync with wishlist contents
+  React.useEffect(() => {
+    setFilters((f) => ({ ...f, priceMin: priceBounds.min, priceMax: priceBounds.max }));
+  }, [priceBounds.min, priceBounds.max]);
 
   const isEmpty = items.length === 0;
 
@@ -56,6 +69,20 @@ const WishlistPage = () => {
     if (filters.status.includes('on_sale')) {
       const hasDiscount = (p.old_price ?? 0) > (p.new_price ?? p.price ?? 0);
       if (!hasDiscount) return false;
+    }
+
+    if (filters.status.includes('new_arrivals') && !p.new_arrival) return false;
+
+    if (filters.status.includes('pre_order') && !p.pre_order_status) return false;
+
+    if (filters.status.includes('in_stock')) {
+      const stock = Number(p.stock ?? 0);
+      if (stock <= 0) return false;
+    }
+
+    if (filters.status.includes('out_of_stock')) {
+      const stock = Number(p.stock ?? 0);
+      if (stock > 0) return false;
     }
 
     return true;
@@ -157,6 +184,8 @@ const WishlistPage = () => {
               onClose={() => setShowFilter(false)}
               filters={filters}
               onApply={setFilters}
+              minPrice={priceBounds.min}
+              maxPrice={priceBounds.max}
             />
 
             {/* ── Product Grid ── */}

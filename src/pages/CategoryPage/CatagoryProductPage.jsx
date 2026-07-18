@@ -1,12 +1,16 @@
 // src/pages/CategoryPage/CatagoryProductPage.jsx
+
 import SEO from '../../components/SEO';
 import React, { useState, useEffect, useMemo } from 'react'; // ✅ LINE 2: added useMemo
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import ProductGrid from '../../components/ui/ProductGrid/ProductGrid';
+import ProductToolbar from '../../components/ui/ProductToolbar/ProductToolbar';
 import { API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, SCHEMA_ORG_IN_STOCK } from '../../config/env';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import FilterDrawer from '../../components/ui/FilterDrawer/FilterDrawer';
+import { ChevronLeft, ChevronRight, PackageOpen } from 'lucide-react';
 import Reveal from '../../components/ui/Reveal/Reveal';
 import './CatagoryProductPage.scss';
 
@@ -35,6 +39,16 @@ const CatagoryProductPage = () => {
   const [sortBy,          setSortBy]          = useState('default');
   const [perPage,         setPerPage]         = useState(25);
   const [currentPage,     setCurrentPage]     = useState(1);
+  const [viewCols,        setViewCols]        = useState(5);
+  const [showFilter,      setShowFilter]      = useState(false);
+  const [priceBounds,     setPriceBounds]     = useState({ min: 0, max: 20000 });
+  const [filters,         setFilters]         = useState({
+    categories: [],
+    status: [],
+    sizes: [],
+    priceMin: 0,
+    priceMax: 10000,
+  });
 
   useEffect(() => {
     if (!catSlug) return;
@@ -62,7 +76,19 @@ const CatagoryProductPage = () => {
           if (isSubcategory && body.subcategory?.subcategoryName) {
             setSubcategoryName(body.subcategory.subcategoryName);
           }
-          setAllProducts(Array.isArray(body.products) ? body.products : []);
+          const productList = Array.isArray(body.products) ? body.products : [];
+          setAllProducts(productList);
+
+          // ✅ Dynamic price bounds from loaded category products
+          if (productList.length > 0) {
+            const prices = productList.map((p) => Number(p.new_price ?? p.price ?? 0));
+            const min = Math.min(...prices);
+            const max = Math.max(...prices);
+            setPriceBounds({ min, max });
+            setFilters((f) => ({ ...f, priceMin: min, priceMax: max }));
+          } else {
+            setPriceBounds({ min: 0, max: 10000 });
+          }
         } else {
           setError('Category not found.');
         }
@@ -71,6 +97,11 @@ const CatagoryProductPage = () => {
       .finally(() => setLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catSlug, subSlug, isSubcategory]);
+
+  // ✅ Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   const title = isSubcategory && subcategoryName
     ? subcategoryName
@@ -179,8 +210,40 @@ const CatagoryProductPage = () => {
     };
   }, [loading, allProducts, title, canonicalUrl, baseUrl]);
 
+  // ✅ Apply filters before sorting
+  const filteredProducts = allProducts.filter((p) => {
+    const price = p.new_price ?? p.price ?? 0;
+    if (price < filters.priceMin || price > filters.priceMax) return false;
+
+    if (filters.categories.length > 0) {
+      const catSlug2 = p.category?.slug || p.subcategory?.slug;
+      if (!filters.categories.includes(catSlug2)) return false;
+    }
+
+    if (filters.status.includes('on_sale')) {
+      const hasDiscount = (p.old_price ?? 0) > (p.new_price ?? p.price ?? 0);
+      if (!hasDiscount) return false;
+    }
+
+    if (filters.status.includes('new_arrivals') && !p.new_arrival) return false;
+
+    if (filters.status.includes('pre_order') && !p.pre_order_status) return false;
+
+    if (filters.status.includes('in_stock')) {
+      const stock = Number(p.stock ?? 0);
+      if (stock <= 0) return false;
+    }
+
+    if (filters.status.includes('out_of_stock')) {
+      const stock = Number(p.stock ?? 0);
+      if (stock > 0) return false;
+    }
+
+    return true;
+  });
+
   // ── Sorting ───────────────────────────────────────────────────
-  const sorted = [...allProducts].sort((a, b) => {
+  const sorted = [...filteredProducts].sort((a, b) => {
     const aPrice = a.new_price ?? a.price ?? 0;
     const bPrice = b.new_price ?? b.price ?? 0;
 
@@ -237,149 +300,60 @@ const CatagoryProductPage = () => {
         // ✅ structured data injected via SEO component's Helmet
         schemas={[breadcrumbSchema, collectionPageSchema, ...(itemListSchema ? [itemListSchema] : [])]}
       />
+      
+          <div className="hero-section">
+            <Container className="container-1500">
+              <Reveal as="h1" type="fade-up" className="hero-section__title">{title}</Reveal>
+              <nav aria-label="breadcrumb">
+                <ol className="hero-section__breadcrumb">
+                  <li><Link to="/">Home</Link></li>
+                  <li><span className="hero-section__sep">&gt;</span><span>{title}</span></li>
+                </ol>
+              </nav>
+            </Container>
+          </div>
 
-      <Container className="container-1500 py-3">
+      <Container className="container-1500 mt-4">
 
-        {/* ── Breadcrumb + Back ── */}
-        <div className="ccat-page__topbar d-flex align-items-center justify-content-between mb-3">
-         <nav aria-label="breadcrumb">
-            <ol className="ccat-page__breadcrumb">
-              <li className="ccat-page__bc-item">
-                <Link to="/">Home</Link>
-              </li>
-              {isSubcategory || subSlug === 'all' ? (
-                <>
-                  <li className="ccat-page__bc-item">
-                    <span className="ccat-page__bc-sep">&gt;</span>
-                    <Link to={`/categories/${catSlug}`}>{breadcrumbCategory}</Link>
-                  </li>
-                  <li className="ccat-page__bc-item">
-                    <span className="ccat-page__bc-sep">&gt;</span>
-                    <span className="ccat-page__bc-active">{isSubcategory ? title : 'All Products'}</span>
-                  </li>
-                </>
-              ) : (
-                <li className="ccat-page__bc-item">
-                  <span className="ccat-page__bc-sep">&gt;</span>
-                  <span className="ccat-page__bc-active">{title}</span>
-                </li>
-              )}
-            </ol>
-          </nav>
-          <Link to={isSubcategory ? `/categories/${catSlug}` : subSlug === 'all' ? `/categories/${catSlug}` : '/'}
-            className="ccat-page__back-btn">
-            <ChevronLeft size={14} strokeWidth={2} />
-            {isSubcategory || subSlug === 'all' ? 'Back To Category' : 'Back To Home'}
-          </Link>
-        </div>
+        {/* ── Toolbar: Filter (left) / View icons (center) / Sort (right) ── */}
+        {!loading && sorted.length > 0 && (
+          <ProductToolbar
+            onFilterClick={() => setShowFilter(true)}
+            viewCols={viewCols}
+            onViewChange={setViewCols}
+            sortBy={sortBy}
+            onSortChange={handleSort}
+            sortOptions={SORT_OPTIONS}
+          />
+        )}
 
-        {/* ── Title ── */}
-        <Reveal as="h1" type="fade-up" className="ccat-page__title">{title}</Reveal>
+        <FilterDrawer
+          show={showFilter}
+          onClose={() => setShowFilter(false)}
+          filters={filters}
+          onApply={setFilters}
+          minPrice={priceBounds.min}
+          maxPrice={priceBounds.max}
+        />
 
-        {/* ── Error ── */}
-        {error && <div className="alert alert-danger">{error}</div>}
-
-        {/* ── Filter bar ── */}
-        {!loading && !error && (
-          <div className="ccat-page__filter-bar d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
-            <p className="ccat-page__count mb-0">
-              Showing {sorted.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + perPage, sorted.length)} of {sorted.length} products
+        {!loading && sorted.length === 0 ? (
+          <div className="products-empty">
+            <PackageOpen size={56} strokeWidth={1.5} className="products-empty__icon" />
+            <p className="products-empty__title">
+              <span className="products-empty__title-highlight">Products</span> not found.
             </p>
-            <div className="d-flex align-items-center gap-2 flex-wrap">
-              <div className="ccat-page__select-wrap">
-                <label className="ccat-page__select-label">Sort by:</label>
-                <select className="ccat-page__select" value={sortBy} onChange={(e) => handleSort(e.target.value)}>
-                  {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
-              </div>
-              <div className="ccat-page__select-wrap">
-                <label className="ccat-page__select-label">Per page:</label>
-                <select className="ccat-page__select" value={perPage} onChange={(e) => handlePerPage(e.target.value)}>
-                  {PER_PAGE_OPTIONS.map((n) => <option key={n} value={n}>{n} per page</option>)}
-                </select>
-              </div>
-            </div>
+            <p className="products-empty__desc">
+              No products are available right now. Please check back later.
+            </p>
+            <Link to="/" className="products-empty__btn">
+              Return to Home
+            </Link>
           </div>
+        ) : (
+          <Reveal type="fade-up">
+            <ProductGrid products={sorted} loading={loading} cols={viewCols} />
+          </Reveal>
         )}
-
-        {/* ── Product Grid ── */}
-        {loading ? (
-          <div className="ccat-page__skeleton-grid">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="ccat-page__skeleton-card">
-                <div className="ccat-page__skeleton-img skeleton-pulse" />
-                <div className="ccat-page__skeleton-body">
-                  <div className="skeleton-pulse" style={{ height: 12, width: '85%', marginBottom: 6 }} />
-                  <div className="skeleton-pulse" style={{ height: 12, width: '55%', marginBottom: 6 }} />
-                  <div className="skeleton-pulse" style={{ height: 18, width: '40%', marginBottom: 8 }} />
-                  <div className="d-flex gap-2">
-                    <div className="skeleton-pulse" style={{ height: 30, flex: 1 }} />
-                    <div className="skeleton-pulse" style={{ height: 30, flex: 1 }} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : !error && paginated.length === 0 ? (
-          <div className="text-center py-5 text-muted">
-            <p>No products found in this {isSubcategory ? 'subcategory' : 'category'}.</p>
-          </div>
-        ) : !error && (
-          <Row className="g-3">
-            {paginated.map((product, idx) => (
-              <Col key={product.id} xs={6} sm={4} md={3}>
-                <Reveal type="fade-up" delay={(idx % 8) * 70}>
-                  <ProductCard product={product} />
-                </Reveal>
-              </Col>
-            ))}
-          </Row>
-        )}
-
-        {/* ── Pagination ── */}
-        {!loading && !error && totalPages > 1 && (
-          <div className="ccat-page__pagination-wrap d-flex align-items-center justify-content-between flex-wrap gap-3 mt-4">
-            <div className="ccat-page__pagination d-flex align-items-center gap-1">
-              <button
-                className="ccat-page__page-btn ccat-page__page-btn--arrow"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft size={14} strokeWidth={2.5} />
-              </button>
-
-              {getPages().map((page, i) =>
-                page === '...' ? (
-                  <span key={`e-${i}`} className="ccat-page__page-ellipsis">…</span>
-                ) : (
-                  <button
-                    key={page}
-                    className={`ccat-page__page-btn ${currentPage === page ? 'ccat-page__page-btn--active' : ''}`}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
-
-              <button
-                className="ccat-page__page-btn ccat-page__page-btn--arrow"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight size={14} strokeWidth={2.5} />
-              </button>
-            </div>
-
-            <div className="ccat-page__select-wrap">
-              <label className="ccat-page__select-label">Per page:</label>
-              <select className="ccat-page__select" value={perPage} onChange={(e) => handlePerPage(e.target.value)}>
-                {PER_PAGE_OPTIONS.map((n) => <option key={n} value={n}>{n} per page</option>)}
-              </select>
-            </div>
-          </div>
-        )}
-
       </Container>
     </main>
   );
