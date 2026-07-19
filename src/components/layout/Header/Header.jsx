@@ -996,12 +996,11 @@ const LogoImg = ({ logoSrc, siteName, style = {} }) => (
     alt={`${siteName} - Official Store`}
     className="site-header__logo-img"
     style={style}
-    width={160}
     height={48}
     objectFit="contain"
     eager={true}
     fallbackSrc={PLACEHOLDER_LOGO}
-    wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
+    wrapperStyle={{ height: '48px', display: 'inline-block' }}
   />
 );
 

@@ -175,11 +175,11 @@ const Footer = () => {
                   src={logo}
                   alt={`${settings?.name || 'Zentex'} logo`}
                   className="site-footer__logo-img"
-                  width={160}
                   height={48}
                   objectFit="contain"
+                  objectPosition="left"
                   fallbackSrc={PLACEHOLDER_LOGO}
-                  wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
+                  wrapperStyle={{ height: '48px', display: 'inline-block' }}
                 />
               </Link>
               <ul className="site-footer__contact list-unstyled mt-3">

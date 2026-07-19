@@ -16,6 +16,7 @@ const OptimizedImage = ({
   wrapperClassName = '',
   wrapperStyle = {},
   objectFit = 'cover',
+  objectPosition = 'center',
   transition = 'opacity 300ms ease-in-out',
   eager = false,
   onError,
@@ -51,12 +52,13 @@ const OptimizedImage = ({
   const imageStyle = useMemo(() => ({
     ...style,
     objectFit,
+    objectPosition,
     opacity: isLoaded ? 1 : 0,
     transition,
     willChange: 'opacity',
     width: '100%',
     height: '100%',
-  }), [style, objectFit, isLoaded, transition]);
+  }), [style, objectFit, objectPosition, isLoaded, transition]);
 
   const handleError = (event) => {
     if (hasErrored) return;
