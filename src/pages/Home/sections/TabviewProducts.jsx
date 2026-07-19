@@ -7,23 +7,46 @@ import Reveal from '../../../components/ui/Reveal/Reveal';
 import './TabviewProducts.scss';
 
 const TABS = [
-  { key: 'best-selling', label: 'Best Selling' },
-  { key: 'new_arrival', label: 'New Arrivals' },
-  { key: 'on-sale', label: 'On Sale' },
-  { key: 'pre_order',   label: 'Pre Order' },
+  { key: 'best_selling', label: 'Best Selling' },
+  { key: 'new_arrival',  label: 'New Arrivals' },
+  { key: 'on_sale',      label: 'On Sale' },
+  { key: 'pre_order',    label: 'Pre Order' },
 ];
 
 const PER_PAGE = 10;
 
 const TabviewProducts = () => {
-  const [activeTab, setActiveTab] = useState(TABS[0].key);
+  const [activeTab, setActiveTab] = useState(null);
   const [products,  setProducts]  = useState([]);
   const [page,       setPage]      = useState(1);
   const [hasMore,    setHasMore]   = useState(true);
   const [loading,    setLoading]   = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [availableTabs, setAvailableTabs] = useState([]);
+  const [tabsChecked, setTabsChecked] = useState(false);
 
   const sentinelRef = useRef(null);
+
+  // ✅ On mount, check each tab type for products; only keep tabs that have data
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all(
+      TABS.map((tab) =>
+        apiGet(`/products/tabbed?type=${tab.key}&page=1&per_page=1`)
+          .then((res) => ({ tab, hasData: (res.data?.data?.length ?? 0) > 0 }))
+          .catch(() => ({ tab, hasData: false }))
+      )
+    ).then((results) => {
+      if (cancelled) return;
+      const found = results.filter((r) => r.hasData).map((r) => r.tab);
+      setAvailableTabs(found);
+      if (found.length > 0) setActiveTab(found[0].key);
+      setTabsChecked(true);
+    });
+
+    return () => { cancelled = true; };
+  }, []);
 
   // Reset pagination whenever the active tab changes
   useEffect(() => {
@@ -34,6 +57,7 @@ const TabviewProducts = () => {
 
   // Fetch whenever page (or tab) changes
   useEffect(() => {
+    if (!activeTab) return;
     let cancelled = false;
     if (page === 1) setLoading(true);
     else setLoadingMore(true);
@@ -80,13 +104,15 @@ const TabviewProducts = () => {
     if (key !== activeTab) setActiveTab(key);
   }, [activeTab]);
 
+  if (tabsChecked && availableTabs.length === 0) return null;
+
   return (
     <section className="section-wrapper tabview-products">
       <Container className="container-1500">
 
-        {!loading && products.length > 0 && (
+        {availableTabs.length > 1 && (
           <Reveal type="fade-up" className="tabview-products__tabs">
-            {TABS.map((tab) => (
+            {availableTabs.map((tab) => (
               <button
                 key={tab.key}
                 type="button"

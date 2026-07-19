@@ -320,7 +320,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
 };
 
 // ─── ProductCard ──────────────────────────────────────────────────────────────
-const ProductCard = ({ product, showWishlistToggle = false }) => {
+const ProductCard = ({ product, showWishlistToggle = false, listView = false }) => {
   const [imgError,  setImgError]  = useState(false);
   const [popupMode, setPopupMode] = useState(null);
   const [toast,     setToast]     = useState(null);
@@ -467,8 +467,8 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
   );
 
   return (
-    <div className="product-card-wrapper" style={{ position: 'relative' }}>
-      <Card className="product-card h-100" onMouseEnter={handleMouseEnter}>
+    <div className={`product-card-wrapper${listView ? ' product-card-wrapper--list' : ''}`} style={{ position: 'relative' }}>
+      <Card className={`product-card h-100${listView ? ' product-card--list' : ''}`} onMouseEnter={handleMouseEnter}>
         <Link to={`/product/${slug}`} className="product-card__img-wrapper">
         {showWishlistToggle && (
             <button
@@ -504,7 +504,7 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
             fetchPriority="auto"
           />
 
-          {availableSizes.length > 0 && (
+          {!listView && availableSizes.length > 0 && (
             <div className="product-card__sizes">
               {availableSizes.map((s) => (
                 <span
@@ -530,29 +530,69 @@ const ProductCard = ({ product, showWishlistToggle = false }) => {
             )}
           </div>
 
-          <div className="product-card__actions d-flex gap-2">
-            <button
-              className="product-card__btn product-card__btn--add"
-              onClick={(e) => { e.preventDefault(); setPopupMode('cart'); }}
-            >
-              Add to Cart
-            </button>
-            {product.pre_order_status ? (
+          {listView ? (
+            <div className="product-card__list-footer">
+              {availableSizes.length > 0 && (
+                <div className="product-card__list-sizes">
+                  {availableSizes.map((s) => (
+                    <span
+                      key={s.name}
+                      className={`product-card__size${s.inStock ? '' : ' product-card__size--out'}`}
+                    >
+                      {s.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="product-card__actions d-flex gap-2">
+                <button
+                  className="product-card__btn product-card__btn--add"
+                  onClick={(e) => { e.preventDefault(); setPopupMode('cart'); }}
+                >
+                  Add to Cart
+                </button>
+                {product.pre_order_status ? (
+                  <button
+                    className="product-card__btn product-card__btn--preorder"
+                    onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
+                  >
+                    Pre Order
+                  </button>
+                ) : (
+                  <button
+                    className="product-card__btn product-card__btn--buy"
+                    onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
+                  >
+                    Buy Now
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="product-card__actions d-flex gap-2">
               <button
-                className="product-card__btn product-card__btn--preorder"
-                onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
+                className="product-card__btn product-card__btn--add"
+                onClick={(e) => { e.preventDefault(); setPopupMode('cart'); }}
               >
-                Pre Order
+                Add to Cart
               </button>
-            ) : (
-              <button
-                className="product-card__btn product-card__btn--buy"
-                onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
-              >
-                Buy Now
-              </button>
-            )}
-          </div>
+              {product.pre_order_status ? (
+                <button
+                  className="product-card__btn product-card__btn--preorder"
+                  onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
+                >
+                  Pre Order
+                </button>
+              ) : (
+                <button
+                  className="product-card__btn product-card__btn--buy"
+                  onClick={(e) => { e.preventDefault(); setPopupMode('buy'); }}
+                >
+                  Buy Now
+                </button>
+              )}
+            </div>
+          )}
         </Card.Body>
       </Card>
 

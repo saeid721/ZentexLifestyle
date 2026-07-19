@@ -217,6 +217,71 @@
   text-decoration: line-through;
 }
 
+// ─── List View (single column) ───────────────────────────────────────────────
+.product-card-wrapper--list {
+  width: 100%;
+}
+
+.product-card--list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border: none;
+  border-bottom: 1px solid var(--brand-secondary-soft);
+  border-radius: 0;
+  box-shadow: none !important;
+
+  .product-card__img-wrapper {
+    width: 340px;
+    max-width: 40%;
+    aspect-ratio: 4 / 5;
+    flex-shrink: 0;
+  }
+
+  .product-card__body {
+    flex: 1;
+    padding: 1.25rem 1.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .product-card__name {
+    white-space: normal;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .product-card__price {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .product-card__list-footer {
+    margin-top: 0;
+  }
+
+  .product-card__actions {
+    max-width: 360px;
+  }
+
+  .product-card__btn {
+    padding: 9px 25px;
+    font-size: 12.5px;
+  }
+}
+
+.product-card__list-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.product-card__list-sizes {
+  display: flex;
+  gap: 12px;
+}
+
 // ─── Variant Popup — CARD SCOPED ─────────────────────────────────────────────
 // No overlay. Popup covers the card absolutely from inside .product-card-wrapper
 .pc-popup {
