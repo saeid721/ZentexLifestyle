@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';                    // ✅ LINE 4: A
 import SEO from '../../SEO';                                    // ✅ LINE 5: Added
 import { PLACEHOLDER_IMG, BASE_IMAGE_URL, getSiteBaseUrl, SCHEMA_ORG_URL } from '../../../utils';
 import { apiGet } from '../../../utils/api';
+import OptimizedImage from '../../ui/OptimizedImage';
 import './SubCategories.scss';
 
 const resolveRawImage = (imageField) => {
@@ -41,19 +42,18 @@ const SubCategoryCard = ({ subCat, categorySlug, index = 0 }) => {
     >
       <div className="subcat-card__image-wrap">
         {/* ✅ LINE 41: Added width, height + descriptive alt */}
-        <img
+        <OptimizedImage
           src={imageUrl}
           alt={`${displayName} category`}
           className="subcat-card__image"
+          fallbackSrc={PLACEHOLDER_IMG}
           loading={isAboveFold ? 'eager' : 'lazy'}
-          fetchpriority={index === 0 ? 'high' : 'auto'}
+          fetchPriority={index === 0 ? 'high' : 'auto'}
           decoding={isAboveFold ? 'sync' : 'async'}
-          width="300"
-          height="300"
-          onError={(e) => {
-            e.target.src     = PLACEHOLDER_IMG;
-            e.target.onerror = null;
-          }}
+          width={300}
+          height={300}
+          eager={isAboveFold}
+          wrapperStyle={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         />
         <div className="subcat-card__overlay">
           <h3 className="subcat-card__title">{displayName}</h3>
@@ -72,19 +72,18 @@ const AllProductsCard = ({ categorySlug, categoryImage, categoryName }) => ( // 
   >
     <div className="subcat-card__image-wrap">
       {/* ✅ LINE 68: Added width, height + descriptive alt */}
-      <img
+      <OptimizedImage
         src={categoryImage || PLACEHOLDER_IMG}
         alt={`All ${categoryName || ''} products`}
         className="subcat-card__image"
+        fallbackSrc={PLACEHOLDER_IMG}
         loading="eager"
-        fetchpriority="high"
+        fetchPriority="high"
         decoding="sync"
-        width="300"
-        height="300"
-        onError={(e) => {
-          e.target.src     = PLACEHOLDER_IMG;
-          e.target.onerror = null;
-        }}
+        width={300}
+        height={300}
+        eager
+        wrapperStyle={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
       <div className="subcat-card__overlay">
         <h3 className="subcat-card__title">All Products</h3>

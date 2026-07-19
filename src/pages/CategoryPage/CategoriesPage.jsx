@@ -5,12 +5,12 @@ import './CategoriesPage.scss';
 import { apiGet } from '../../utils/api';
 import { BASE_IMAGE_URL, PLACEHOLDER_IMG } from '../../utils';
 import Reveal from '../../components/ui/Reveal/Reveal';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 import { LayoutGrid } from 'lucide-react';
 
 const CATEGORIES_PER_ROW = 5; // ✅ matches desktop column count
 
 const CategoryCard = ({ cat, index = 0 }) => {
-  const [loaded, setLoaded] = useState(false);
   const src   = cat.image ? `${BASE_IMAGE_URL}${cat.image}` : PLACEHOLDER_IMG;
   const label = cat.label || cat.name || 'Category';
 
@@ -20,13 +20,18 @@ const CategoryCard = ({ cat, index = 0 }) => {
   return (
     <Reveal as={Link} to={cardHref} type="fade-up" delay={(index % CATEGORIES_PER_ROW) * 80} className="cat-card">
       <div className="cat-card__img-wrap">
-        <img
+        <OptimizedImage
           src={src}
           alt={label}
-          className={`cat-card__img${loaded ? ' cat-card__img--loaded' : ''}`}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          onError={(e) => { e.target.src = PLACEHOLDER_IMG; e.target.onerror = null; setLoaded(true); }}
+          className="cat-card__img"
+          fallbackSrc={PLACEHOLDER_IMG}
+          loading={index < 3 ? 'eager' : 'lazy'}
+          decoding={index < 3 ? 'sync' : 'async'}
+          fetchPriority={index === 0 ? 'high' : 'auto'}
+          eager={index < 3}
+          width={480}
+          height={600}
+          wrapperStyle={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         />
         <div className="cat-card__overlay" />
         <p className="cat-card__label">{label}</p>

@@ -1,6 +1,7 @@
 import React, { useEffect, memo } from 'react';
 import { X } from 'lucide-react';
 import { Image as ImageIcon } from 'lucide-react';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 
 const LazySizeGuideModal = memo(({ onClose, sizeGuideImg }) => {
   useEffect(() => {
@@ -53,17 +54,11 @@ const LazySizeGuideModal = memo(({ onClose, sizeGuideImg }) => {
         <div className="sg-modal__body">
           <div className="sg-modal__img-wrap">
             {sizeGuideImg ? (
-              <img
+              <OptimizedImage
                 src={sizeGuideImg}
                 alt="Size measurement chart"
                 className="sg-modal__img"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  if (e.target.nextSibling) {
-                    e.target.nextSibling.style.display = 'flex';
-                  }
-                }}
-                draggable={false}
+                wrapperStyle={{ width: '100%', height: 'auto' }}
               />
             ) : null}
             <div

@@ -1,63 +1,99 @@
 // ─── CSS Custom Properties ───────────────────────────────────────
 :root {
   /* --- Brand Primary Colors (Gold Theme) --- */
-  --brand-primary:            #bd8a28;
-  --brand-primary-dark:       #936b1f;
-  --brand-primary-light:      #e0b76c;
-  --brand-primary-lighter:    #edd6ab;
-  --brand-primary-bg:         #f9f4ec;
-  --brand-primary-hover:      #7e5b1b;
-  --brand-primary-rgba:       rgba(189, 138, 40, 0.1);
-  --brand-primary-accent:     #e8a830;
-  --brand-primary-muted:      #9b7f4b;
-  --brand-primary-medium:     #d7a342;
-  --brand-primary-soft:       #eee5d3;
+  --brand-primary: #bd8a28;
+  --brand-primary-dark: #936b1f;
+  --brand-primary-light: #e0b76c;
+  --brand-primary-lighter: #edd6ab;
+  --brand-primary-bg: #f9f4ec;
+  --brand-primary-hover: #7e5b1b;
+  --brand-primary-rgba: rgba(189, 138, 40, 0.1);
+  --brand-primary-accent: #e8a830;
+  --brand-primary-muted: #9b7f4b;
+  --brand-primary-medium: #d7a342;
+  --brand-primary-soft: #eee5d3;
 
- /* --- Brand Secondary Colors (Black Theme) --- */
-  --brand-secondary:          #1d262d;
-  --brand-secondary-dark:     #10151a;
-  --brand-secondary-light:    #4a5a66;
-  --brand-secondary-lighter:  #8a9aa5;
-  --brand-secondary-bg:       #f0f3f4;
-  --brand-secondary-hover:    #2a3640;
-  --brand-secondary-rgba:     rgba(29, 38, 45, 0.1);
-  --brand-secondary-accent:   #2f4a5c;
-  --brand-secondary-muted:    #5c6b73;
-  --brand-secondary-medium:   #354652;
-  --brand-secondary-soft:     #dde3e6;
+  /* --- Brand Secondary Colors (Black Theme) --- */
+  --brand-secondary: #1d262d;
+  --brand-secondary-dark: #10151a;
+  --brand-secondary-light: #4a5a66;
+  --brand-secondary-lighter: #8a9aa5;
+  --brand-secondary-bg: #f0f3f4;
+  --brand-secondary-hover: #2a3640;
+  --brand-secondary-rgba: rgba(29, 38, 45, 0.1);
+  --brand-secondary-accent: #2f4a5c;
+  --brand-secondary-muted: #5c6b73;
+  --brand-secondary-medium: #354652;
+  --brand-secondary-soft: #dde3e6;
 
-  --brand-white:              #ffffff;
-  --brand-black:              #000000;
+  --brand-white: #ffffff;
+  --brand-black: #000000;
 
   /* --- UI / Status Colors --- */
-  --success:            #28a745;
-  --success-dark:       #1e7e34;
-  --error:              #dc3545;
-  --error-dark:         #8b1a1a;
-  --warning:            #7a5800;
-  --warning-light:      #ffc107;
-  --info:               #0d6efd;
-  --link-blue:          #2563eb;
-  --link-blue-dark:     #1d4ed8;
+  /* ===== SUCCESS (Greens) ===== */
+  --success: #28a745;
+  --success-dark: #1e7e34;
+  --green: #008000;
+  --dark-green: #006400;
+  --teal: #008080;
+
+  /* ===== ERROR / DANGER (Reds) ===== */
+  --error: #dc3545;
+  --error-dark: #8b1a1a;
+  --red: #ff0000;
+  --dark-red: #8b0000;
+
+  /* ===== WARNING (Yellows/Oranges) ===== */
+  --warning: #7a5800;
+  --warning-light: #ffc107;
+  --yellow: #ffff00;
+  --gold: #ffd700;
+  --orange: #ffa500;
+
+  /* ===== INFO / LINKS (Blues) ===== */
+  --info: #0d6efd;
+  --link-blue: #2563eb;
+  --link-blue-dark: #1d4ed8;
+  --blue: #0000ff;
+  --navy: #000080;
+  --royal-blue: #4169e1;
+
+  /* ===== NEUTRALS ===== */
+  --white: #ffffff;
+  --black: #000000;
+  --gray: #808080;
+  --dark-gray: #333333;
+  --light-gray: #d3d3d3;
+
+  /* ===== PURPLE / PINK / BROWN ===== */
+  --purple: #800080;
+  --indigo: #4b0082;
+  --pink: #ffc0cb;
+  --brown: #a52a2a;
+
 
   /* --- Typography --- */
-  --font-primary:       'Hind Siliguri', 'Segoe UI', sans-serif;
+  --font-primary: 'Hind Siliguri', 'Segoe UI', sans-serif;
 
   /* --- Layout & Misc --- */
-  --section-gap:        3rem;
-  --card-radius:        8px;
-  --transition:         0.22s ease;
-  --ease-out-expo:      cubic-bezier(0.22, 1, 0.36, 1);
+  --section-gap: 3rem;
+  --card-radius: 8px;
+  --transition: 0.22s ease;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 
-  
- --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06);
- --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
- --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.15);
 
 }
 
 // ─── Base ─────────────────────────────────────────────────────────
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -65,10 +101,13 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   max-width: 100vw;
   position: relative;
@@ -78,29 +117,66 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-#root { min-height: 100vh; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
+#root {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
 
 // ─── Scrollbar ────────────────────────────────────────────────────
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-scrollbar); }
-::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 3px; }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-scrollbar);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 3px;
+}
 
 // ─── Section Common ───────────────────────────────────────────────
 .section-wrapper {
   padding: 2rem 0;
-  @media (min-width: 992px) { padding: var(--section-gap) 0; }
+
+  @media (min-width: 992px) {
+    padding: var(--section-gap) 0;
+  }
 }
 
 // ─── Global Animations (ONLY ESSENTIAL) ───────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-in-up { animation: fadeInUp 0.4s ease forwards; }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 // Remove unused animations: slideDown, activeBarIn, navBarIn, dropDown, slideUp, fadeIn
 // These can be added to page-specific SCSS if needed
@@ -111,6 +187,7 @@ img { max-width: 100%; display: block; }
   color: var(--brand-gold);
   font-size: 1rem;
 }
+
 .price-original {
   text-decoration: line-through;
   color: var(--text-muted);
@@ -118,18 +195,29 @@ img { max-width: 100%; display: block; }
 }
 
 // ─── Swiper Overrides ─────────────────────────────────────────────
-.swiper-pagination-bullet-active { background: var(--brand-gold) !important; }
-.swiper-button-next, .swiper-button-prev {
+.swiper-pagination-bullet-active {
+  background: var(--brand-gold) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
   color: var(--brand-gold) !important;
-  &::after { font-size: 1.2rem !important; }
+
+  &::after {
+    font-size: 1.2rem !important;
+  }
 }
 
 .visually-hidden {
   position: absolute !important;
-  width: 1px !important; height: 1px !important;
-  padding: 0 !important; margin: -1px !important;
-  overflow: hidden !important; clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important; border: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .container-1500 {

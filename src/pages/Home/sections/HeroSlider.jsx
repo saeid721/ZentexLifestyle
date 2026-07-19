@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import '../../../components/ui/Skeleton/Skeleton.css';
+import OptimizedImage from '../../../components/ui/OptimizedImage';
 import './HeroSlider.scss';
 
 // ── Helper: Resolve image URL ─────────────────────────────────────
@@ -64,14 +65,13 @@ const HeroSlider = ({ banners = [] }) => {
               aria-hidden={!isActive}
             >
               <div className={`hero-slider__zoom${isActive ? ' is-zooming' : ''}`} aria-hidden="true">
-                <img
+                <OptimizedImage
                   src={imageUrl}
                   alt=""
                   className="hero-slider__img"
-                  loading={idx === 0 ? 'eager' : 'lazy'}
-                  fetchPriority={idx === 0 ? 'high' : 'auto'}
-                  decoding={idx === 0 ? 'sync' : 'async'}
+                  eager={idx === 0}
                   sizes="100vw"
+                  wrapperStyle={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
                 />
               </div>
 

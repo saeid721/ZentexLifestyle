@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useCartStore from '../../../app/store';
 import { BASE_IMAGE_URL } from '../../../utils';
+import OptimizedImage from '../../../components/ui/OptimizedImage';
 import { X, Trash2 } from "lucide-react";
 
 const CloseIcon = () => <X size={20} strokeWidth={2} />;
@@ -48,9 +49,10 @@ const CartDrawer = ({ onClose }) => {
                 <div key={item.id} className="cart-drawer__item">
                   <div className="cart-drawer__item-thumb">
                     {item.image && (
-                      <img
+                      <OptimizedImage
                         src={item.image.startsWith('http') ? item.image : `${BASE_IMAGE_URL}${item.image}`}
                         alt={item.name}
+                        wrapperStyle={{ width: '60px', height: '60px', flexShrink: 0 }}
                       />
                     )}
                   </div>

@@ -21,7 +21,6 @@
     "react-dom": "^19.2.4",
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^3.0.0",
-    "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.13.1",
     "sass": "^1.98.0",
     "swiper": "^12.1.2",

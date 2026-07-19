@@ -17,9 +17,13 @@ import useCartStore from '../../app/store';
 import useWishlistStore from '../../app/wishlistStore';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL, FACEBOOK_SHARE_URL, TWITTER_SHARE_URL, LINKEDIN_SHARE_URL, WHATSAPP_BASE_URL } from '../../utils';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 import Reveal from '../../components/ui/Reveal/Reveal';
-import { Heart, Check, CircleAlert, X, Info, ChevronLeft, ChevronRight, Maximize, MessageCircle,
-         Send, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon } from 'lucide-react';
+import {
+  Heart, X, Info, ChevronLeft, ChevronRight, Maximize, MessageCircle,
+  Send, Share2, Mail, Ruler, Plus, Users, Image as ImageIcon
+} from 'lucide-react';
+import { showGlobalToast } from '../../utils/toastBus';
 import './ProductDetailsPage.scss';
 
 // Lazy load components that appear below the fold
@@ -51,48 +55,6 @@ const HeartIcon = memo(({ filled }) => (
 ));
 
 HeartIcon.displayName = 'HeartIcon';
-
-// ─── Toast Component ──────────────────────────────────────────────────────────
-const Toast = memo(({ message, type, onClose, anchorRef }) => {
-  const toastRef = useRef(null);
-
-  useEffect(() => {
-    const t = setTimeout(onClose, 2800);
-    return () => clearTimeout(t);
-  }, [onClose]);
-
-  useEffect(() => {
-    if (anchorRef?.current && toastRef.current) {
-      const btnRect = anchorRef.current.getBoundingClientRect();
-      const toastEl = toastRef.current;
-      toastEl.style.position = 'fixed';
-      toastEl.style.bottom = 'auto';
-      toastEl.style.right = 'auto';
-      toastEl.style.left = `${btnRect.left}px`;
-      toastEl.style.top = `${btnRect.top - 8}px`;
-      toastEl.style.transform = 'translateY(-100%)';
-      toastEl.style.maxWidth = `${btnRect.width}px`;
-      toastEl.style.width = `${btnRect.width}px`;
-      toastEl.style.textAlign = 'center';
-      toastEl.style.justifyContent = 'center';
-    }
-  }, [anchorRef]);
-
-  return (
-    <div ref={toastRef} className={`pdp-toast pdp-toast--${type}`}>
-      <span className="pdp-toast__icon">
-        {type === 'success' ? (
-          <Check size={16} strokeWidth={2.5} />
-        ) : (
-          <CircleAlert size={16} strokeWidth={2.5} />
-        )}
-      </span>
-      {message}
-    </div>
-  );
-});
-
-Toast.displayName = 'Toast';
 
 // ─── Variant Popup ────────────────────────────────────────────────────────────
 const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClose, onConfirm }) => {
@@ -148,8 +110,8 @@ const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClo
   // Pre-order: use top-level colors/sizes; ignore variant stock entirely
   const uniqueColors = isPreOrder
     ? preOrderColors
-        .filter((c) => c && c.colorName)
-        .map((c) => ({ id: c.id, color: { colorName: c.colorName }, stock: 9999 }))
+      .filter((c) => c && c.colorName)
+      .map((c) => ({ id: c.id, color: { colorName: c.colorName }, stock: 9999 }))
     : (() => {
       const seen = {};
       return variants
@@ -164,8 +126,8 @@ const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClo
 
   const availableSizes = isPreOrder
     ? preOrderSizes
-        .filter((s) => s && s.sizeName)
-        .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
+      .filter((s) => s && s.sizeName)
+      .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
     : selectedColor
       ? variants.filter((v) => v.size !== null && v.color?.colorName === selectedColor)
       : variants.filter((v) => v.size !== null);
@@ -209,11 +171,11 @@ const VariantPopup = memo(({ productName, productSlug, productImage, mode, onClo
     >
       <div className="pc-popup__header">
         <div className="pc-popup__header-info">
-          <img
+          <OptimizedImage
             src={productImage}
             alt={productName}
             className="pc-popup__thumb"
-            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }}
+            wrapperStyle={{ width: '48px', height: '48px', flexShrink: 0, borderRadius: '8px', overflow: 'hidden' }}
           />
           <span className="pc-popup__header-name">{productName}</span>
         </div>
@@ -363,15 +325,11 @@ const SizeGuideModal = ({ onClose, sizeGuideImg }) => {
         <div className="sg-modal__body">
           <div className="sg-modal__img-wrap">
             {sizeGuideImg ? (
-              <img
+              <OptimizedImage
                 src={sizeGuideImg}
                 alt="Size measurement chart"
                 className="sg-modal__img"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-                draggable={false}
+                wrapperStyle={{ width: '100%', height: 'auto' }}
               />
             ) : null}
             <div className="sg-modal__img-fallback" style={{ display: sizeGuideImg ? 'none' : 'flex' }}>
@@ -480,7 +438,6 @@ const ProductDetailsPage = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
-  const [toast, setToast] = useState(null);
   const [openTab, setOpenTab] = useState(null);
 
   // Zoom states
@@ -520,7 +477,7 @@ const ProductDetailsPage = () => {
       image: product.image,
       images: product.images,
     });
-    showToast(
+    showGlobalToast(
       inWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
       'success'
     );
@@ -528,10 +485,6 @@ const ProductDetailsPage = () => {
 
   // SEO Meta state
   const [meta, setMeta] = useState(initialParsed?.meta ?? null);
-
-  const showToast = useCallback((message, type) => {
-    setToast({ message, type });
-  }, []);
 
   const applyParsed = useCallback((parsed) => {
     if (!parsed) return;
@@ -573,7 +526,6 @@ const ProductDetailsPage = () => {
     setQtyWarning('');
     setSelectedVariant(null);
     setSelectedColor(null);
-    setToast(null);
     setOpenTab(null);
     setTouchScale(1);
     setIsTouchZooming(false);
@@ -745,7 +697,7 @@ const ProductDetailsPage = () => {
 
   const availableSizes = useMemo(() => {
     const isPreOrder = !!product?.pre_order_status;
-        if (isPreOrder) {
+    if (isPreOrder) {
       const order = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
       return preOrderSizes
         .filter((s) => s && s.sizeName)
@@ -855,9 +807,9 @@ const ProductDetailsPage = () => {
 
   const handleAddToCart = () => {
     const error = getCartError();
-    if (error) { showToast(error, 'error'); return; }
+    if (error) { showGlobalToast(error, 'error'); return; }
     const finalStock = product?.pre_order_status ? 9999 : Number(selectedVariant?.stock ?? totalStock);
-    if (finalStock <= 0) { showToast('Item went out of stock!', 'error'); return; }
+    if (finalStock <= 0) { showGlobalToast('Item went out of stock!', 'error'); return; }
     addToCart(
       {
         id: product.id, name: product.name, slug: product.slug, price: activePrice,
@@ -866,16 +818,16 @@ const ProductDetailsPage = () => {
         pre_order_status: product.pre_order_status ?? 0
       },
       qty,
-      (msg) => showToast(msg, 'error'),
+      (msg) => showGlobalToast(msg, 'error'),
     );
-    showToast('Item added to cart successfully!', 'success');
+    showGlobalToast('Item added to cart successfully!', 'success');
   };
 
   const handleBuyNow = () => {
     const error = getCartError();
-    if (error) { showToast(error, 'error'); return; }
+    if (error) { showGlobalToast(error, 'error'); return; }
     const finalStock = product?.pre_order_status ? 9999 : Number(selectedVariant?.stock ?? totalStock);
-    if (finalStock <= 0) { showToast('Item went out of stock!', 'error'); return; }
+    if (finalStock <= 0) { showGlobalToast('Item went out of stock!', 'error'); return; }
     addToCart(
       {
         id: product.id, name: product.name, slug: product.slug, price: activePrice,
@@ -884,7 +836,7 @@ const ProductDetailsPage = () => {
         pre_order_status: product.pre_order_status ?? 0
       },
       qty,
-      (msg) => showToast(msg, 'error'),
+      (msg) => showGlobalToast(msg, 'error'),
     );
     navigate('/checkout');
   };
@@ -895,14 +847,14 @@ const ProductDetailsPage = () => {
     setPopupMode(null);
 
     if (status === 'out') {
-      showToast('This variant is out of stock!', 'error');
+      showGlobalToast('This variant is out of stock!', 'error');
       return;
     }
 
     const isPreOrderProduct = !!product?.pre_order_status;
     const stock = isPreOrderProduct ? 9999 : Number(selectedVariant?.stock ?? totalStock);
     if (!isPreOrderProduct && stock <= 0) {
-      showToast('Sorry, this item is out of stock!', 'error');
+      showGlobalToast('Sorry, this item is out of stock!', 'error');
       return;
     }
 
@@ -923,15 +875,15 @@ const ProductDetailsPage = () => {
         pre_order_status: product.pre_order_status ?? 0,
       },
       qty,
-      (msg) => showToast(msg, 'error')
+      (msg) => showGlobalToast(msg, 'error')
     );
 
     if (mode === 'buy') {
       navigate('/checkout');
     } else {
-      showToast('Item added to cart successfully!', 'success');
+      showGlobalToast('Item added to cart successfully!', 'success');
     }
-  }, [popupMode, product, activePrice, totalStock, qty, addToCart, showToast, navigate]);
+  }, [popupMode, product, activePrice, totalStock, qty, addToCart, navigate]);
 
   const toggleTab = (tabName) => setOpenTab(openTab === tabName ? null : tabName);
 
@@ -987,15 +939,6 @@ const ProductDetailsPage = () => {
           <LazySizeGuideModal onClose={() => setShowSizeGuide(false)} sizeGuideImg={sizeGuideImg} />
         </Suspense>
       )}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-          anchorRef={toast.type === 'success' ? cartBtnRef : null}
-        />
-      )}
-
       {/* Variant Popup for Main Product */}
       {popupMode && (
         <div className="pdp-variant-popup-overlay">
@@ -1077,8 +1020,12 @@ const ProductDetailsPage = () => {
                     {images.map((img, i) => (
                       <SwiperSlide key={i}>
                         <div className="pdp__thumb-wrap">
-                          <img src={img} alt={`thumb ${i + 1}`} className="pdp__thumb-img"
-                            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }} />
+                          <OptimizedImage
+                            src={img}
+                            alt={`thumb ${i + 1}`}
+                            className="pdp__thumb-img"
+                            wrapperStyle={{ width: '100%', height: '100%' }}
+                          />
                         </div>
                       </SwiperSlide>
                     ))}
@@ -1123,7 +1070,7 @@ const ProductDetailsPage = () => {
                             }}
                           />
 
-                          <img
+                          <OptimizedImage
                             src={img}
                             alt={`${product.name} view ${i + 1}`}
                             className={`pdp__main-img ${isTouchZooming ? 'pdp__main-img--touch-zoom' : ''}`}
@@ -1132,8 +1079,9 @@ const ProductDetailsPage = () => {
                               transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
                               transition: isTouchZooming ? 'none' : 'transform 0.25s ease, opacity 0.2s',
                             }}
-                            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }}
                             draggable={false}
+                            eager={i === 0}
+                            wrapperStyle={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
                           />
 
                           <span className={`pdp__zoom-hint ${isAnyZooming ? 'pdp__zoom-hint--hidden' : ''}`}>
@@ -1174,26 +1122,28 @@ const ProductDetailsPage = () => {
                 {product.sku && <p className="pdp__sku">SKU: {product.sku}</p>}
                 <div className="pdp__share">
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${FACEBOOK_SHARE_URL}?u=${encodeURIComponent(window.location.href)}`, 'facebook-share-dialog', 'width=626,height=436'); }} className="pdp__share-btn pdp__share-btn--fb" aria-label="Share on Facebook">
-                    <MessageCircle size={14} fill="currentColor" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${TWITTER_SHARE_URL}?text=${encodeURIComponent(product.name)}&url=${encodeURIComponent(window.location.href)}`, 'twitter-share-dialog', 'width=550,height=420'); }} className="pdp__share-btn pdp__share-btn--tw" aria-label="Share on Twitter">
-                    <Send size={14} fill="currentColor" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" /></svg>
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${LINKEDIN_SHARE_URL}?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=550,height=550'); }} className="pdp__share-btn pdp__share-btn--li" aria-label="Share on LinkedIn">
-                    <Share2 size={14} fill="currentColor" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" /><circle cx="4" cy="4" r="2" /></svg>
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.open(`${WHATSAPP_BASE_URL}/?text=${encodeURIComponent(product.name + ' - ' + window.location.href)}`, 'whatsapp-share-dialog', 'width=600,height=500'); }} className="pdp__share-btn pdp__share-btn--wa" aria-label="Share on WhatsApp">
-                    <Share2 size={14} fill="currentColor" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" /><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L.057 23.926l6.264-1.643A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.66-.52-5.17-1.426l-.371-.22-3.818 1.002 1.017-3.722-.241-.383A9.952 9.952 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z" /></svg>
                   </a>
                   <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = `mailto:?subject=${encodeURIComponent('Check out ' + product.name)}&body=${encodeURIComponent('I found this product: ' + product.name + '\n\n' + window.location.href)}`; }} className="pdp__share-btn pdp__share-btn--em" aria-label="Share via Email">
-                    <Mail size={14} strokeWidth={2} />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                   </a>
                 </div>
               </div>
 
               <div className="pdp__price-row">
                 <span className="pdp__price-label">PRICE:</span>
-                <span className="pdp__price-current">{formatPrice(activePrice)}</span>
+                <span className={`pdp__price-current ${discountPct ? 'pdp__price-current--discounted' : ''}`}>
+                  {formatPrice(activePrice)}
+                </span>
                 {product.originalPrice > product.price && (
                   <span className="pdp__price-original">{formatPrice(product.originalPrice)}</span>
                 )}
@@ -1231,14 +1181,14 @@ const ProductDetailsPage = () => {
                             setSelectedVariant(null);
                           }
                         }}
-                        title={color.name}
+                        aria-label={color.name}
+                        data-tooltip={color.name}
                       >
                         {color.variantImage ? (
-                          <img src={color.variantImage} alt={color.name} className="pdp__color-btn-img" onError={(e) => { e.target.style.display = 'none'; }} />
+                          <OptimizedImage src={color.variantImage} alt={color.name} className="pdp__color-btn-img" wrapperStyle={{ width: '32px', height: '32px', }} />
                         ) : color.hex ? (
                           <span className="pdp__color-btn-swatch" style={{ backgroundColor: color.hex }} />
                         ) : null}
-                        <span className="pdp__color-btn-label">{color.name}</span>
                       </button>
                     ))}
                   </div>
@@ -1432,7 +1382,7 @@ const ProductDetailsPage = () => {
                         <span className="pdp__info-label">Total Stock:</span>
                         <span className="pdp__info-value pdp__info-value--stock">{totalStock} items</span>
                       </div>
-                     )}
+                    )}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Spinner, Modal } from 'react-bootstrap';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 import { formatPrice, PLACEHOLDER_IMG } from '../../utils';
 import fallbackLogo from '../../assets/images/logo.png';
 import './CheckoutPage.scss';
@@ -883,11 +886,15 @@ export const InvoicePage = () => {
                     {/* Header */}
                     <div className="invoice-doc__header">
                         <div className="invoice-doc__brand">
-                            <img
+                            <OptimizedImage
                                 src={logoUrl}
-                                alt={siteName}
+                                alt={`${settings?.name || 'Zentex'} logo`}
                                 className="invoice-doc__logo"
-                                onError={(e) => { e.target.onerror = null; e.target.src = fallbackLogo; }}
+                                width={160}
+                                height={48}
+                                objectFit="contain"
+                                fallbackSrc={fallbackLogo}
+                                wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
                             />
                             <div className="invoice-doc__brand-info">
                                 <p>

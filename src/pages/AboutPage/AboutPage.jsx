@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Container, Alert } from 'react-bootstrap';
 import { ChevronLeft, Leaf } from 'lucide-react';
 import Reveal from '../../components/ui/Reveal/Reveal';
+import OptimizedImage from '../../components/ui/OptimizedImage';
+import { PLACEHOLDER_IMG } from '../../utils';
 import './AboutUs.scss';
 import { API_BASE_URL, BASE_IMAGE_URL } from '../../config/env';
 
@@ -88,11 +90,13 @@ const AboutPage = () => {
       {/* ── Hero Banner ───────────────────────────────── */}
       {about.about_banner_image && (
         <section className="about__hero">
-          <img
+          <OptimizedImage
             src={about.about_banner_image}
             alt={about.about_title || 'About Us'}
             className="about__hero-img"
-            loading="eager"
+            fallbackSrc={PLACEHOLDER_IMG}
+            eager
+            fetchPriority="high"
           />
         </section>
       )}
@@ -113,12 +117,22 @@ const AboutPage = () => {
             <div className="about__media-stack">
             {about.mission_image && (
                 <div className="about__media-stack-item about__media-stack-item--back">
-                <img src={about.mission_image} alt={about.mission_title || 'Our Mission'} />
+                <OptimizedImage
+                  src={about.mission_image}
+                  alt={about.mission_title || 'Our Mission'}
+                  fallbackSrc={PLACEHOLDER_IMG}
+                  wrapperStyle={{ width: '100%', height: '100%' }}
+                />
                 </div>
             )}
             {about.vision_image && (
                 <div className="about__media-stack-item about__media-stack-item--front">
-                <img src={about.vision_image} alt={about.vision_title || 'Our Vision'} />
+                <OptimizedImage
+                  src={about.vision_image}
+                  alt={about.vision_title || 'Our Vision'}
+                  fallbackSrc={PLACEHOLDER_IMG}
+                  wrapperStyle={{ width: '100%', height: '100%' }}
+                />
                 </div>
             )}
             </div>
@@ -138,7 +152,12 @@ const AboutPage = () => {
             </div>
             {about.vision_image && (
               <div className="about__split-media about__split-media--framed">
-                <img src={about.vision_image} alt={about.vision_title || 'Our Vision'} />
+                <OptimizedImage
+                  src={about.vision_image}
+                  alt={about.vision_title || 'Our Vision'}
+                  fallbackSrc={PLACEHOLDER_IMG}
+                  wrapperStyle={{ width: '100%', height: '100%' }}
+                />
               </div>
             )}
           </Reveal>
@@ -161,7 +180,7 @@ const AboutPage = () => {
                   <Reveal key={value.id} type="fade-up" delay={(idx % 3) * 100} className="about__value-card">
                     <span className="about__value-icon">
                       {value.icon ? (
-                        <img src={getIconUrl(value.icon)} alt={value.title} />
+                        <OptimizedImage src={getIconUrl(value.icon)} alt={value.title} wrapperStyle={{ width: '26px', height: '26px', display: 'inline-block' }} />
                       ) : (
                         <Leaf size={26} strokeWidth={1.5} />
                       )}

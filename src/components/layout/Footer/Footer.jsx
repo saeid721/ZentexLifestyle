@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
+import OptimizedImage from '../../../components/ui/OptimizedImage';
 import './Footer.scss';
 
 // Social Icons (Static)
@@ -13,37 +14,37 @@ import ttIcon from '../../../assets/icons/tiktok.png';
 import ytIcon from '../../../assets/icons/youtube.png';
 
 // Payments
-import sslCommerzIcon      from '../../../assets/icons/sslcommerz.png';
-import visaIcon            from '../../../assets/icons/visa.png';
-import mastercardIcon      from '../../../assets/icons/mastercard.png';
+import sslCommerzIcon from '../../../assets/icons/sslcommerz.png';
+import visaIcon from '../../../assets/icons/visa.png';
+import mastercardIcon from '../../../assets/icons/mastercard.png';
 import americanExpressIcon from '../../../assets/icons/american-express.png';
-import bracBankIcon        from '../../../assets/icons/brac-bank.png';
-import cityBankIcon        from '../../../assets/icons/citybank.png';
-import dbblIcon            from '../../../assets/icons/dbbl.png';
-import bKashIcon           from '../../../assets/icons/bkash.png';
-import nagadIcon           from '../../../assets/icons/nogod.png';
-import rocketIcon          from '../../../assets/icons/rocket.png';
+import bracBankIcon from '../../../assets/icons/brac-bank.png';
+import cityBankIcon from '../../../assets/icons/citybank.png';
+import dbblIcon from '../../../assets/icons/dbbl.png';
+import bKashIcon from '../../../assets/icons/bkash.png';
+import nagadIcon from '../../../assets/icons/nogod.png';
+import rocketIcon from '../../../assets/icons/rocket.png';
 
 import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
 import { BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, STITBD_URL, PLACEHOLDER_LOGO } from '../../../utils';
 
 const SOCIAL_ICON_MAP = {
-  facebook:  fbIcon,
+  facebook: fbIcon,
   instagram: igIcon,
-  linkedin:  liIcon,
-  tiktok:    ttIcon,
-  youtube:   ytIcon,
+  linkedin: liIcon,
+  tiktok: ttIcon,
+  youtube: ytIcon,
 };
 
 const PAYMENTS = [
-  { name: 'Visa',            icon: visaIcon },
-  { name: 'Mastercard',      icon: mastercardIcon },
+  { name: 'Visa', icon: visaIcon },
+  { name: 'Mastercard', icon: mastercardIcon },
   { name: 'AmericanExpress', icon: americanExpressIcon },
   // { name: 'BracBank',        icon: bracBankIcon },
-  { name: 'CityBank',        icon: cityBankIcon },
-  { name: 'Dbbl',            icon: dbblIcon },
-  { name: 'bKash',           icon: bKashIcon },
-  { name: 'Nagad',           icon: nagadIcon },
+  { name: 'CityBank', icon: cityBankIcon },
+  { name: 'Dbbl', icon: dbblIcon },
+  { name: 'bKash', icon: bKashIcon },
+  { name: 'Nagad', icon: nagadIcon },
   // { name: 'Rocket',          icon: rocketIcon },
 ];
 
@@ -51,10 +52,10 @@ const Footer = () => {
   const { settings, contact, socials, loading } = useGeneralSettings();
 
   // ── Newsletter state ──
-  const [email,       setEmail]       = useState('');
-  const [subLoading,  setSubLoading]  = useState(false);
-  const [subMessage,  setSubMessage]  = useState(null);
-  const [toast,       setToast]       = useState(null);
+  const [email, setEmail] = useState('');
+  const [subLoading, setSubLoading] = useState(false);
+  const [subMessage, setSubMessage] = useState(null);
+  const [toast, setToast] = useState(null);
 
   // ── Pages (Company menu) state ──
   const [pages, setPages] = useState([]);
@@ -87,7 +88,7 @@ const Footer = () => {
           setPages(sortedPages);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // ── Subscribe handler ──
@@ -170,18 +171,15 @@ const Footer = () => {
             <Col xs={12} sm={6} lg={3}>
               <Link to="/" className="site-footer__logo">
                 {/* ✅ LINE 160: Added width/height + loading=lazy for image SEO */}
-                <img
+                <OptimizedImage
                   src={logo}
                   alt={`${settings?.name || 'Zentex'} logo`}
                   className="site-footer__logo-img"
-                  width="160"
-                  height="48"
-                  loading="lazy"
-                  onError={(e) => {
-                    if (e.target.src !== PLACEHOLDER_LOGO) {
-                      e.target.src = PLACEHOLDER_LOGO;
-                    }
-                  }}
+                  width={160}
+                  height={48}
+                  objectFit="contain"
+                  fallbackSrc={PLACEHOLDER_LOGO}
+                  wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
                 />
               </Link>
               <ul className="site-footer__contact list-unstyled mt-3">
@@ -202,26 +200,26 @@ const Footer = () => {
                 )}
                 {contact?.address && <li>📍 {contact.address}</li>}
               </ul>
-              
-            {/* Social */}
-            <div className="site-footer__social-bottom">
-              {SOCIALS.map((s, i) => (
-                <a key={i} href={s.href} target="_blank" rel="noreferrer noopener"
-                  className="site-footer__social-link-bottom"
-                  aria-label={`Follow us on ${s.label}`}  // ✅ LINE 278: aria-label for accessibility + SEO
-                >
-                  {/* ✅ LINE 280: Added width/height + loading=lazy to social icons */}
-                  <img
-                    src={s.icon}
-                    alt={`${s.label} icon`}
-                    className="site-footer__social-icon-bottom"
-                    width="28"
-                    height="28"
-                    loading="lazy"
-                  />
-                </a>
-              ))}
-            </div>
+
+              {/* Social */}
+              <div className="site-footer__social-bottom">
+                {SOCIALS.map((s, i) => (
+                  <a key={i} href={s.href} target="_blank" rel="noreferrer noopener"
+                    className="site-footer__social-link-bottom"
+                    aria-label={`Follow us on ${s.label}`}  // ✅ LINE 278: aria-label for accessibility + SEO
+                  >
+                    {/* ✅ LINE 280: Added width/height + loading=lazy to social icons */}
+                    <OptimizedImage
+                      src={s.icon}
+                      alt={`${s.label} icon`}
+                      className="site-footer__social-icon-bottom"
+                      width={28}
+                      height={28}
+                      wrapperStyle={{ width: '28px', height: '28px', display: 'inline-block' }}
+                    />
+                  </a>
+                ))}
+              </div>
             </Col>
 
             {/* Useful Links */}
@@ -330,21 +328,21 @@ const Footer = () => {
                 STITBD
               </Link>
             </p>
-              <div className="site-footer__payments">
-                {PAYMENTS.map((p) => (
-                  <span key={p.name} className="site-footer__payment-badge">
-                    {/* ✅ LINE 252: Added width/height + loading=lazy to each payment icon */}
-                    <img
-                      src={p.icon}
-                      alt={`${p.name} payment accepted`}
-                      className="site-footer__payment-img"
-                      width="40"
-                      height="24"
-                      loading="lazy"
-                    />
-                  </span>
-                ))}
-              </div>
+            <div className="site-footer__payments">
+              {PAYMENTS.map((p) => (
+                <span key={p.name} className="site-footer__payment-badge">
+                  {/* ✅ LINE 252: Added width/height + loading=lazy to each payment icon */}
+                  <OptimizedImage
+                    src={p.icon}
+                    alt={`${p.name} payment accepted`}
+                    className="site-footer__payment-img"
+                    width={40}
+                    height={24}
+                    wrapperStyle={{ width: '40px', height: '24px', display: 'inline-block' }}
+                  />
+                </span>
+              ))}
+            </div>
 
           </div>
         </Container>

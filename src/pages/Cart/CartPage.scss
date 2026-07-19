@@ -22,11 +22,22 @@
     padding: 0;
     font-size: .85rem;
 
-    a { color: var(--brand-secondary-dark); font-weight: 500; }
-    li:last-child { display: flex; align-items: center; gap: .35rem; color: var(--brand-secondary-muted); }
+    a {
+      color: var(--brand-secondary-dark);
+      font-weight: 500;
+    }
+
+    li:last-child {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      color: var(--brand-secondary-muted);
+    }
   }
 
-  &__sep { color: var(--brand-secondary-lighter); }
+  &__sep {
+    color: var(--brand-secondary-lighter);
+  }
 }
 
 // ─── Cart Page ────────────────────────────────────────────────────
@@ -62,6 +73,14 @@
     p {
       margin-bottom: 1.5rem;
     }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1rem;
   }
 
   &__table-wrap {
@@ -767,9 +786,18 @@
     padding: 1.25rem;
   }
 
-  .policy-section__title { font-size: 0.8rem; }
-  .policy-section__text { font-size: 0.78rem; }
-  .policy-section__note { font-size: 0.75rem; padding: 0.65rem 0.85rem; }
+  .policy-section__title {
+    font-size: 0.8rem;
+  }
+
+  .policy-section__text {
+    font-size: 0.78rem;
+  }
+
+  .policy-section__note {
+    font-size: 0.75rem;
+    padding: 0.65rem 0.85rem;
+  }
 
   .mobile-product-footer {
     padding-left: calc(64px + 0.85rem);
@@ -784,27 +812,27 @@
     border-bottom: 1px solid var(--brand-secondary-soft);
     padding: 20px 24px 16px;
   }
- 
+
   &__title {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--brand-secondary-dark);
   }
- 
+
   &__body {
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
- 
+
   &__desc {
     font-size: 0.92rem;
     color: var(--brand-secondary-light);
     margin-bottom: 4px;
     text-align: center;
   }
- 
+
   &__btn {
     width: 100%;
     padding: 14px;
@@ -816,14 +844,17 @@
     cursor: pointer;
     letter-spacing: 0.5px;
     transition: opacity var(--transition), transform 0.1s;
- 
-    &:hover { opacity: 0.88; transform: translateY(-1px); }
- 
+
+    &:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
     &--login {
       background: var(--error);
       color: var(--brand-white);
     }
- 
+
     &--guest {
       background: var(--brand-secondary-bg);
       color: var(--brand-secondary);
@@ -836,8 +867,8 @@
 // ✅ Login Popup Modal (Merged & Cleaned)
 // ============================================
 .login-popup-modal {
-  .modal-dialog { 
-    max-width: 420px; 
+  .modal-dialog {
+    max-width: 420px;
   }
 
   .modal-content {
@@ -859,7 +890,10 @@
     .btn-close {
       padding: 0.5rem;
       opacity: 0.6;
-      &:hover { opacity: 1; }
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
@@ -921,8 +955,8 @@
     outline: none;
     transition: border-color var(--transition);
 
-    &::placeholder { 
-      color: var(--brand-secondary-lighter); 
+    &::placeholder {
+      color: var(--brand-secondary-lighter);
     }
 
     &:focus {
@@ -950,8 +984,14 @@
     display: flex;
     align-items: center;
 
-    &:hover { color: var(--brand-secondary); }
-    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    &:hover {
+      color: var(--brand-secondary);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   &__remember {
@@ -991,13 +1031,14 @@
     justify-content: center;
     min-height: 44px;
 
-    &:hover:not(:disabled) { 
-      background: var(--brand-primary-dark); 
-      transform: translateY(-1px); 
+    &:hover:not(:disabled) {
+      background: var(--brand-primary-dark);
+      transform: translateY(-1px);
     }
-    &:disabled { 
-      opacity: 0.65; 
-      cursor: not-allowed; 
+
+    &:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
   }
 
@@ -1016,10 +1057,10 @@
     margin-top: 12px;
     font-size: 0.84rem;
 
-    a { 
-      color: var(--brand-primary); 
-      text-decoration: none; 
-      font-weight: 600; 
+    a {
+      color: var(--brand-primary);
+      text-decoration: none;
+      font-weight: 600;
     }
   }
 
@@ -1035,16 +1076,18 @@
     justify-content: center;
     flex-wrap: wrap;
 
-    a { 
-      color: var(--brand-primary); 
-      font-weight: 600; 
-      text-decoration: none; 
+    a {
+      color: var(--brand-primary);
+      font-weight: 600;
+      text-decoration: none;
     }
   }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // Mobile responsive for login popup
@@ -1053,10 +1096,12 @@
     &__body {
       padding: 1rem 1.25rem;
     }
+
     &__input {
       font-size: 0.9rem;
       padding: 0.7rem 2.5rem 0.7rem 0.9rem;
     }
+
     &__btn {
       font-size: 1rem;
       padding: 0.85rem;

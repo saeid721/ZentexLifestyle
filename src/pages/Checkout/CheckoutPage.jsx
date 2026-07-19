@@ -5,6 +5,7 @@ import useCartStore from '../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, API_BASE_URL } from '../../utils';
 import { setAuth, getAuth } from '../../utils/auth';
 import { Eye, EyeOff, Phone, Mail, MapPin } from 'lucide-react';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 import Reveal from '../../components/ui/Reveal/Reveal';
 import axios from 'axios';
 import './CheckoutPage.scss';
@@ -575,7 +576,7 @@ const CheckoutPage = () => {
           </Container>
         </div>
       )}
-      
+
       <div className="hero-section">
         <Container className="container-1500">
           <Reveal as="h1" type="fade-up" className="hero-section__title">Checkout</Reveal>
@@ -583,7 +584,7 @@ const CheckoutPage = () => {
             <ol className="hero-section__breadcrumb">
               <li><Link to="/">Home</Link></li>
               <li><span className="hero-section__sep">&gt;</span><span>Checkout</span></li>
-              
+
             </ol>
           </nav>
         </Container>
@@ -974,11 +975,15 @@ const CheckoutPage = () => {
                 {items.map((item) => (
                   <div key={`${item.id}-${item.variant?.id ?? 'nv'}`} className="checkout-page__summary-item">
                     <div className="d-flex align-items-center gap-2 flex-1 min-w-0">
-                      <img
+                      <OptimizedImage
                         src={item.image || PLACEHOLDER_IMG}
-                        alt={item.name}
+                        alt={item.name || 'Product image'}
                         className="checkout-page__item-thumb"
-                        onError={(e) => { e.target.src = PLACEHOLDER_IMG; }}
+                        width={56}
+                        height={56}
+                        objectFit="cover"
+                        fallbackSrc={PLACEHOLDER_IMG}
+                        wrapperStyle={{ width: '56px', height: '56px', display: 'inline-block', borderRadius: '6px', overflow: 'hidden' }}
                       />
                       <div className="min-w-0">
                         <p className="checkout-page__item-name mb-0 text-truncate">{item.name}</p>
@@ -2029,7 +2034,7 @@ export const InvoicePage = ({ orderData, token }) => {
           <div className="invoice-doc__header">
             <div className="invoice-doc__brand">
               {logoUrl
-                ? <img src={logoUrl} alt={siteName} className="invoice-doc__logo" />
+                ? <OptimizedImage src={logoUrl} alt={siteName} className="invoice-doc__logo" eager={true} wrapperStyle={{ height: '40px', display: 'inline-block' }} />
                 : <h2 className="invoice-doc__brand-name">{siteName}</h2>
               }
               <div className="invoice-doc__brand-info">

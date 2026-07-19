@@ -37,8 +37,8 @@
     object-fit: cover;
     transform: scale(1.04);
     transition:
-    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 2.1s cubic-bezier(0.25, 0.8, 0.25, 1);
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 2.1s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: opacity, transform;
   }
 
@@ -59,14 +59,14 @@
     letter-spacing: 0.3px;
     z-index: 1;
   }
-  
+
   &__badge--stockout {
     left: auto;
     right: 8px;
     background: var(--error);
     color: var(--brand-white);
   }
-  
+
   &__badge--preorder {
     background: var(--brand-primary);
     color: var(--brand-white);
@@ -100,6 +100,7 @@
       background: var(--brand-white);
     }
   }
+
   &__body {
     padding: 10px 10px 12px;
   }
@@ -144,7 +145,11 @@
       color: var(--brand-secondary);
       border: 1px solid var(--brand-secondary-lighter);
 
-      &:hover { background: var(--brand-secondary); color: var(--brand-white); border: 1px solid var(--brand-secondary) }
+      &:hover {
+        background: var(--brand-secondary);
+        color: var(--brand-white);
+        border: 1px solid var(--brand-secondary)
+      }
     }
 
     &--buy {
@@ -152,15 +157,22 @@
       color: var(--brand-primary);
       border: 1px solid var(--brand-primary-lighter);
 
-      &:hover { background: var(--brand-primary); color: var(--brand-white); border: 1px solid var(--brand-primary);}
+      &:hover {
+        background: var(--brand-primary);
+        color: var(--brand-white);
+        border: 1px solid var(--brand-primary);
+      }
     }
 
     &--preorder {
       background: var(--brand-primary);
       color: var(--brand-white);
       border: 1px solid var(--brand-primary);
-    
-      &:hover { background: var(--brand-secondary-light); border: 1px solid var(--brand-secondary-light);}
+
+      &:hover {
+        background: var(--brand-secondary-light);
+        border: 1px solid var(--brand-secondary-light);
+      }
     }
 
     &:disabled {
@@ -168,6 +180,7 @@
       cursor: not-allowed;
     }
   }
+
   &__sizes {
     position: absolute;
     left: 0;
@@ -298,8 +311,15 @@
   animation: pc-popup-in 0.18s ease;
 
   @keyframes pc-popup-in {
-    from { opacity: 0; transform: scale(0.97); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   &__header {
@@ -349,7 +369,9 @@
     flex-shrink: 0;
     transition: background var(--transition);
 
-    &:hover { background: var(--brand-secondary-soft); }
+    &:hover {
+      background: var(--brand-secondary-soft);
+    }
   }
 
   &__body {
@@ -380,7 +402,9 @@
     animation: spin 0.7s linear infinite;
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
   }
 
@@ -406,7 +430,9 @@
     color: var(--brand-secondary);
     margin: 0;
 
-    strong { color: var(--brand-secondary); }
+    strong {
+      color: var(--brand-secondary);
+    }
   }
 
   &__hint {
@@ -486,19 +512,27 @@
     background: var(--brand-secondary);
     color: var(--brand-white);
     transition: background var(--transition);
-  
-    &:hover:not(:disabled) { background: var(--brand-secondary-dark); }
-  
+
+    &:hover:not(:disabled) {
+      background: var(--brand-secondary-dark);
+    }
+
     &--buy {
       background: var(--brand-primary);
-      &:hover:not(:disabled) { background: var(--brand-primary-dark); }
+
+      &:hover:not(:disabled) {
+        background: var(--brand-primary-dark);
+      }
     }
-  
+
     &--preorder {
       background: var(--brand-secondary);
-      &:hover:not(:disabled) { background: var(--brand-secondary-light); }
+
+      &:hover:not(:disabled) {
+        background: var(--brand-secondary-light);
+      }
     }
-  
+
     &:disabled {
       opacity: 0.45;
       cursor: not-allowed;
@@ -521,47 +555,5 @@
       border-color: var(--brand-secondary-lighter);
       color: var(--brand-secondary-dark);
     }
-  }
-}
-
-// ─── Toast — CARD SCOPED ──────────────────────────────────────────────────────
-// Toast renders inside .product-card-wrapper, positioned at bottom of card
-.pdp-toast {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.3;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
-  animation: toast-in 0.2s ease;
-  pointer-events: none;
-
-  @keyframes toast-in {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  &--success {
-    background: var(--success-dark);
-    color: var(--brand-white);
-  }
-
-  &--error {
-    background: var(--error);
-    color: var(--brand-white);
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
   }
 }

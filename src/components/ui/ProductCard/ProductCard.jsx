@@ -1,13 +1,15 @@
 // src/components/common/ProductCard/ProductCard.jsx
-import React, { memo, useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import useCartStore from '../../../app/store';
 import { formatPrice, PLACEHOLDER_IMG, BASE_IMAGE_URL } from '../../../utils';
 import apiClient from '../../../services/apiClient';
 import { prefetchProduct, getPrefetchedProduct } from '../../../utils/productPrefetchCache';
-import { Check, CircleAlert, X, Info, Heart } from 'lucide-react';
+import { X, Info, Heart } from 'lucide-react';
 import useWishlistStore from '../../../app/wishlistStore';
+import OptimizedImage from '../OptimizedImage';
+import { showGlobalToast } from '../../../utils/toastBus';
 import './ProductCard.scss';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -57,36 +59,15 @@ const extractImageFromCacheBody = (body) => {
   return '';
 };
 
-// ─── Toast Component ──────────────────────────────────────────────────────────
-const Toast = ({ message, type, onClose }) => {
-  useEffect(() => {
-    const t = setTimeout(onClose, 2800);
-    return () => clearTimeout(t);
-  }, [onClose]);
-
-  return (
-    <div className={`pdp-toast pdp-toast--${type}`}>
-      <span className="pdp-toast__icon">
-        {type === 'success' ? (
-          <Check size={16} strokeWidth={2.5} />
-        ) : (
-          <CircleAlert size={16} strokeWidth={2.5} />
-        )}
-      </span>
-      {message}
-    </div>
-  );
-};
-
 // ─── Variant Popup ────────────────────────────────────────────────────────────
 const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, onConfirm }) => {
-  const [variants,        setVariants]        = useState([]);
-  const [loading,         setLoading]         = useState(true);
-  const [selectedColor,   setSelectedColor]   = useState(null);
+  const [variants, setVariants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedColor, setSelectedColor] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
-  const [preOrderColors,  setPreOrderColors]  = useState([]);
-  const [preOrderSizes,   setPreOrderSizes]   = useState([]);
-  const [isPreOrder,      setIsPreOrder]      = useState(false);
+  const [preOrderColors, setPreOrderColors] = useState([]);
+  const [preOrderSizes, setPreOrderSizes] = useState([]);
+  const [isPreOrder, setIsPreOrder] = useState(false);
   const popupRef = useRef(null);
 
   useEffect(() => {
@@ -132,14 +113,14 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
 
   useEffect(() => { setSelectedVariant(null); }, [selectedColor]);
 
-  const totalStock   = isPreOrder ? 9999 : variants.reduce((sum, v) => sum + Number(v.stock || 0), 0);
+  const totalStock = isPreOrder ? 9999 : variants.reduce((sum, v) => sum + Number(v.stock || 0), 0);
   const isOutOfStock = !isPreOrder && (variants.length === 0 || totalStock <= 0);
 
   const uniqueColors = isPreOrder
-  ? preOrderColors
+    ? preOrderColors
       .filter((c) => c && c.colorName)
       .map((c) => ({ color: { colorName: c.colorName }, id: c.id, stock: 9999 }))
-  : (() => {
+    : (() => {
       const seen = {};
       return variants
         .filter((v) => v.color !== null)
@@ -151,22 +132,22 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
         });
     })();
 
-    const availableSizes = isPreOrder
+  const availableSizes = isPreOrder
     ? preOrderSizes
-        .filter((s) => s && s.sizeName)
-        .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
+      .filter((s) => s && s.sizeName)
+      .map((s) => ({ id: s.id, size: { sizeName: s.sizeName }, stock: 9999 }))
     : selectedColor
       ? variants.filter((v) => v.size !== null && v.color?.colorName === selectedColor)
       : variants.filter((v) => v.size !== null);
 
   const hasColorSelector = uniqueColors.length > 0;
-  const hasSizeSelector  = availableSizes.length > 0;
-  const hasVariants      = hasColorSelector || hasSizeSelector;
+  const hasSizeSelector = availableSizes.length > 0;
+  const hasVariants = hasColorSelector || hasSizeSelector;
 
   const canConfirm = !loading && !isOutOfStock && (
     !hasVariants || (
       (!hasColorSelector || !!selectedColor) &&
-      (!hasSizeSelector  || !!selectedVariant) &&
+      (!hasSizeSelector || !!selectedVariant) &&
       (isPreOrder || !selectedVariant || Number(selectedVariant.stock || 0) > 0)
     )
   );
@@ -174,8 +155,8 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
   const handleConfirm = () => {
     if (!canConfirm) return;
     if (hasVariants) {
-      if (hasColorSelector && !selectedColor)   return;
-      if (hasSizeSelector  && !selectedVariant) return;
+      if (hasColorSelector && !selectedColor) return;
+      if (hasSizeSelector && !selectedVariant) return;
       if (!isPreOrder && selectedVariant && Number(selectedVariant.stock || 0) <= 0) {
         onConfirm(null, 'out');
         return;
@@ -196,11 +177,14 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
     >
       <div className="pc-popup__header">
         <div className="pc-popup__header-info">
-          <img
+          <OptimizedImage
             src={productImage}
             alt={productName}
             className="pc-popup__thumb"
-            onError={(e) => { e.target.src = PLACEHOLDER_IMG; }}
+            fallbackSrc={PLACEHOLDER_IMG}
+            loading="lazy"
+            decoding="async"
+            wrapperStyle={{ width: '48px', height: '48px', borderRadius: '8px', overflow: 'hidden' }}
           />
           <span className="pc-popup__header-name">{productName}</span>
         </div>
@@ -232,7 +216,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
                 </p>
                 <div className="pc-popup__options">
                   {uniqueColors.map((v) => {
-                    const label  = v.color?.colorName || `#${v.id}`;
+                    const label = v.color?.colorName || `#${v.id}`;
                     const allOut = !isPreOrder && variants
                       .filter((x) => x.color?.colorName === label)
                       .every((x) => Number(x.stock) === 0);
@@ -241,8 +225,8 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
                         key={label}
                         className={[
                           'pc-popup__opt-btn',
-                          selectedColor === label ? 'pc-popup__opt-btn--active'   : '',
-                          allOut                  ? 'pc-popup__opt-btn--disabled' : '',
+                          selectedColor === label ? 'pc-popup__opt-btn--active' : '',
+                          allOut ? 'pc-popup__opt-btn--disabled' : '',
                         ].join(' ')}
                         onClick={() => !allOut && setSelectedColor(label)}
                         disabled={allOut}
@@ -266,14 +250,14 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
                 <div className="pc-popup__options">
                   {availableSizes.map((v) => {
                     const outOfStock = !isPreOrder && Number(v.stock) === 0;
-                    const label      = v.size?.sizeName || `#${v.id}`;
+                    const label = v.size?.sizeName || `#${v.id}`;
                     return (
                       <button
                         key={v.id}
                         className={[
                           'pc-popup__opt-btn',
-                          selectedVariant?.id === v.id ? 'pc-popup__opt-btn--active'   : '',
-                          outOfStock                   ? 'pc-popup__opt-btn--disabled' : '',
+                          selectedVariant?.id === v.id ? 'pc-popup__opt-btn--active' : '',
+                          outOfStock ? 'pc-popup__opt-btn--disabled' : '',
                         ].join(' ')}
                         onClick={() => !outOfStock && setSelectedVariant(v)}
                         disabled={outOfStock}
@@ -304,7 +288,7 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
           className={[
             'pc-popup__confirm-btn',
             isBuyNow && isPreOrder ? 'pc-popup__confirm-btn--preorder' :
-            isBuyNow               ? 'pc-popup__confirm-btn--buy'      : '',
+              isBuyNow ? 'pc-popup__confirm-btn--buy' : '',
           ].join(' ')}
           onClick={handleConfirm}
           disabled={loading || !canConfirm}
@@ -321,19 +305,17 @@ const VariantPopup = ({ productName, productSlug, productImage, mode, onClose, o
 
 // ─── ProductCard ──────────────────────────────────────────────────────────────
 const ProductCard = ({ product, showWishlistToggle = false, listView = false }) => {
-  const [imgError,  setImgError]  = useState(false);
   const [popupMode, setPopupMode] = useState(null);
-  const [toast,     setToast]     = useState(null);
 
   // ── Image state ───────────────────────────────────────────────
   const [resolvedImage, setResolvedImage] = useState(() => extractImageFromProduct(product));
   const fetchedRef = useRef(null);
 
-  const slug          = product?.slug;
-  const name          = product?.name;
-  const price         = Number(product?.new_price ?? product?.price ?? 0);
-  const originalPrice = Number(product?.old_price  ?? product?.originalPrice ?? 0);
-  const discountPct   = originalPrice > price
+  const slug = product?.slug;
+  const name = product?.name;
+  const price = Number(product?.new_price ?? product?.price ?? 0);
+  const originalPrice = Number(product?.old_price ?? product?.originalPrice ?? 0);
+  const discountPct = originalPrice > price
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : null;
   const [isStockOut, setIsStockOut] = useState(false);
@@ -341,15 +323,16 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
   const [availableSizes, setAvailableSizes] = useState([]);
 
   const addToCart = useCartStore((s) => s.addToCart);
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const toggleWishlistItem = useWishlistStore((s) => s.toggleItem);
-  const isInWishlist        = useWishlistStore((s) => s.isInWishlist);
+  const isInWishlist = useWishlistStore((s) => s.isInWishlist);
   const inWishlist = product?.id ? isInWishlist(product.id) : false;
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    const wasInWishlist = inWishlist;
     toggleWishlistItem({
       id: product.id,
       name,
@@ -360,6 +343,10 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
       image: resolvedImage,
       images: product?.images,
     });
+    showGlobalToast(
+      wasInWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
+      'success'
+    );
   };
 
   const applyProductPayload = useCallback((body) => {
@@ -409,7 +396,7 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
 
     prefetchProduct(slug, () => apiClient.get(`/product/${slug}`))
       .then(applyProductPayload)
-      .catch(() => {});
+      .catch(() => { });
   }, [slug, applyProductPayload]);
 
   // ── Prefetch on hover (for variant popup speed) ───────────────
@@ -417,60 +404,51 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
     prefetchProduct(slug, () => apiClient.get(`/product/${slug}`));
   }, [slug]);
 
-  const showToast = useCallback((message, type) => {
-    setToast({ message, type });
-  }, []);
-
   const handleVariantConfirm = useCallback((selectedVariant, status) => {
     const mode = popupMode;
     setPopupMode(null);
 
     if (status === 'out') {
-      showToast('This variant is out of stock!', 'error');
+      showGlobalToast('This variant is out of stock!', 'error');
       return;
     }
 
     const isPreOrder = !!product?.pre_order_status;
     const stock = isPreOrder ? 9999 : Number(selectedVariant?.stock ?? 999);
     if (!isPreOrder && stock <= 0) {
-      showToast('Sorry, this item is out of stock!', 'error');
+      showGlobalToast('Sorry, this item is out of stock!', 'error');
       return;
     }
 
     const cartItem = {
-      id:               product.id,
+      id: product.id,
       name,
       slug,
-      price:            selectedVariant ? Number(selectedVariant.price ?? price) : price,
+      price: selectedVariant ? Number(selectedVariant.price ?? price) : price,
       originalPrice,
-      image:            resolvedImage,
-      sku:              product.product_code ?? product.sku ?? '',
-      variant:          selectedVariant || null,
+      image: resolvedImage,
+      sku: product.product_code ?? product.sku ?? '',
+      variant: selectedVariant || null,
       stock,
       pre_order_status: product.pre_order_status ?? 0,
     };
 
-    addToCart(cartItem, 1, (errMsg) => showToast(errMsg, 'error'));
+    addToCart(cartItem, 1, (errMsg) => showGlobalToast(errMsg, 'error'));
 
     if (mode === 'buy') {
       navigate('/checkout');
     } else {
-      showToast('Item added to cart successfully!', 'success');
+      showGlobalToast('Item added to cart successfully!', 'success');
     }
-  }, [popupMode, product, name, slug, price, originalPrice, resolvedImage, addToCart, showToast, navigate]);
+  }, [popupMode, product, name, slug, price, originalPrice, resolvedImage, addToCart, navigate]);
 
   if (!product) return null;
-
-  const displayImage = useMemo(
-    () => (imgError ? PLACEHOLDER_IMG : (resolvedImage || PLACEHOLDER_IMG)),
-    [imgError, resolvedImage],
-  );
 
   return (
     <div className={`product-card-wrapper${listView ? ' product-card-wrapper--list' : ''}`} style={{ position: 'relative' }}>
       <Card className={`product-card h-100${listView ? ' product-card--list' : ''}`} onMouseEnter={handleMouseEnter}>
         <Link to={`/product/${slug}`} className="product-card__img-wrapper">
-        {showWishlistToggle && (
+          {showWishlistToggle && (
             <button
               type="button"
               className={`product-card__wishlist-btn${inWishlist ? ' product-card__wishlist-btn--active' : ''}`}
@@ -484,24 +462,24 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
           {discountPct && (
             <span className="product-card__badge">{discountPct}% OFF</span>
           )}
-          
+
           {product?.pre_order_status ? (
-              <span className="product-card__badge product-card__badge--preorder">PRE ORDER</span>
-            ) : isStockOut ? (
-              <span className="product-card__badge product-card__badge--stockout">Stock Out</span>
-            ) : null
+            <span className="product-card__badge product-card__badge--preorder">PRE ORDER</span>
+          ) : isStockOut ? (
+            <span className="product-card__badge product-card__badge--stockout">Stock Out</span>
+          ) : null
           }
-          <Card.Img
-            variant="top"
-            src={displayImage}
+          <OptimizedImage
+            src={resolvedImage || PLACEHOLDER_IMG}
             alt={name}
             className="product-card__img"
-            onError={() => setImgError(true)}
+            fallbackSrc={PLACEHOLDER_IMG}
             loading="lazy"
             decoding="async"
             width={320}
             height={320}
             fetchPriority="auto"
+            wrapperStyle={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
           />
 
           {!listView && availableSizes.length > 0 && (
@@ -600,20 +578,13 @@ const ProductCard = ({ product, showWishlistToggle = false, listView = false }) 
         <VariantPopup
           productName={name}
           productSlug={slug}
-          productImage={displayImage}
+          productImage={resolvedImage}
           mode={popupMode}
           onClose={() => setPopupMode(null)}
           onConfirm={handleVariantConfirm}
         />
       )}
 
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
     </div>
   );
 };

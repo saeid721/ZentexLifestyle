@@ -4,6 +4,7 @@ import { getAuth, removeAuth, getToken, getUserData } from '../../utils/auth'
 import { BASE_IMAGE_URL } from '../../utils';
 import { InvoicePage } from '../Checkout/CheckoutPage';
 import axios from 'axios';
+import OptimizedImage from '../../components/ui/OptimizedImage';
 import './CustomerDashboardPage.scss';
 
 import { API_BASE_URL } from '../../config/env';
@@ -750,7 +751,7 @@ const CustomerDashboardPage = () => {
           <div className="cdp__profile-card">
             <div className="cdp__avatar-wrap">
               {user.image
-                ? <img src={user.image} alt={user.name} className="cdp__avatar-img"/>
+                ? <OptimizedImage src={user.image} alt={user.name} className="cdp__avatar-img" wrapperStyle={{ width: '100%', height: '100%', display: 'block' }} />
                 : <div className="cdp__avatar-initials">{user.initials}</div>
               }
               <div
@@ -1259,9 +1260,9 @@ const CustomerDashboardPage = () => {
               <div className="cdp__avatar-upload">
                 <div className="cdp__avatar-upload-preview">
                   {avatarPreview
-                    ? <img src={avatarPreview} alt="Preview"/>
+                    ? <OptimizedImage src={avatarPreview} alt="Preview" wrapperStyle={{ width: '100%', height: '100%', display: 'block' }} />
                     : user.image
-                      ? <img src={user.image} alt={user.name}/>
+                      ? <OptimizedImage src={user.image} alt={user.name} wrapperStyle={{ width: '100%', height: '100%', display: 'block' }} />
                       : <div className="cdp__avatar-initials cdp__avatar-initials--sm">{user.initials}</div>
                   }
                   <button type="button" className="cdp__avatar-camera" onClick={() => fileRef.current?.click()}>

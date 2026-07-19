@@ -10,11 +10,16 @@ import { PHONE, BASE_IMAGE_URL, API_BASE_URL, getSiteBaseUrl, SCHEMA_ORG_URL, PL
 import { useGeneralSettings } from '../../../hooks/useGeneralSettings';
 import { setAuth, getAuth, removeAuth } from '../../../utils/auth';
 import ProductCard from '../../../components/ui/ProductCard/ProductCard';
+import OptimizedImage from '../../../components/ui/OptimizedImage';
 import { apiGet } from '../../../utils/api';
 import CartDrawer from './CartDrawer';
+import GlobalToast from '../../../components/ui/GlobalToast/GlobalToast';
+import { registerCartIcon } from '../../../utils/cartIconRegistry';
 import './Header.scss';
-import { Heart, Home, LayoutGrid, ShoppingCart, ShoppingBag, User, Search, ChevronDown, 
-  ArrowLeft, ArrowRight, X, Eye, EyeOff, Plus, Minus } from "lucide-react";
+import {
+  Heart, Home, LayoutGrid, ShoppingCart, ShoppingBag, User, Search, ChevronDown,
+  ArrowLeft, ArrowRight, X, Eye, EyeOff, Plus, Minus
+} from "lucide-react";
 
 
 // ─── Icons ───────────────────────────────────────────────────────
@@ -224,7 +229,7 @@ const SearchDropdown = ({ suggestions, loading, query, onSelect, activeIndex }) 
           >
             <div className="search-dropdown__thumb">
               {thumb
-                ? <img src={thumb} alt={product.name} />
+                ? <OptimizedImage src={thumb} alt={product.name} wrapperStyle={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden' }} />
                 : <div className="search-dropdown__thumb-placeholder"><SearchIcon /></div>
               }
             </div>
@@ -338,10 +343,10 @@ const DesktopSearchBox = ({ searchQuery, setSearchQuery, onSubmit }) => {
 
 // ─── Desktop Hover Nav (Fixed 4-item menu: Home / Shop / Categories / About Us) ──
 const FIXED_MENU_ITEMS = [
-  { key: 'home',       label: 'Home',       href: '/',               megamenu: false },
-  { key: 'shop',       label: 'Shop',       href: '/shop',           megamenu: true  },
-  { key: 'categories', label: 'Categories', href: '/category',       megamenu: false },
-  { key: 'about',      label: 'About Us',   href: '/about-us',       megamenu: false },
+  { key: 'home', label: 'Home', href: '/', megamenu: false },
+  { key: 'shop', label: 'Shop', href: '/shop', megamenu: true },
+  { key: 'categories', label: 'Categories', href: '/category', megamenu: false },
+  { key: 'about', label: 'About Us', href: '/about-us', megamenu: false },
 ];
 
 const DesktopNav = ({ navLinks }) => {
@@ -473,7 +478,7 @@ const DesktopNav = ({ navLinks }) => {
                       {cat.featuredBadge && (
                         <span className="mega-menu__feature-badge">{cat.featuredBadge}</span>
                       )}
-                      <img src={cat.featuredImage} alt={cat.featuredLabel || cat.label} className="mega-menu__feature-img" />
+                      <OptimizedImage src={cat.featuredImage} alt={cat.featuredLabel || cat.label} className="mega-menu__feature-img" wrapperStyle={{ width: '100%', height: 'auto' }} />
                       <span className="mega-menu__feature-label">{cat.featuredLabel}</span>
                     </Link>
                   ))}
@@ -903,86 +908,102 @@ const MobileSearchOverlay = ({ onClose }) => {
     <>
       <div className="search-modal-backdrop" onClick={onClose} />
       <div className="search-modal">
-      <button type="button" className="search-modal__close" onClick={onClose} aria-label="Close">
-        <CloseIcon />
-      </button>
+        <button type="button" className="search-modal__close" onClick={onClose} aria-label="Close">
+          <CloseIcon />
+        </button>
 
-      <div className="search-modal__inner">
-        <h2 className="search-modal__title">Search our site</h2>
+        <div className="search-modal__inner">
+          <h2 className="search-modal__title">Search our site</h2>
 
-        <form onSubmit={handleSubmit} className="search-modal__form">
-          <span className="search-modal__form-icon"><SearchIcon /></span>
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="search-modal__input"
-            autoComplete="off"
-          />
-        </form>
-
-        {showDropdown ? (
-          <div className="search-modal__suggestions">
-            <SearchDropdown
-              suggestions={suggestions}
-              loading={loading}
-              query={query}
-              onSelect={handleSelect}
-              activeIndex={activeIndex}
+          <form onSubmit={handleSubmit} className="search-modal__form">
+            <span className="search-modal__form-icon"><SearchIcon /></span>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="search-modal__input"
+              autoComplete="off"
             />
-          </div>
-        ) : (
-          <div className="search-modal__inspiration">
-            <h3 className="search-modal__inspiration-title">Need some inspiration?</h3>
+          </form>
 
-            {!inspirationLoading && inspirationProducts.length > 0 && (
-              <div className="search-modal__carousel">
-                <button
-                  type="button"
-                  className="search-modal__nav search-modal__nav--prev"
-                  onClick={() => scrollTrack(-1)}
-                  aria-label="Previous"
-                >
-                  <ArrowLeftIcon />
-                </button>
+          {showDropdown ? (
+            <div className="search-modal__suggestions">
+              <SearchDropdown
+                suggestions={suggestions}
+                loading={loading}
+                query={query}
+                onSelect={handleSelect}
+                activeIndex={activeIndex}
+              />
+            </div>
+          ) : (
+            <div className="search-modal__inspiration">
+              <h3 className="search-modal__inspiration-title">Need some inspiration?</h3>
 
-                <div className="search-modal__track" ref={trackRef}>
-                  {inspirationProducts.map((product) => (
-                    <div className="search-modal__card" key={product.id}>
-                      <ProductCard product={product} />
-                    </div>
+              {!inspirationLoading && inspirationProducts.length > 0 && (
+                <div className="search-modal__carousel">
+                  <button
+                    type="button"
+                    className="search-modal__nav search-modal__nav--prev"
+                    onClick={() => scrollTrack(-1)}
+                    aria-label="Previous"
+                  >
+                    <ArrowLeftIcon />
+                  </button>
+
+                  <div className="search-modal__track" ref={trackRef}>
+                    {inspirationProducts.map((product) => (
+                      <div className="search-modal__card" key={product.id}>
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    className="search-modal__nav search-modal__nav--next"
+                    onClick={() => scrollTrack(1)}
+                    aria-label="Next"
+                  >
+                    <ArrowRightIcon />
+                  </button>
+                </div>
+              )}
+
+              {inspirationLoading && (
+                <div className="search-modal__carousel search-modal__carousel--loading">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="search-modal__card search-modal__card--skeleton" />
                   ))}
                 </div>
-
-                <button
-                  type="button"
-                  className="search-modal__nav search-modal__nav--next"
-                  onClick={() => scrollTrack(1)}
-                  aria-label="Next"
-                >
-                  <ArrowRightIcon />
-                </button>
-              </div>
-            )}
-
-            {inspirationLoading && (
-              <div className="search-modal__carousel search-modal__carousel--loading">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="search-modal__card search-modal__card--skeleton" />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };
 
+
+// ─── Logo Image (stable, outside Header so it never remounts on scroll) ──
+const LogoImg = ({ logoSrc, siteName, style = {} }) => (
+  <OptimizedImage
+    src={logoSrc}
+    alt={`${siteName} - Official Store`}
+    className="site-header__logo-img"
+    style={style}
+    width={160}
+    height={48}
+    objectFit="contain"
+    eager={true}
+    fallbackSrc={PLACEHOLDER_LOGO}
+    wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
+  />
+);
 
 // ─── Main Header ──────────────────────────────────────────────────
 const Header = () => {
@@ -1006,26 +1027,26 @@ const Header = () => {
   const totalItems = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
 
   const { navLinks } = useNavLinks();
-const { settings, contact } = useGeneralSettings();
+  const { settings, contact } = useGeneralSettings();
 
-useEffect(() => {
-  const setOffset = () => {
-    if (headerElRef.current) {
-      document.documentElement.style.setProperty(
-        '--site-header-height',
-        `${headerElRef.current.offsetHeight}px`
-      );
-    }
-    if (isHome) {
-      document.body.style.paddingTop = '';
-    } else if (headerElRef.current) {
-      document.body.style.paddingTop = `${headerElRef.current.offsetHeight}px`;
-    }
-  };
-  setOffset();
-  window.addEventListener('resize', setOffset);
-  return () => window.removeEventListener('resize', setOffset);
-}, [isHome, navLinks]);
+  useEffect(() => {
+    const setOffset = () => {
+      if (headerElRef.current) {
+        document.documentElement.style.setProperty(
+          '--site-header-height',
+          `${headerElRef.current.offsetHeight}px`
+        );
+      }
+      if (isHome) {
+        document.body.style.paddingTop = '';
+      } else if (headerElRef.current) {
+        document.body.style.paddingTop = `${headerElRef.current.offsetHeight}px`;
+      }
+    };
+    setOffset();
+    window.addEventListener('resize', setOffset);
+    return () => window.removeEventListener('resize', setOffset);
+  }, [isHome, navLinks]);
 
   const logoSrc = settings?.dark_logo
     ? `${BASE_IMAGE_URL}${settings.dark_logo}`
@@ -1100,24 +1121,6 @@ useEffect(() => {
     return () => window.removeEventListener('storage', onStorage);
   }, [refreshAuth]);
 
-  // ✅ UPDATED LogoImg — added descriptive alt, width, height, fetchpriority, error fallback
-  const LogoImg = ({ style = {} }) => (
-    <img
-      src={logoSrc}
-      alt={`${siteName} - Official Store`}
-      className="site-header__logo-img"
-      style={style}
-      width="160"
-      height="48"
-      fetchPriority="high"
-      onError={(e) => {
-        if (e.target.src !== PLACEHOLDER_LOGO) {
-          e.target.src = PLACEHOLDER_LOGO;
-        }
-      }}
-    />
-  );
-
   return (
     <>
       {/* ✅ NEW: Helmet — WebSite schema + SearchAction + og:site_name */}
@@ -1143,6 +1146,8 @@ useEffect(() => {
 
       {showMobileSearch && <MobileSearchOverlay onClose={() => setShowMobileSearch(false)} />}
 
+      <GlobalToast />
+
       <header
         ref={headerElRef}
         className={`site-header ${scrolled ? 'site-header--scrolled' : ''} ${isHome ? 'site-header--transparent' : ''}`}
@@ -1156,7 +1161,7 @@ useEffect(() => {
                 <span /><span /><span />
               </button>
               <Link to="/" className="site-header__logo site-header__logo--mobile">
-                <LogoImg />
+                <LogoImg logoSrc={logoSrc} siteName={siteName} />
               </Link>
               <button className="site-header__search-toggle" onClick={() => setShowMobileSearch(true)} aria-label="Search">
                 <SearchIcon />
@@ -1172,7 +1177,7 @@ useEffect(() => {
               <div className="site-header__row">
 
                 <Link to="/" className="site-header__logo" aria-label={`${siteName} home`}>
-                  <LogoImg />
+                  <LogoImg logoSrc={logoSrc} siteName={siteName} />
                 </Link>
 
                 <DesktopNav navLinks={navLinks} />
@@ -1207,6 +1212,7 @@ useEffect(() => {
                   </Link>
 
                   <button
+                    ref={(el) => registerCartIcon(el)}
                     className="site-header__icon-btn site-header__icon-btn--badge"
                     onClick={() => setShowCart(true)}
                     aria-label={`Cart (${totalItems} items)`}
@@ -1224,7 +1230,7 @@ useEffect(() => {
         <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} className="site-header__offcanvas">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>
-              <LogoImg style={{ height: '36px', width: 'auto' }} />
+              <LogoImg logoSrc={logoSrc} siteName={siteName} style={{ height: '36px', width: 'auto' }} />
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
