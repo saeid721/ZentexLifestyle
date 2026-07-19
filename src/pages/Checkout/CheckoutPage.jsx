@@ -979,11 +979,10 @@ const CheckoutPage = () => {
                         src={item.image || PLACEHOLDER_IMG}
                         alt={item.name || 'Product image'}
                         className="checkout-page__item-thumb"
-                        width={56}
-                        height={56}
+                        height={48}
                         objectFit="cover"
                         fallbackSrc={PLACEHOLDER_IMG}
-                        wrapperStyle={{ width: '56px', height: '56px', display: 'inline-block', borderRadius: '6px', overflow: 'hidden' }}
+                        wrapperStyle={{ height: '48px', display: 'inline-block' }}
                       />
                       <div className="min-w-0">
                         <p className="checkout-page__item-name mb-0 text-truncate">{item.name}</p>
