@@ -18,7 +18,13 @@ const RegisterPage = () => {
     mobile: '',
     email: '',
     password: '',
+    address: '',
+    division_id: '',
+    district: '',
   });
+  const [divisions, setDivisions] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [loadingDistricts, setLoadingDistricts] = useState(false)
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
@@ -66,6 +72,40 @@ const RegisterPage = () => {
     handleGoogleCallback();
   }, [location.search]); // ✅ THIS IS KEY
 
+  useEffect(() => {
+    const fetchDivisions = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/address`, { headers: { Accept: 'application/json' } });
+        const data = await res.json();
+        if (data.status && Array.isArray(data.data?.divisions)) {
+          setDivisions(data.data.divisions);
+        }
+      } catch (err) {
+        console.error('Failed to load divisions:', err);
+      }
+    };
+    fetchDivisions();
+  }, []);
+
+  const handleDivisionChange = async (e) => {
+    const divisionId = e.target.value;
+    setFormData((prev) => ({ ...prev, division_id: divisionId, district: '' }));
+    setDistricts([]);
+    if (!divisionId) return;
+    setLoadingDistricts(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/get-district?id=${divisionId}`);
+      const data = await res.json();
+      if (data.success && data.data) {
+        setDistricts(Object.entries(data.data).map(([id, name]) => ({ id, name })));
+      }
+    } catch (err) {
+      console.error('Failed to load districts:', err);
+    } finally {
+      setLoadingDistricts(false);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -91,12 +131,31 @@ const RegisterPage = () => {
       return;
     }
 
+    if (!formData.address.trim()) {
+      setError('Address is required');
+      setLoading(false);
+      return;
+    }
+    if (!formData.division_id) {
+      setError('Please select your division');
+      setLoading(false);
+      return;
+    }
+    if (!formData.district) {
+      setError('Please select your district');
+      setLoading(false);
+      return;
+    }
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
       formDataToSend.append('phone', formData.mobile);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('password', formData.password);
+      formDataToSend.append('address', formData.address);
+      formDataToSend.append('district', formData.district);
+      formDataToSend.append('division_id', formData.division_id);
 
       const response = await fetch(`${API_BASE_URL}/customer/register`, {
         method: 'POST',
@@ -113,7 +172,7 @@ const RegisterPage = () => {
       }
 
       setSuccessMessage('Account created successfully! Redirecting…');
-      setFormData({ name: '', mobile: '', email: '', password: '' });
+      setFormData({ name: '', mobile: '', email: '', password: '', address: '', division_id: '', district: '' });
 
       setTimeout(() => {
         navigate('/');
@@ -255,6 +314,74 @@ const RegisterPage = () => {
                     className="rp__input"
                     autoComplete="tel"
                   />
+                </div>
+              </div>
+
+              {/* Address */}
+              <div className={`rp__field ${focusedField === 'address' ? 'rp__field--focused' : ''} ${formData.address ? 'rp__field--filled' : ''}`}>
+                <label className="rp__label" htmlFor="reg-address">Address</label>
+                <div className="rp__input-wrap">
+                  <svg className="rp__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" /><circle cx="12" cy="9" r="2.5" />
+                  </svg>
+                  <input
+                    id="reg-address"
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('address')}
+                    onBlur={() => setFocusedField(null)}
+                    placeholder="Your address"
+                    required
+                    disabled={loading || googleLoading}
+                    className="rp__input"
+                    autoComplete="street-address"
+                  />
+                </div>
+              </div>
+
+              {/* Division */}
+              <div className="rp__field">
+                <label className="rp__label" htmlFor="reg-division">Division</label>
+                <div className="rp__input-wrap">
+                  <select
+                    id="reg-division"
+                    name="division_id"
+                    value={formData.division_id}
+                    onChange={handleDivisionChange}
+                    required
+                    disabled={loading || googleLoading}
+                    className="rp__input"
+                    style={{ paddingLeft: 12 }}
+                  >
+                    <option value="">Select Division</option>
+                    {divisions.map((d) => (
+                      <option key={d.id} value={d.id}>{d.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* District */}
+              <div className="rp__field">
+                <label className="rp__label" htmlFor="reg-district">District</label>
+                <div className="rp__input-wrap">
+                  <select
+                    id="reg-district"
+                    name="district"
+                    value={formData.district}
+                    onChange={handleChange}
+                    required
+                    disabled={loading || googleLoading || !formData.division_id || loadingDistricts}
+                    className="rp__input"
+                    style={{ paddingLeft: 12 }}
+                  >
+                    <option value="">{formData.division_id ? (loadingDistricts ? 'Loading...' : 'Select District') : 'Select Division first'}</option>
+                    {districts.map((d) => (
+                      <option key={d.id} value={d.name}>{d.name}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
