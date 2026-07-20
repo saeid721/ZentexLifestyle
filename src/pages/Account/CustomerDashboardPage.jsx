@@ -24,42 +24,42 @@ const formatDate = (d) => {
 const statusColor = (s) => {
   switch (s?.toLowerCase()) {
     case 'delivered':
-    case 'completed':  return 'green';
+    case 'completed': return 'green';
     case 'shipped':
     case 'in-courier':
     case 'on-the-way': return 'blue';
     case 'processing': return 'orange';
     case 'pending':
-    case 'on-hold':    return 'amber';
-    case 'cancelled':  return 'red';
-    default:           return 'gray';
+    case 'on-hold': return 'amber';
+    case 'cancelled': return 'red';
+    default: return 'gray';
   }
 };
 
 // ── Icons ─────────────────────────────────────────────────────────
 const Ic = {
-  Dashboard:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>,
-  Orders:       () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/><path d="m9 14 2 2 4-4"/></svg>,
-  User:         () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>,
-  Lock:         () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>,
-  MapPin:       () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
-  LogOut:       () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>,
-  Package:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>,
-  Check:        () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>,
-  Clock:        () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-  Edit:         () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-  Plus:         () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-  Eye:          () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
-  EyeOff:       () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>,
-  Alert:        () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
-  Star:         () => <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-  ChevronRight: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>,
-  Camera:       () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>,
-  X:            () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-  Trash:        () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>,
-  ArrowLeft:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
-  CheckCircle:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-  ChevronLeft:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>,
+  Dashboard: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>,
+  Orders: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /><path d="m9 14 2 2 4-4" /></svg>,
+  User: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /></svg>,
+  Lock: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>,
+  MapPin: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>,
+  LogOut: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>,
+  Package: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>,
+  Check: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>,
+  Clock: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>,
+  Edit: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>,
+  Plus: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>,
+  Eye: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>,
+  EyeOff: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>,
+  Alert: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>,
+  Star: () => <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>,
+  ChevronRight: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>,
+  Camera: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>,
+  X: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>,
+  Trash: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>,
+  ArrowLeft: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>,
+  CheckCircle: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>,
+  ChevronLeft: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>,
 };
 
 // ── Skeleton ────────────────────────────────────────────────────────
@@ -161,23 +161,26 @@ const InvoiceOverlay = ({ order, token, onClose }) => {
   };
 
   const orderData = {
-    id:               order.id,
-    invoice_id:       order.invoice_id,
-    created_at:       order.created_at,
-    amount:           order.amount,
-    discount:         order.discount,
-    coupon_discount:  order.discount,
-    coupon_code:      order.coupon_code || '',
-    shipping_charge:  order.shipping_charge,
-    payment_method:   order.payment_method || 'Cash On Delivery',
-    payment:          order.payment,
-    note:             order.note || '',
-    customer:         order.customer,
-    shipping:         order.shipping,
-    orderdetails:     order.orderdetails || [],
+    id: order.id,
+    invoice_id: order.invoice_id,
+    created_at: order.created_at,
+    amount: order.amount,
+    discount: order.discount,
+    coupon_discount: order.discount,
+    coupon_code: order.coupon_code || '',
+    shipping_charge: order.shipping_charge,
+    payment_method: order.payment_method || 'Cash On Delivery',
+    payment: order.payment,
+    note: order.note || '',
+    customer: order.customer,
+    shipping: order.shipping,
+    orderdetails: order.orderdetails || [],
+    _isLoggedIn: true,
+    _customerName: order.customer?.name || order.shipping?.name || order.name || '',
+    _customerPhone: order.customer?.phone || order.shipping?.phone || order.phone || '',
     _customerAddress: order.customer?.address || order.address || '',
     _deliveryAddress: order.shipping?.address || order.address || '',
-    _paymentMethod:   order.payment?.payment_method || order.payment_method || 'Cash On Delivery',
+    _paymentMethod: order.payment?.payment_method || order.payment_method || 'Cash On Delivery',
   };
 
   return (
@@ -204,64 +207,64 @@ const InvoiceOverlay = ({ order, token, onClose }) => {
 // ── MAIN COMPONENT ────────────────────────────────────────────────
 const CustomerDashboardPage = () => {
   const navigate = useNavigate();
-  const fileRef  = useRef();
+  const fileRef = useRef();
 
-  const [tab, setTab]                       = useState('overview');
-  const [user, setUser]                     = useState(null);
+  const [tab, setTab] = useState('overview');
+  const [user, setUser] = useState(null);
   const isGoogleUser = React.useMemo(() => {
     return user?.provider === 'google';
   }, [user]);
-  const [orders, setOrders]                 = useState([]);
-  const [orderFilter, setOrderFilter]       = useState('All');
-  
+  const [orders, setOrders] = useState([]);
+  const [orderFilter, setOrderFilter] = useState('All');
+
   // Pagination state
-  const [currentPage, setCurrentPage]       = useState(1);
-  const [totalOrders, setTotalOrders]       = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalOrders, setTotalOrders] = useState(0);
   const ordersPerPage = 4;
 
   // ── Address state ────────────────────────────────────────────────
-  const [addresses, setAddresses]           = useState([]);
-  const [defaultAddrId, setDefaultAddrId]   = useState(null);
-  const [allDistricts, setAllDistricts]     = useState([]);
-  const [allDivisions, setAllDivisions]     = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [defaultAddrId, setDefaultAddrId] = useState(null);
+  const [allDistricts, setAllDistricts] = useState([]);
+  const [allDivisions, setAllDivisions] = useState([]);
   const [settingDefaultId, setSettingDefaultId] = useState(null);
 
-  const [loading, setLoading]               = useState(true);
-  const [toast, setToast]                   = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
 
   // Invoice overlay
-  const [viewingOrder, setViewingOrder]     = useState(null);
+  const [viewingOrder, setViewingOrder] = useState(null);
 
   // Edit profile
-  const [showEdit, setShowEdit]             = useState(false);
-  const [editForm, setEditForm]             = useState({});
-  const [editSaving, setEditSaving]         = useState(false);
-  const [avatarPreview, setAvatarPreview]   = useState(null);
-  const [avatarFile, setAvatarFile]         = useState(null);
-  const [editDistricts, setEditDistricts]   = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [editForm, setEditForm] = useState({});
+  const [editSaving, setEditSaving] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [editDistricts, setEditDistricts] = useState([]);
 
   // Change password
-  const [pwdForm, setPwdForm]               = useState({ old_password: '', new_password: '', confirm_password: '' });
-  const [pwdSaving, setPwdSaving]           = useState(false);
-  const [showPwd, setShowPwd]               = useState({ old: false, new: false, confirm: false });
+  const [pwdForm, setPwdForm] = useState({ old_password: '', new_password: '', confirm_password: '' });
+  const [pwdSaving, setPwdSaving] = useState(false);
+  const [showPwd, setShowPwd] = useState({ old: false, new: false, confirm: false });
 
   // Add address modal
-  const [showAddAddr, setShowAddAddr]       = useState(false);
-  const [addrForm, setAddrForm]             = useState({ address_title: '', address: '', district: '', division_id: '' });
-  const [addrDistricts, setAddrDistricts]   = useState([]);
-  const [addrSaving, setAddrSaving]         = useState(false);
+  const [showAddAddr, setShowAddAddr] = useState(false);
+  const [addrForm, setAddrForm] = useState({ address_title: '', address: '', district: '', division_id: '' });
+  const [addrDistricts, setAddrDistricts] = useState([]);
+  const [addrSaving, setAddrSaving] = useState(false);
 
   // Edit address modal
-  const [showEditAddr, setShowEditAddr]     = useState(false);
-  const [editAddrId, setEditAddrId]         = useState(null);
+  const [showEditAddr, setShowEditAddr] = useState(false);
+  const [editAddrId, setEditAddrId] = useState(null);
   const [editAddrIsDefault, setEditAddrIsDefault] = useState(false);
-  const [editAddrForm, setEditAddrForm]     = useState({ address_title: '', address: '', district: '', division_id: '' });
+  const [editAddrForm, setEditAddrForm] = useState({ address_title: '', address: '', district: '', division_id: '' });
   const [editAddrDistricts, setEditAddrDistricts] = useState([]);
   const [editAddrSaving, setEditAddrSaving] = useState(false);
 
   // Delete confirm
-  const [confirmDelete, setConfirmDelete]   = useState(null);
-  const [deletingAddr, setDeletingAddr]     = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+  const [deletingAddr, setDeletingAddr] = useState(false);
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
@@ -294,25 +297,25 @@ const CustomerDashboardPage = () => {
       }
 
       const storedUser = getUserData() || {};
-      
+
       setUser({
-        id:          profile.id,
-        name:        profile.name || 'User',
-        email:       profile.email || '',
-        phone:       profile.phone || '',
-        slug:        profile.slug || '',
-        district:    profile.district || '',
+        id: profile.id,
+        name: profile.name || 'User',
+        email: profile.email || '',
+        phone: profile.phone || '',
+        slug: profile.slug || '',
+        district: profile.district || '',
         division_id: profile.division_id || '',
-        division:    divisionName,
-        address:     profile.address || '',
-        verify:      profile.verify ?? 0,
-        status:      profile.status || 'active',
+        division: divisionName,
+        address: profile.address || '',
+        verify: profile.verify ?? 0,
+        status: profile.status || 'active',
         memberSince: formatDate(profile.created_at),
-        image:       profile.image && !profile.image.includes('default/user.png')
-                     ? `${BASE_IMAGE_URL}${profile.image}` : null,
-        initials:    profile.name ? profile.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) : 'U',
+        image: profile.image && !profile.image.includes('default/user.png')
+          ? `${BASE_IMAGE_URL}${profile.image}` : null,
+        initials: profile.name ? profile.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) : 'U',
         // ✅ Preserve provider field from stored data (for Google users)
-        provider:    storedUser.provider,
+        provider: storedUser.provider,
       });
 
       // Store divisions and districts for dropdowns
@@ -327,7 +330,7 @@ const CustomerDashboardPage = () => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get(`${API}/orders/overview`, { headers: authHeaders() });
-      
+
       if (res.data?.status === true) {
         const data = res.data.data;
         if (Array.isArray(data?.orders)) {
@@ -347,12 +350,12 @@ const CustomerDashboardPage = () => {
     try {
       const res = await axios.get(`${API}/address`, { headers: authHeaders() });
       if (res.data.status) {
-        const data     = res.data.data;
+        const data = res.data.data;
         const addrList = data?.addresses || [];
-        const defRaw   = data?.default_address;
+        const defRaw = data?.default_address;
 
         setAddresses(addrList);
-        
+
         // Store divisions and districts from address API
         if (data.divisions) setAllDivisions(data.divisions);
         if (data.districts) setAllDistricts(data.districts);
@@ -361,7 +364,7 @@ const CustomerDashboardPage = () => {
         if (defRaw && defRaw.division && defRaw.district) {
           const matched = addrList.find(
             a => String(a.division_id) === String(defRaw.division) &&
-                 a.district?.toLowerCase() === defRaw.district?.toLowerCase()
+              a.district?.toLowerCase() === defRaw.district?.toLowerCase()
           );
           setDefaultAddrId(matched?.id ?? null);
         } else {
@@ -380,20 +383,20 @@ const CustomerDashboardPage = () => {
     if (orderFilter === 'All') return true;
     const statusName = order.status?.name?.toLowerCase();
     switch (orderFilter.toLowerCase()) {
-      case 'pending':    return statusName === 'pending';
+      case 'pending': return statusName === 'pending';
       case 'processing': return statusName === 'processing';
-      case 'delivered':  return statusName === 'completed' || statusName === 'delivered';
-      case 'cancelled':  return statusName === 'cancelled';
-      default:           return true;
+      case 'delivered': return statusName === 'completed' || statusName === 'delivered';
+      case 'cancelled': return statusName === 'cancelled';
+      default: return true;
     }
   });
-  
+
 
   // ── Load districts by division from API ─────────────────────────
   const loadDistrictsByDivision = async (divisionId, setter) => {
-    if (!divisionId) { 
-      setter([]); 
-      return; 
+    if (!divisionId) {
+      setter([]);
+      return;
     }
     try {
       const res = await axios.get(`${API}/get-district?id=${divisionId}`, { headers: authHeaders() });
@@ -452,22 +455,22 @@ const CustomerDashboardPage = () => {
 
   // ── Open edit profile ────────────────────────────────────────────
   const openEdit = () => {
-    setEditForm({ 
-      name: user.name, 
-      email: user.email, 
-      phone: user.phone, 
-      district: user.district, 
+    setEditForm({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      district: user.district,
       division_id: user.division_id,
-      address: user.address 
+      address: user.address
     });
     setAvatarPreview(null);
     setAvatarFile(null);
-    
+
     // Load districts for user's division
     if (user.division_id) {
       loadDistrictsByDivision(user.division_id, setEditDistricts);
     }
-    
+
     setShowEdit(true);
   };
 
@@ -529,9 +532,9 @@ const CustomerDashboardPage = () => {
     try {
       const fd = new FormData();
       fd.append('address_title', addrForm.address_title || '');
-      fd.append('address',       addrForm.address || '');
-      fd.append('district',      addrForm.district || '');
-      fd.append('division_id',   addrForm.division_id || '');
+      fd.append('address', addrForm.address || '');
+      fd.append('district', addrForm.district || '');
+      fd.append('division_id', addrForm.division_id || '');
 
       const res = await axios.post(`${API}/store-address`, fd, { headers: authHeaders() });
       if (res.data.status) {
@@ -554,9 +557,9 @@ const CustomerDashboardPage = () => {
     setEditAddrIsDefault(isDefault);
     setEditAddrForm({
       address_title: addr.address_title || '',
-      address:       addr.address || '',
-      district:      addr.district || '',
-      division_id:   String(addr.division_id || ''),
+      address: addr.address || '',
+      district: addr.district || '',
+      division_id: String(addr.division_id || ''),
     });
     setEditAddrDistricts([]);
     if (addr.division_id) {
@@ -571,9 +574,9 @@ const CustomerDashboardPage = () => {
     try {
       const fd = new FormData();
       fd.append('address_title', editAddrForm.address_title || '');
-      fd.append('address',       editAddrForm.address || '');
-      fd.append('district',      editAddrForm.district || '');
-      fd.append('division_id',   editAddrForm.division_id || '');
+      fd.append('address', editAddrForm.address || '');
+      fd.append('district', editAddrForm.district || '');
+      fd.append('division_id', editAddrForm.division_id || '');
       if (editAddrIsDefault) {
         fd.append('type', 'default');
       }
@@ -596,11 +599,11 @@ const CustomerDashboardPage = () => {
     setSettingDefaultId(addr.id);
     try {
       const fd = new FormData();
-      fd.append('type',          'default');
+      fd.append('type', 'default');
       fd.append('address_title', addr.address_title || '');
-      fd.append('address',       addr.address || '');
-      fd.append('district',      addr.district || '');
-      fd.append('division_id',   String(addr.division_id));
+      fd.append('address', addr.address || '');
+      fd.append('district', addr.district || '');
+      fd.append('division_id', String(addr.division_id));
 
       const res = await axios.post(`${API}/update-address/${addr.id}`, fd, { headers: authHeaders() });
 
@@ -621,8 +624,8 @@ const CustomerDashboardPage = () => {
   // ── DELETE ADDRESS ────────────────────────────────────────────────
   const confirmDeleteAddress = (addr) => {
     setConfirmDelete({
-      id:        addr.id,
-      title:     addr.address_title || 'this address',
+      id: addr.id,
+      title: addr.address_title || 'this address',
       isDefault: addr.id === defaultAddrId,
     });
   };
@@ -651,13 +654,13 @@ const CustomerDashboardPage = () => {
 
   // ── Order stats ──────────────────────────────────────────────────
   const stats = {
-    total:     totalOrders,
-    pending:   orders.filter(o => o.status?.slug === 'pending').length,
+    total: totalOrders,
+    pending: orders.filter(o => o.status?.slug === 'pending').length,
     delivered: orders.filter(o => o.status?.slug === 'completed' || o.status?.slug === 'delivered').length,
     cancelled: orders.filter(o => o.status?.slug === 'cancelled').length,
   };
   // Client-side pagination computed values
-  const totalPages     = Math.ceil(filteredOrders.length / ordersPerPage);
+  const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
   const paginatedOrders = filteredOrders.slice(
     (currentPage - 1) * ordersPerPage,
     currentPage * ordersPerPage
@@ -676,17 +679,17 @@ const CustomerDashboardPage = () => {
       <div className="cdp">
         <style>{`@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
         <div className="cdp__topbar-skeleton">
-          <Skel w={200} h={28} r={4}/>
-          <Skel w={100} h={36} r={40}/>
+          <Skel w={200} h={28} r={4} />
+          <Skel w={100} h={36} r={40} />
         </div>
         <div className="cdp__body">
           <aside className="cdp__sidebar">
-            <Skel w="100%" h={260} r={12}/>
-            <Skel w="100%" h={320} r={12}/>
+            <Skel w="100%" h={260} r={12} />
+            <Skel w="100%" h={320} r={12} />
           </aside>
           <main className="cdp__main">
-            <Skel w="100%" h={120} r={12}/>
-            <Skel w="100%" h={400} r={12}/>
+            <Skel w="100%" h={120} r={12} />
+            <Skel w="100%" h={400} r={12} />
           </main>
         </div>
       </div>
@@ -696,12 +699,12 @@ const CustomerDashboardPage = () => {
   if (!user) return null;
 
   const navItems = [
-    { key: 'overview',       label: 'Overview',        icon: <Ic.Dashboard /> },
-    { key: 'myOrders',       label: 'My Orders',       icon: <Ic.Orders />,  badge: stats.total },
-    { key: 'accountInfo',    label: 'Account Info',    icon: <Ic.User /> },
+    { key: 'overview', label: 'Overview', icon: <Ic.Dashboard /> },
+    { key: 'myOrders', label: 'My Orders', icon: <Ic.Orders />, badge: stats.total },
+    { key: 'accountInfo', label: 'Account Info', icon: <Ic.User /> },
     // Hide Change Password for Google-authenticated users
     ...(!isGoogleUser ? [{ key: 'changePassword', label: 'Change Password', icon: <Ic.Lock /> }] : []),
-    { key: 'addresses',      label: 'Addresses',       icon: <Ic.MapPin />,  badge: addresses.length },
+    { key: 'addresses', label: 'Addresses', icon: <Ic.MapPin />, badge: addresses.length },
   ];
 
   return (
@@ -782,10 +785,10 @@ const CustomerDashboardPage = () => {
 
           <div className="cdp__mini-stats">
             {[
-              { label: 'Total Orders',  val: stats.total,     color: '#232f3e' },
-              { label: 'Pending',       val: stats.pending,   color: '#f0a500' },
-              { label: 'Delivered',     val: stats.delivered, color: '#067d62' },
-              { label: 'Cancelled',     val: stats.cancelled, color: '#b12704' },
+              { label: 'Total Orders', val: stats.total, color: '#232f3e' },
+              { label: 'Pending', val: stats.pending, color: '#f0a500' },
+              { label: 'Delivered', val: stats.delivered, color: '#067d62' },
+              { label: 'Cancelled', val: stats.cancelled, color: '#b12704' },
             ].map(({ label, val, color }) => (
               <div className="cdp__mini-stat" key={label}>
                 <span className="cdp__mini-stat-val" style={{ color }}>{val}</span>
@@ -808,10 +811,10 @@ const CustomerDashboardPage = () => {
 
               <div className="cdp__stat-grid">
                 {[
-                  { label: 'Total Orders',  val: stats.total,     icon: <Ic.Package />, cls: 'primary', action: () => setTab('myOrders') },
-                  { label: 'Pending',       val: stats.pending,   icon: <Ic.Clock />,   cls: 'amber',   action: () => setTab('myOrders') },
-                  { label: 'Delivered',     val: stats.delivered, icon: <Ic.Check />,   cls: 'green',   action: () => setTab('myOrders') },
-                  { label: 'Cancelled',     val: stats.cancelled, icon: <Ic.X />,       cls: 'red',     action: () => setTab('myOrders') },
+                  { label: 'Total Orders', val: stats.total, icon: <Ic.Package />, cls: 'primary', action: () => setTab('myOrders') },
+                  { label: 'Pending', val: stats.pending, icon: <Ic.Clock />, cls: 'amber', action: () => setTab('myOrders') },
+                  { label: 'Delivered', val: stats.delivered, icon: <Ic.Check />, cls: 'green', action: () => setTab('myOrders') },
+                  { label: 'Cancelled', val: stats.cancelled, icon: <Ic.X />, cls: 'red', action: () => setTab('myOrders') },
                 ].map(({ label, val, icon, cls, action }) => (
                   <div className={`cdp__stat-card cdp__stat-card--${cls}`} key={label} onClick={action}>
                     <div className="cdp__stat-icon">{icon}</div>
@@ -832,13 +835,13 @@ const CustomerDashboardPage = () => {
                   </div>
                   <div className="cdp__profile-fields">
                     {[
-                      { label: 'Full Name',        val: user.name },
-                      { label: 'Email',            val: user.email || '—' },
-                      { label: 'Phone',            val: user.phone || '—' },
-                      { label: 'Address',          val: user.address || '—' },
-                      { label: 'District',         val: user.district || '—' },
-                      { label: 'Division',         val: user.division || '—' },
-                      { label: 'Member Since',     val: user.memberSince },
+                      { label: 'Full Name', val: user.name },
+                      { label: 'Email', val: user.email || '—' },
+                      { label: 'Phone', val: user.phone || '—' },
+                      { label: 'Address', val: user.address || '—' },
+                      { label: 'District', val: user.district || '—' },
+                      { label: 'Division', val: user.division || '—' },
+                      { label: 'Member Since', val: user.memberSince },
                     ].map(({ label, val }) => (
                       <div className="cdp__field-row" key={label}>
                         <span className="cdp__field-label">{label}</span>
@@ -920,7 +923,7 @@ const CustomerDashboardPage = () => {
                 <>
                   <div className="cdp__orders-grid">
                     {paginatedOrders.map(order => {
-                      const sc    = statusColor(order.status?.name);
+                      const sc = statusColor(order.status?.name);
                       return (
                         <div className="cdp__order-card" key={order.id}>
                           {/* Card Top */}
@@ -1065,13 +1068,13 @@ const CustomerDashboardPage = () => {
                 </div>
                 <div className="cdp__account-info-grid">
                   {[
-                    { label: 'Full Name',        val: user.name },
-                    { label: 'Email Address',    val: user.email || '—' },
-                    { label: 'Phone Number',     val: user.phone || '—' },
-                    { label: 'Address',          val: user.address || '—' },
-                    { label: 'District',         val: user.district || '—' },
-                    { label: 'Division',         val: user.division || '—' },
-                    { label: 'Member Since',     val: user.memberSince },
+                    { label: 'Full Name', val: user.name },
+                    { label: 'Email Address', val: user.email || '—' },
+                    { label: 'Phone Number', val: user.phone || '—' },
+                    { label: 'Address', val: user.address || '—' },
+                    { label: 'District', val: user.district || '—' },
+                    { label: 'Division', val: user.division || '—' },
+                    { label: 'Member Since', val: user.memberSince },
                   ].map(({ label, val }) => (
                     <div className="cdp__info-block" key={label}>
                       <span className="cdp__info-label">{label}</span>
@@ -1093,8 +1096,8 @@ const CustomerDashboardPage = () => {
               <div className="cdp__card cdp__card--narrow">
                 <form onSubmit={changePassword}>
                   {[
-                    { key: 'old_password',     label: 'Current Password', showKey: 'old' },
-                    { key: 'new_password',     label: 'New Password',     showKey: 'new' },
+                    { key: 'old_password', label: 'Current Password', showKey: 'old' },
+                    { key: 'new_password', label: 'New Password', showKey: 'new' },
                     { key: 'confirm_password', label: 'Confirm Password', showKey: 'confirm' },
                   ].map(({ key, label, showKey }) => (
                     <div className="cdp__form-field" key={key}>
@@ -1120,7 +1123,7 @@ const CustomerDashboardPage = () => {
                       {key === 'new_password' && pwdForm.new_password && (
                         <div className="cdp__pwd-strength">
                           <div className="cdp__pwd-bars">
-                            {[1,2,3,4].map(i => (
+                            {[1, 2, 3, 4].map(i => (
                               <div key={i} className={`cdp__pwd-bar ${i <= strength ? `cdp__pwd-bar--s${strength}` : ''}`} />
                             ))}
                           </div>
@@ -1133,7 +1136,7 @@ const CustomerDashboardPage = () => {
                   ))}
                   <div className="cdp__pwd-tips" />
                   <button type="submit" className="cdp__btn-primary cdp__btn-primary--full" disabled={pwdSaving}>
-                    {pwdSaving ? <><span className="cdp__spinner"/> Changing…</> : 'Change Password'}
+                    {pwdSaving ? <><span className="cdp__spinner" /> Changing…</> : 'Change Password'}
                   </button>
                 </form>
               </div>
@@ -1168,7 +1171,7 @@ const CustomerDashboardPage = () => {
               ) : (
                 <div className="cdp__addr-grid">
                   {addresses.map(addr => {
-                    const isDefault    = addr.id === defaultAddrId;
+                    const isDefault = addr.id === defaultAddrId;
                     const isSettingDef = settingDefaultId === addr.id;
                     const divisionName = getDivisionName(addr.division_id);
 
@@ -1177,9 +1180,9 @@ const CustomerDashboardPage = () => {
                         key={addr.id}
                         className="cdp__addr-card"
                         style={isDefault ? {
-                          border:     '2px solid #067d62',
+                          border: '2px solid #067d62',
                           background: '#f6fdf9',
-                          boxShadow:  '0 0 0 3px rgba(6,125,98,0.08)',
+                          boxShadow: '0 0 0 3px rgba(6,125,98,0.08)',
                         } : {}}
                       >
                         {/* Card header */}
@@ -1193,16 +1196,16 @@ const CustomerDashboardPage = () => {
                             </span>
                             {isDefault && (
                               <span style={{
-                                display:      'inline-flex',
-                                alignItems:   'center',
-                                gap:          3,
-                                fontSize:     10,
-                                fontWeight:   700,
-                                color:        '#067d62',
-                                background:   '#b2dfdb',
-                                padding:      '2px 8px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 3,
+                                fontSize: 10,
+                                fontWeight: 700,
+                                color: '#067d62',
+                                background: '#b2dfdb',
+                                padding: '2px 8px',
                                 borderRadius: 40,
-                                lineHeight:   1.6,
+                                lineHeight: 1.6,
                               }}>
                                 <Ic.CheckCircle /> Default
                               </span>
@@ -1284,10 +1287,10 @@ const CustomerDashboardPage = () => {
 
               <div className="cdp__form-grid">
                 {[
-                  { key: 'name',    label: 'Full Name', type: 'text'  },
-                  { key: 'email',   label: 'Email',     type: 'email' },
-                  { key: 'phone',   label: 'Phone',     type: 'tel'   },
-                  { key: 'address', label: 'Address',   type: 'text'  },
+                  { key: 'name', label: 'Full Name', type: 'text' },
+                  { key: 'email', label: 'Email', type: 'email' },
+                  { key: 'phone', label: 'Phone', type: 'tel' },
+                  { key: 'address', label: 'Address', type: 'text' },
                 ].map(({ key, label, type }) => (
                   <div className="cdp__form-field" key={key}>
                     <label className="cdp__form-label">{label}</label>
@@ -1337,7 +1340,7 @@ const CustomerDashboardPage = () => {
               <div className="cdp__modal-actions">
                 <button type="button" className="cdp__btn-outline" onClick={() => setShowEdit(false)} disabled={editSaving}>Cancel</button>
                 <button type="submit" className="cdp__btn-primary" disabled={editSaving}>
-                  {editSaving ? <><span className="cdp__spinner"/> Saving…</> : 'Save Changes'}
+                  {editSaving ? <><span className="cdp__spinner" /> Saving…</> : 'Save Changes'}
                 </button>
               </div>
             </form>
@@ -1417,7 +1420,7 @@ const CustomerDashboardPage = () => {
               <div className="cdp__modal-actions">
                 <button type="button" className="cdp__btn-outline" onClick={() => setShowAddAddr(false)} disabled={addrSaving}>Cancel</button>
                 <button type="submit" className="cdp__btn-primary" disabled={addrSaving}>
-                  {addrSaving ? <><span className="cdp__spinner"/> Saving…</> : 'Save Address'}
+                  {addrSaving ? <><span className="cdp__spinner" /> Saving…</> : 'Save Address'}
                 </button>
               </div>
             </form>
@@ -1499,7 +1502,7 @@ const CustomerDashboardPage = () => {
               <div className="cdp__modal-actions">
                 <button type="button" className="cdp__btn-outline" onClick={() => !editAddrSaving && setShowEditAddr(false)} disabled={editAddrSaving}>Cancel</button>
                 <button type="submit" className="cdp__btn-primary" disabled={editAddrSaving}>
-                  {editAddrSaving ? <><span className="cdp__spinner"/> Updating…</> : 'Update Address'}
+                  {editAddrSaving ? <><span className="cdp__spinner" /> Updating…</> : 'Update Address'}
                 </button>
               </div>
             </form>

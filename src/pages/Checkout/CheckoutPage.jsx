@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Container, Row, Col, Form, Spinner, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import useCartStore from '../../app/store';
-import { formatPrice, PLACEHOLDER_IMG, API_BASE_URL } from '../../utils';
+import { formatPrice, PLACEHOLDER_IMG, API_BASE_URL, BASE_IMAGE_URL } from '../../utils';
 import { setAuth, getAuth } from '../../utils/auth';
 import { Eye, EyeOff, Phone, Mail, MapPin } from 'lucide-react';
 import OptimizedImage from '../../components/ui/OptimizedImage';
@@ -19,6 +19,10 @@ const ADDRESS_API = `${API_BASE_URL}/address`;
 // CHANGE 1: GET_DISTRICT_API — fetches districts by division_id
 // GET /api/get-district?id=<division_id>  →  { success, data: { "1": "Dhaka", ... } }
 const GET_DISTRICT_API = `${API_BASE_URL}/get-district`;
+// ✅ FIX: these were missing — InvoicePage below used them but never defined them,
+// causing a ReferenceError that silently swallowed settings (logo/phone/address)
+const INVOICE_API = `${API_BASE_URL}/orders/invoice`;
+const SETTINGS_API = `${API_BASE_URL}/general-settings`;
 
 // ── Payment methods ───────────────────────────────────────────────────────────
 const PAYMENT_METHODS = [
@@ -2033,7 +2037,7 @@ export const InvoicePage = ({ orderData, token }) => {
           <div className="invoice-doc__header">
             <div className="invoice-doc__brand">
               {logoUrl
-                ? <OptimizedImage src={logoUrl} alt={siteName} className="invoice-doc__logo" eager={true} wrapperStyle={{ height: '40px', display: 'inline-block' }} />
+                ? <OptimizedImage src={logoUrl} alt={siteName} className="invoice-doc__logo" width={160} height={40} objectFit="contain" objectPosition="left" eager={true} wrapperStyle={{ width: '160px', height: '40px', display: 'inline-block' }} />
                 : <h2 className="invoice-doc__brand-name">{siteName}</h2>
               }
               <div className="invoice-doc__brand-info">

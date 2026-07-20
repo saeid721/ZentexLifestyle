@@ -2,25 +2,31 @@
   &__tabs {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 3rem;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-extra-light);
-  }
-  &__sentinel {
-      height: 1px;
-    }
 
-    &__loading-more {
-      text-align: center;
-      padding: 1.5rem 0;
-      font-size: 13px;
-      color: var(--text-medium);
+    @media (max-width: 560px) {
+      gap: 1.5rem;
     }
+  }
+
+  &__sentinel {
+    height: 1px;
+  }
+
+  &__loading-more {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 13px;
+    color: var(--text-medium);
+  }
+
   &__tab {
     background: none;
     border: none;
     padding: 0 0 0.6rem;
-    font-size: clamp(20px, 3vw, 28px);
+    font-size: clamp(15px, 3vw, 28px);
     font-weight: 700;
     color: var(--brand-secondary-light);
     cursor: pointer;

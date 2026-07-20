@@ -890,10 +890,12 @@ export const InvoicePage = () => {
                                 src={logoUrl}
                                 alt={`${settings?.name || 'Zentex'} logo`}
                                 className="invoice-doc__logo"
+                                width={160}
                                 height={48}
                                 objectFit="contain"
+                                objectPosition="left"
                                 fallbackSrc={fallbackLogo}
-                                wrapperStyle={{ height: '48px', display: 'inline-block' }}
+                                wrapperStyle={{ width: '160px', height: '48px', display: 'inline-block' }}
                             />
                             <div className="invoice-doc__brand-info">
                                 <p>

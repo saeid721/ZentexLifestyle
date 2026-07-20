@@ -338,6 +338,7 @@ const Footer = () => {
                     className="site-footer__payment-img"
                     width={40}
                     height={24}
+                    objectFit='contain'
                     wrapperStyle={{ width: '40px', height: '24px', display: 'inline-block' }}
                   />
                 </span>

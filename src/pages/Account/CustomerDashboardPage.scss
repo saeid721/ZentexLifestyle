@@ -919,12 +919,12 @@
   }
 
   &--paid {
-    color: #067d62;
+    color: var(--success-dark);
     font-weight: 600;
   }
 
   &--due {
-    color: #ff6600;
+    color: var(--error);
     font-weight: 600;
   }
 }
