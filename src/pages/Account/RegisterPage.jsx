@@ -215,9 +215,9 @@ const RegisterPage = () => {
           <div className="rp__card">
 
             {/* Header */}
-            <div className="rp__card-header">
+            {/* <div className="rp__card-header">
               <p className="rp__subtitle">Join Zentex — shop smarter, live better</p>
-            </div>
+            </div> */}
 
             {/* Alerts */}
             {successMessage && (
@@ -233,87 +233,114 @@ const RegisterPage = () => {
               </div>
             )}
 
-            {/* Google Button */}
-            <button
-              type="button"
-              className={`rp__google-btn ${googleLoading ? 'rp__google-btn--loading' : ''}`}
-              onClick={handleGoogleSignIn}
-              disabled={googleLoading || loading}
-            >
-              {googleLoading ? (
-                <span className="rp__spinner" />
-              ) : (
-                <svg className="rp__google-icon" viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-              )}
-              <span>{googleLoading ? 'Connecting…' : 'Continue with Google'}</span>
-              {!googleLoading && (
-                <span className="rp__google-badge">Sign in or Register</span>
-              )}
-            </button>
+            <div className="rp__card-grid">
+              {/* ── Left: Google ── */}
+              <div className="rp__card-left">
+                <button
+                  type="button"
+                  className={`rp__google-btn ${googleLoading ? 'rp__google-btn--loading' : ''}`}
+                  onClick={handleGoogleSignIn}
+                  disabled={googleLoading || loading}
+                >
+                  {googleLoading ? (
+                    <span className="rp__spinner" />
+                  ) : (
+                    <svg className="rp__google-icon" viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                  )}
+                  <span>{googleLoading ? 'Connecting…' : 'Continue with Google'}</span>
+                  {!googleLoading && (
+                    <span className="rp__google-badge">Sign in or Register</span>
+                  )}
+                </button>
 
-            <p className="rp__google-hint">
-              Instantly sign in or create a new account with your Google email — no password needed
-            </p>
+                <p className="rp__google-hint">
+                  Instantly sign in or create a new account with your Google email — no password needed
+                </p>
 
-            {/* Divider */}
-            <div className="rp__divider">
-              <span>or register with phone & email</span>
-            </div>
+                <ul className="rp__perks">
+                  <li>
+                    <span className="rp__perk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="20 6 9 17 4 12" /></svg></span>
+                    <span>One-tap sign in, no password to remember</span>
+                  </li>
+                  <li>
+                    <span className="rp__perk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="20 6 9 17 4 12" /></svg></span>
+                    <span>Track orders & save your delivery address</span>
+                  </li>
+                  <li>
+                    <span className="rp__perk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="20 6 9 17 4 12" /></svg></span>
+                    <span>Exclusive member offers on Zentex</span>
+                  </li>
+                </ul>
+              </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="rp__form" noValidate>
+              {/* ── Divider ── */}
+              <div className="rp__card-divider">
+                <span>or</span>
+              </div>
 
-              {/* Full Name */}
-              <div className={`rp__field ${focusedField === 'name' ? 'rp__field--focused' : ''} ${formData.name ? 'rp__field--filled' : ''}`}>
-                <label className="rp__label" htmlFor="reg-name">Full Name</label>
-                <div className="rp__input-wrap">
-                  <svg className="rp__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                  </svg>
-                  <input
-                    id="reg-name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Your full name"
-                    required
-                    disabled={loading || googleLoading}
-                    className="rp__input"
-                    autoComplete="name"
-                  />
+              {/* ── Right: Form ── */}
+              <div className="rp__card-right">
+                <p className="rp__card-right-label">Register with phone &amp; email</p>
+
+                <form onSubmit={handleSubmit} className="rp__form" noValidate>
+
+              {/* Name + Mobile row */}
+              <div className="rp__row">
+                <div className={`rp__field ${focusedField === 'name' ? 'rp__field--focused' : ''} ${formData.name ? 'rp__field--filled' : ''}`}>
+                  <label className="rp__label" htmlFor="reg-name">Full Name</label>
+                  <div className="rp__input-wrap">
+                    <svg className="rp__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                      <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                    <input id="reg-name" type="text" name="name" value={formData.name} onChange={handleChange}
+                      onFocus={() => setFocusedField('name')} onBlur={() => setFocusedField(null)}
+                      placeholder="Your full name" required disabled={loading || googleLoading}
+                      className="rp__input" autoComplete="name" />
+                  </div>
+                </div>
+
+                <div className={`rp__field ${focusedField === 'mobile' ? 'rp__field--focused' : ''} ${formData.mobile ? 'rp__field--filled' : ''}`}>
+                  <label className="rp__label" htmlFor="reg-mobile">Mobile Number</label>
+                  <div className="rp__input-wrap">
+                    <svg className="rp__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                      <rect x="5" y="2" width="14" height="20" rx="2" /><circle cx="12" cy="17" r="1" />
+                    </svg>
+                    <input id="reg-mobile" type="tel" name="mobile" value={formData.mobile} onChange={handleChange}
+                      onFocus={() => setFocusedField('mobile')} onBlur={() => setFocusedField(null)}
+                      placeholder="01XXXXXXXXX" pattern="[0-9]{10,15}" required disabled={loading || googleLoading}
+                      className="rp__input" autoComplete="tel" />
+                  </div>
                 </div>
               </div>
 
-              {/* Mobile */}
-              <div className={`rp__field ${focusedField === 'mobile' ? 'rp__field--focused' : ''} ${formData.mobile ? 'rp__field--filled' : ''}`}>
-                <label className="rp__label" htmlFor="reg-mobile">Mobile Number</label>
-                <div className="rp__input-wrap">
-                  <svg className="rp__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <rect x="5" y="2" width="14" height="20" rx="2" /><circle cx="12" cy="17" r="1" />
-                  </svg>
-                  <input
-                    id="reg-mobile"
-                    type="tel"
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField('mobile')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="01XXXXXXXXX"
-                    pattern="[0-9]{10,15}"
-                    required
-                    disabled={loading || googleLoading}
-                    className="rp__input"
-                    autoComplete="tel"
-                  />
+              {/* Division + District row */}
+              <div className="rp__row">
+                <div className="rp__field">
+                  <label className="rp__label" htmlFor="reg-division">Division</label>
+                  <div className="rp__input-wrap">
+                    <select id="reg-division" name="division_id" value={formData.division_id} onChange={handleDivisionChange}
+                      required disabled={loading || googleLoading} className="rp__input rp__input--select">
+                      <option value="">Select Division</option>
+                      {divisions.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="rp__field">
+                  <label className="rp__label" htmlFor="reg-district">District</label>
+                  <div className="rp__input-wrap">
+                    <select id="reg-district" name="district" value={formData.district} onChange={handleChange}
+                      required disabled={loading || googleLoading || !formData.division_id || loadingDistricts}
+                      className="rp__input rp__input--select">
+                      <option value="">{formData.division_id ? (loadingDistricts ? 'Loading...' : 'Select District') : 'Select Division first'}</option>
+                      {districts.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
+                    </select>
+                  </div>
                 </div>
               </div>
 
@@ -338,50 +365,6 @@ const RegisterPage = () => {
                     className="rp__input"
                     autoComplete="street-address"
                   />
-                </div>
-              </div>
-
-              {/* Division */}
-              <div className="rp__field">
-                <label className="rp__label" htmlFor="reg-division">Division</label>
-                <div className="rp__input-wrap">
-                  <select
-                    id="reg-division"
-                    name="division_id"
-                    value={formData.division_id}
-                    onChange={handleDivisionChange}
-                    required
-                    disabled={loading || googleLoading}
-                    className="rp__input"
-                    style={{ paddingLeft: 12 }}
-                  >
-                    <option value="">Select Division</option>
-                    {divisions.map((d) => (
-                      <option key={d.id} value={d.id}>{d.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* District */}
-              <div className="rp__field">
-                <label className="rp__label" htmlFor="reg-district">District</label>
-                <div className="rp__input-wrap">
-                  <select
-                    id="reg-district"
-                    name="district"
-                    value={formData.district}
-                    onChange={handleChange}
-                    required
-                    disabled={loading || googleLoading || !formData.division_id || loadingDistricts}
-                    className="rp__input"
-                    style={{ paddingLeft: 12 }}
-                  >
-                    <option value="">{formData.division_id ? (loadingDistricts ? 'Loading...' : 'Select District') : 'Select Division first'}</option>
-                    {districts.map((d) => (
-                      <option key={d.id} value={d.name}>{d.name}</option>
-                    ))}
-                  </select>
                 </div>
               </div>
 
@@ -496,6 +479,8 @@ const RegisterPage = () => {
                 )}
               </button>
             </form>
+            </div>
+            </div>
           </div>
         </div>
       </Container>

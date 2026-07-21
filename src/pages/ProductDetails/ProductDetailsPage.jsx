@@ -415,6 +415,8 @@ const ProductDetailsPage = () => {
   const navigate = useNavigate();
   const imgWrapRef = useRef(null);
   const cartBtnRef = useRef(null);
+  const descHeaderRef = useRef(null);
+  const additionalHeaderRef = useRef(null);
 
   const initialParsed = (() => {
     if (!slug) return null;
@@ -885,7 +887,18 @@ const ProductDetailsPage = () => {
     }
   }, [popupMode, product, activePrice, totalStock, qty, addToCart, navigate]);
 
-  const toggleTab = (tabName) => setOpenTab(openTab === tabName ? null : tabName);
+  const toggleTab = (tabName, headerRef) => {
+    const willOpen = openTab !== tabName;
+    setOpenTab(willOpen ? tabName : null);
+    if (willOpen && headerRef?.current) {
+      const header = headerRef.current;
+      const scrollToHeader = () => {
+        header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      requestAnimationFrame(scrollToHeader);
+      setTimeout(scrollToHeader, 550);
+    }
+  };
 
   if (loading) return (
     <div className="pdp-loader"><div className="pdp-spinner" /></div>
@@ -1326,7 +1339,7 @@ const ProductDetailsPage = () => {
             <Reveal type="fade-up" delay={180} className="pdp__accordion mt-4">
 
               <div className="pdp__accordion-item">
-                <button className={`pdp__accordion-header ${openTab === 'description' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('description')}>
+                <button ref={descHeaderRef} className={`pdp__accordion-header ${openTab === 'description' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('description', descHeaderRef)}></button><button className={`pdp__accordion-header ${openTab === 'description' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('description')}>
                   <span className="pdp__accordion-title">Description</span>
                   <span className="pdp__accordion-icon">
                     <Plus size={16} strokeWidth={2.5} />
@@ -1340,7 +1353,7 @@ const ProductDetailsPage = () => {
               </div>
 
               <div className="pdp__accordion-item">
-                <button className={`pdp__accordion-header ${openTab === 'additional' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('additional')}>
+                <button ref={additionalHeaderRef} className={`pdp__accordion-header ${openTab === 'additional' ? 'pdp__accordion-header--active' : ''}`} onClick={() => toggleTab('additional', additionalHeaderRef)}>
                   <span className="pdp__accordion-title">Additional Information</span>
                   <span className="pdp__accordion-icon">
                     <Plus size={16} strokeWidth={2.5} />

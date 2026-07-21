@@ -59,11 +59,6 @@ const CategoriesPage = () => {
   if (loading) return (
     <section className="featured-cats section-wrapper">
       <Container className="container-1500 featured-cats__container">
-        <div className="featured-cats__heading">
-          <span className="featured-cats__heading-line" />
-          <h2 className="featured-cats__heading-text">Product Categories</h2>
-          <span className="featured-cats__heading-line" />
-        </div>
         <div className="featured-cats__grid featured-cats__grid--flat">
           {[...Array(10)].map((_, i) => (
             <div key={i} className="cat-card cat-card--loading">
