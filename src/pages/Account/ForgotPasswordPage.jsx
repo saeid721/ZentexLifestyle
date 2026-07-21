@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
+import Reveal from '../../components/ui/Reveal/Reveal';
 import './ForgotPasswordPage.scss';
 
 const ForgotPasswordPage = () => {
@@ -392,24 +393,20 @@ const ForgotPasswordPage = () => {
   );
 
   return (
-    <main className="pdp">
-      <Container className="container-1500 py-3">
-        
-        {/* ── Breadcrumb + Back ── */}
-        <div className="pdp__topbar d-flex align-items-center justify-content-between mb-3">
+    <main className="fp">
+      
+      <div className="hero-section">
+        <Container className="container-1500">
+          <Reveal as="h1" type="fade-up" className="hero-section__title">Forgot Password</Reveal>
           <nav aria-label="breadcrumb">
-            <ol className="breadcrumb pdp__breadcrumb mb-0">
-              <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-              <li className="breadcrumb-item active">Forgot Password</li>
+            <ol className="hero-section__breadcrumb">
+              <li><Link to="/">Home</Link></li>
+              <li><span className="hero-section__sep">&gt;</span><span>Forgot Password</span></li>
             </ol>
           </nav>
-          <Link to="/" className="pdp__back-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-            Back To Home
-          </Link>
-        </div>
+        </Container>
+      </div>
+      <Container className="container-1500">
         
         <div className="forgot-password-page__header text-center">
           <h2 className="forgot-password-page__title">
@@ -424,7 +421,7 @@ const ForgotPasswordPage = () => {
           </p>
         </div>
 
-        <Row className="g-4 justify-content-center">
+        <Row className="g-4 justify-content-center fp__center-row">
           <Col xs={12} lg={6}>
             <div className="forgot-password-page__form-card">
               
