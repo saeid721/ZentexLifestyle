@@ -262,7 +262,9 @@ const CatagoryProductPage = () => {
       const bDate = b.created_at || b.createdAt || b.date || b.publishedAt || b.created_date || b.date_added || '';
       return new Date(bDate) - new Date(aDate);
     }
-    return 0;
+
+    // default: order by serial_no ascending
+    return (a.serial_no ?? 0) - (b.serial_no ?? 0);
   });
 
   // ── Pagination ────────────────────────────────────────────────

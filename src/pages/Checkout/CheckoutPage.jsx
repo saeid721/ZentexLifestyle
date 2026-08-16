@@ -1,3 +1,5 @@
+// ── Zentex Life Style Checkout Page ─────────────────────────────────────────────────────────────
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Container, Row, Col, Form, Spinner, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';

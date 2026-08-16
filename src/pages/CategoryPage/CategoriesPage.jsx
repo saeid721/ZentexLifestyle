@@ -49,7 +49,9 @@ const CategoriesPage = () => {
     apiGet('/categories')
       .then((res) => {
         if (cancelled) return;
-        setCategories(Array.isArray(res.data?.data) ? res.data.data : []);
+        const list = Array.isArray(res.data?.data) ? res.data.data : [];
+        const sortedList = [...list].sort((a, b) => (a.serial_no ?? 0) - (b.serial_no ?? 0));
+        setCategories(sortedList);
       })
       .catch(() => { if (!cancelled) setCategories([]); })
       .finally(() => { if (!cancelled) setLoading(false); });

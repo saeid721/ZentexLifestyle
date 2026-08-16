@@ -141,7 +141,8 @@ const ShopPage = () => {
       return new Date(b.created_at || 0) - new Date(a.created_at || 0);
     }
 
-    return 0;
+    // default: order by serial_no ascending
+    return (a.serial_no ?? 0) - (b.serial_no ?? 0);
   });
 
   return (
