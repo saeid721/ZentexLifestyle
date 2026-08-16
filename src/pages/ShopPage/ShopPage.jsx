@@ -20,11 +20,12 @@ const SORT_OPTIONS = [
   { value: 'name_desc',  label: 'Name: Z → A'       },
 ];
 
-const PER_PAGE = 10;
+const INITIAL_COUNT = 20;
+const LOAD_MORE_COUNT = 5;
 
 const ShopPage = () => {
   const [products,    setProducts]    = useState([]);
-  const [page,         setPage]         = useState(1);
+  const [visibleCount,  setVisibleCount] = useState(INITIAL_COUNT);
   const [hasMore,      setHasMore]      = useState(true);
   const [loading,      setLoading]      = useState(true);
   const [loadingMore,  setLoadingMore]  = useState(false);
@@ -63,19 +64,19 @@ const ShopPage = () => {
   // ✅ Reset pagination whenever filters change
   useEffect(() => {
     setProducts([]);
-    setPage(1);
+    setVisibleCount(INITIAL_COUNT);
     setHasMore(true);
   }, [filters]);
 
-  // Fetch whenever page or filters change
+  // Fetch whenever visibleCount or filters change
   useEffect(() => {
     let cancelled = false;
-    if (page === 1) setLoading(true);
+    if (visibleCount === INITIAL_COUNT) setLoading(true);
     else setLoadingMore(true);
 
     const params = new URLSearchParams();
-    params.append('page', page);
-    params.append('per_page', PER_PAGE);
+    params.append('page', 1);
+    params.append('per_page', visibleCount);
     if (filters.categories.length > 0) params.append('category', filters.categories.join(','));
     if (filters.status.length > 0) params.append('status', filters.status.join(','));
     if (filters.sizes.length > 0) params.append('size', filters.sizes.join(','));
@@ -86,11 +87,10 @@ const ShopPage = () => {
       .then((res) => {
         if (cancelled) return;
         const newItems = res.data?.products?.data ?? [];
-        const lastPage = res.data?.products?.last_page ?? page;
         const totalCnt = res.data?.products?.total ?? newItems.length;
 
-        setProducts((prev) => (page === 1 ? newItems : [...prev, ...newItems]));
-        setHasMore(page < lastPage);
+        setProducts(newItems);
+        setHasMore(newItems.length < totalCnt);
         setTotal(totalCnt);
       })
       .catch((err) => console.error('[ShopPage products]', err))
@@ -101,7 +101,7 @@ const ShopPage = () => {
       });
 
     return () => { cancelled = true; };
-  }, [page, filters]);
+  }, [visibleCount, filters]);
 
   // Observe sentinel to auto-load next page on scroll
   useEffect(() => {
@@ -112,7 +112,7 @@ const ShopPage = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setPage((p) => p + 1);
+          setVisibleCount((c) => c + LOAD_MORE_COUNT);
         }
       },
       { rootMargin: '200px' }
@@ -141,8 +141,10 @@ const ShopPage = () => {
       return new Date(b.created_at || 0) - new Date(a.created_at || 0);
     }
 
-    // default: order by serial_no ascending
-    return (a.serial_no ?? 0) - (b.serial_no ?? 0);
+    // default: order by serial_no ascending; products without a serial_no go last
+    const aSerial = (a.serial_no !== null && a.serial_no !== undefined && a.serial_no !== '') ? Number(a.serial_no) : Infinity;
+    const bSerial = (b.serial_no !== null && b.serial_no !== undefined && b.serial_no !== '') ? Number(b.serial_no) : Infinity;
+    return aSerial - bSerial;
   });
 
   return (
